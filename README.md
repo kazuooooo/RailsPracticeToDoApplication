@@ -1,4 +1,7 @@
 # RailsPracticeToDoApplication
+### 登録
+* emailaddressとpassを設定してUserの登録を行う
+
 ### ログイン
 * email(とpassword)でログイン出来る
   * emailにはemailの形になっているかバリデーションをつける
