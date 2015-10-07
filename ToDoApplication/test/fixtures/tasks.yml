@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  content: MyString
+  plandate: 2015-10-07 13:20:29
+  actualdate: 2015-10-07 13:20:29
+
+two:
+  title: MyString
+  content: MyString
+  plandate: 2015-10-07 13:20:29
+  actualdate: 2015-10-07 13:20:29

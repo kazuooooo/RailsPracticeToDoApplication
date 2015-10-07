@@ -1,1 +1,16 @@
-<h1>Hello This is New</h1>
+<div class = "container">
+	<div class="wrapper">
+		    <h3 class="form-signin-heading">Please Resister</h3>
+			  <%= form_for @user do |f| %>
+			  <p>
+			  	<%= f.label 'メールアドレス' %>
+			  	<%= f.text_field :mailaddress %><br>
+			  	<%= f.label 'パスワード' %>
+			  	<%= f.text_field :password %>
+			  <p>
+			  <p>
+			  	<%= f.submit %>
+			  </p>
+			  <% end %>
+	</div>
+</div>
