@@ -28,3 +28,11 @@
 ### その他
 * Bootstrapを入れていい感じにしたい
 
+### gems
+* rails 4.2.4
+* devise
+* ominiauth
+* omniauth-facebbok
+* mysql2
+* slim-rails
+
