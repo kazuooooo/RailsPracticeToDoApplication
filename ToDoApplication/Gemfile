@@ -52,6 +52,7 @@ gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'slim-rails'
 gem 'mysql2', '~> 0.3.18'
+gem 'html2slim'
 
 
 
