@@ -7,18 +7,18 @@ default: &default
 
 development:
   <<: *default
-  database: db_development
+  database: todo_development
   username: root
   password: password
 
 test:
   <<: *default
-  database: db_test
+  database: todo_test
   username: root
   password: password
 
 production:
   <<: *default
-  database: db_production
+  database: todo_production
   username: root
   password: password
