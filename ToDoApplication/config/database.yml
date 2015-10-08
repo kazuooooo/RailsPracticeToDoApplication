@@ -21,4 +21,4 @@ production:
   <<: *default
   database: todo_production
   username: kazuya
-  password: <%= ENV["SECRET_KEY_BASE"] %>
+  password: <%= ENV["TODO_DB_PASS"] %>
