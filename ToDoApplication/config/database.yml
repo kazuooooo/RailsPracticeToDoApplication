@@ -8,17 +8,17 @@ default: &default
 development:
   <<: *default
   database: todo_development
-  username: root
+  username: kazuya
   password: password
 
 test:
   <<: *default
   database: todo_test
-  username: root
+  username: kazuya
   password: password
 
 production:
   <<: *default
   database: todo_production
-  username: root
-  password: password
+  username: kazuya
+  password: <%= ENV["SECRET_KEY_BASE"] %>
