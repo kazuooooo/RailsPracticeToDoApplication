@@ -11,15 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151009014358) do
+ActiveRecord::Schema.define(version: 20151009020857) do
 
   create_table "tasks", force: :cascade do |t|
     t.string   "title",       limit: 255
-    t.string   "content",     limit: 255
+    t.text     "content",     limit: 65535
     t.datetime "plan_date"
     t.datetime "actual_date"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   create_table "users", force: :cascade do |t|
