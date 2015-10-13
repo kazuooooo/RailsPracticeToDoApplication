@@ -1,13 +1,5 @@
-class HomeController < ApplicationController
-   # ユーザがログインしていないと"show"にアクセスできない
-  
+class HomeController < ApplicationController  
   before_action :redirect_to_task_index_if_login_rememberd
-
-  def index
-  end
-
-  def show
-  end
 
   def redirect_to_task_index_if_login_rememberd
     if user_signed_in? && root_page?
