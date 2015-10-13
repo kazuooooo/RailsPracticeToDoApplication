@@ -1,6 +1,6 @@
 center
   h2
-    | ログイン
+    | Log In
 = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
   .container
     .row
@@ -21,4 +21,4 @@ center
                 = f.label :remember_me
         br
         .actions
-          = f.submit "Log in", class:'btn btn-default'
+          = f.submit "Log In", class:'btn btn-default'
