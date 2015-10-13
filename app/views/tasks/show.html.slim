@@ -1,18 +1,22 @@
 p#notice = notice
+ul.list-group
+  li.list-group-item
+    strong Title:
+    br
+    = @task.title
+  li.list-group-item
+    strong Content:
+    br
+    = @task.content
+  li.list-group-item
+    strong Plan date:
+    br
+    = @task.plan_at
+  li.list-group-item
+    strong Actual date:
+    br
+    = @task.actual_at
 
-p
-  strong Title:
-  = @task.title
-p
-  strong Content:
-  = @task.content
-p
-  strong Plan date:
-  = @task.plan_at
-p
-  strong Actual date:
-  = @task.actual_at
-
-= link_to 'Edit', edit_task_path(@task)
-'|
-= link_to 'Back', tasks_path
+  = link_to 'Edit', edit_task_path(@task)
+  '|
+  = link_to 'Back', tasks_path
