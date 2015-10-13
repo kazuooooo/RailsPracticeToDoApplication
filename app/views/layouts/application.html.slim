@@ -7,22 +7,21 @@ html
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
   body
-    header
-      nav
-        - if user_signed_in?
-          |  Logged in as 
-          strong
-            = current_user.email
-          | . 
-          = link_to 'プロフィール変更', edit_user_registration_path
-          |  | 
-          = link_to "ログアウト", destroy_user_session_path, method: :delete
-        - else
-          = link_to "新規登録", new_user_registration_path
-          |  | 
-          = link_to "ログイン", new_user_session_path
-          |  |
-          = link_to "Facebookログイン",user_omniauth_authorize_path(:facebook)
+  header
+    .navbar.navbar-default role="navigation" 
+      .navbar-inner
+        .container
+          a.btn.btn-navbar data-target=".nav-collapse" data-toggle="collapse" 
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.brand href=root_path  ToDoApplication
+          .nav-collapse
+            ul.nav.nav-pills.pull-right
+              li= link_to "プロフィール変更", edit_user_registration_path
+              li= link_to "ログアウト", destroy_user_session_path, method: :delete
+              li= link_to "新規登録", new_user_registration_path
+              li= link_to "ログイン", new_user_session_path
     p.notice
       = notice
     p.alert
