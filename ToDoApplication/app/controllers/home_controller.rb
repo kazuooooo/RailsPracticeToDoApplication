@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
    # ユーザがログインしていないと"show"にアクセスできない
-  before_action :authenticate_user!, only: :tasks_path
+  
   before_action :redirect_to_task_index_if_login_rememberd
 
   def index
