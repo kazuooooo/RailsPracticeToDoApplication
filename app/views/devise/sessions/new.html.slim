@@ -14,8 +14,6 @@ center
             = f.label :password
             br
             = f.password_field :password, autocomplete: "off", class:'form-control'
-            br
-            = render "devise/shared/links"
           - if devise_mapping.rememberable?
             .checkbox
               = f.check_box :remember_me
