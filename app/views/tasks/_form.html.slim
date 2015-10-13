@@ -25,4 +25,7 @@
                 = f.label :actual_at
                 br
                 = f.datetime_select :actual_at, class:'form-control'
-          .actions = f.submit
+          - if controller.action_name == 'new'
+            .actions = f.submit "Create Task", class:'btn btn-default' 
+          - else
+            .actions = f.submit "Update Task", class:'btn btn-default' 
