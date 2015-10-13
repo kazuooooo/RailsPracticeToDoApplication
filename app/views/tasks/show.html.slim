@@ -1,22 +1,24 @@
-p#notice = notice
-ul.list-group
-  li.list-group-item
-    strong Title:
-    br
-    = @task.title
-  li.list-group-item
-    strong Content:
-    br
-    = @task.content
-  li.list-group-item
-    strong Plan date:
-    br
-    = @task.plan_at
-  li.list-group-item
-    strong Actual date:
-    br
-    = @task.actual_at
-
-  = link_to 'Edit', edit_task_path(@task)
-  '|
-  = link_to 'Back', tasks_path
+center
+  h2 Task Detail
+  p#notice = notice
+  .col-md-6.col-md-offset-3
+    ul.list-group
+      li.list-group-item
+        strong Title
+        br
+        = @task.title
+      li.list-group-item
+        strong Content
+        br
+        = @task.content
+      li.list-group-item
+        strong Plan date
+        br
+        = @task.plan_at
+      li.list-group-item
+        strong Actual date
+        br
+        = @task.actual_at
+    = link_to 'Edit', edit_task_path(@task)
+    '|
+    = link_to 'Back', tasks_path

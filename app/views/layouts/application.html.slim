@@ -15,12 +15,12 @@ html
             .nav-collapse
               ul.nav.nav-pills.pull-right
                 - if user_signed_in?
-                  li= link_to "プロフィール変更", edit_user_registration_path
-                  li= link_to "ログアウト", destroy_user_session_path, method: :delete
+                  li= link_to "Change Profile", edit_user_registration_path
+                  li= link_to "LogOut", destroy_user_session_path, method: :delete
                 - else
-                  li= link_to "新規登録", new_user_registration_path
-                  li= link_to "ログイン", new_user_session_path
-                  li= link_to "Facebookログイン",user_omniauth_authorize_path(:facebook)
+                  li= link_to "SignUp", new_user_registration_path
+                  li= link_to "LogIn", new_user_session_path
+                  li= link_to "Facebook LogIn",user_omniauth_authorize_path(:facebook)
     .container
       - if flash[:notice]
         .alert.alert-success

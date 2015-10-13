@@ -1,3 +1,5 @@
+center
+  h2 Task Index
 .panel.panel-default
   .panel-heading Tasks
   .panel-body
@@ -18,7 +20,4 @@
             td = link_to 'Show', task
             td = link_to 'Edit', edit_task_path(task)
             td = link_to 'Destroy', task, data: {:confirm => 'Are you sure?'}, :method => :delete
-
-br
-
 = link_to 'New Task', new_task_path, class:'btn btn-default'
