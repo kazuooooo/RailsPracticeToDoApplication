@@ -18,10 +18,13 @@ html
           a.brand href=root_path  ToDoApplication
           .nav-collapse
             ul.nav.nav-pills.pull-right
-              li= link_to "プロフィール変更", edit_user_registration_path
-              li= link_to "ログアウト", destroy_user_session_path, method: :delete
-              li= link_to "新規登録", new_user_registration_path
-              li= link_to "ログイン", new_user_session_path
+              - if user_signed_in?
+                li= link_to "プロフィール変更", edit_user_registration_path
+                li= link_to "ログアウト", destroy_user_session_path, method: :delete
+              - else
+                li= link_to "新規登録", new_user_registration_path
+                li= link_to "ログイン", new_user_session_path
+                li= link_to "Facebookログイン",user_omniauth_authorize_path(:facebook)
     p.notice
       = notice
     p.alert
