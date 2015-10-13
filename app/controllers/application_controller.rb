@@ -14,6 +14,6 @@ class ApplicationController < ActionController::Base
   end
 
   def edit_page?
-    return /\/tasks\/[0-9]\/edit/ === request.env["PATH_INFO"]
+    return /\/tasks\/[0-9]*\/edit/ === request.env["PATH_INFO"]
   end
 end
