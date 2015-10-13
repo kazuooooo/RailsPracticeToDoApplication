@@ -3,8 +3,8 @@ class CreateTasks < ActiveRecord::Migration
     create_table :tasks do |t|
       t.string :title
       t.string :content
-      t.datetime :plan_date
-      t.datetime :actual_date
+      t.datetime :plan_at
+      t.datetime :actual_at
 
       t.timestamps null: false
     end

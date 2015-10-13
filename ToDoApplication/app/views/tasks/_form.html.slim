@@ -13,10 +13,10 @@
     = f.label :content
     = f.text_area :content
   .field
-    = f.label :plan_date
-    = f.datetime_select :plan_date
+    = f.label :plan_at
+    = f.datetime_select :plan_at
   - if edit_page?
     .field
-      = f.label :actual_date
-      = f.datetime_select :actual_date
+      = f.label :actual_at
+      = f.datetime_select :actual_at
   .actions = f.submit

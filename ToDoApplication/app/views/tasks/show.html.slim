@@ -8,10 +8,10 @@ p
   = @task.content
 p
   strong Plan date:
-  = @task.plan_date
+  = @task.plan_at
 p
   strong Actual date:
-  = @task.actual_date
+  = @task.actual_at
 
 = link_to 'Edit', edit_task_path(@task)
 '|
