@@ -3,11 +3,11 @@
 one:
   title: MyString
   content: MyString
-  plan_date: 2015-10-09 10:43:58
-  actual_date: 2015-10-09 10:43:58
+  plan_at: 2015-10-09 10:43:58
+  actual_at: 2015-10-09 10:43:58
 
 two:
   title: MyString
   content: MyString
-  plan_date: 2015-10-09 10:43:58
-  actual_date: 2015-10-09 10:43:58
+  plan_at: 2015-10-09 10:43:58
+  actual_at: 2015-10-09 10:43:58
