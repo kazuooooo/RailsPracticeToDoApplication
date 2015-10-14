@@ -12,8 +12,4 @@ class ApplicationController < ActionController::Base
   def after_sign_out_path_fir(resource)
    tasks_path
   end
-
-  def edit_page?
-    return /\/tasks\/[0-9]*\/edit/ === request.env["PATH_INFO"]
-  end
 end
