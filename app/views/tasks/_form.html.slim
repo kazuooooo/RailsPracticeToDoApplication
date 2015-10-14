@@ -26,6 +26,8 @@
                 br
                 = f.datetime_select :actual_at, class:'form-control'
           - if controller.action_name == 'new'
-            .actions = f.submit "Create Task", class:'btn btn-primary' 
+            .form-group
+              = f.submit "Create Task", class:'btn btn-success btn-block' 
           - else
-            .actions = f.submit "Update Task", class:'btn btn-primary' 
+            .form-group
+              = f.submit "Update Task", class:'btn btn-primary btn-block' 
