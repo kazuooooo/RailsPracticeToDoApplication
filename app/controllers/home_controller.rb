@@ -1,7 +1,6 @@
 class HomeController < ApplicationController  
   
   before_filter :redirect_to_tasks, if: :user_signed_in?, only: :index
-  before_filter :redirect_to_login, unless: :user_signed_in?, only: :index
 
   def index
   end
