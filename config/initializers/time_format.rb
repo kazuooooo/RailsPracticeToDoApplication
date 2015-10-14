@@ -1,1 +1,0 @@
-Time::DATE_FORMATS[:datetime_format] = "%Y/%m/%d %H:%M"

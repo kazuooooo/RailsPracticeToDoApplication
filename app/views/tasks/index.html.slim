@@ -14,9 +14,9 @@
             tr
               td = task.title
               td = task.content
-              td = task.plan_at.to_s(:datetime_format)
+              td = l task.plan_at, format: :short
               - if task.actual_at.present?
-                td = task.actual_at.to_s(:datetime_format)
+                td = l task.actual_at, format: :short
               - else
                 td = ""
               td = link_to 'Show', task

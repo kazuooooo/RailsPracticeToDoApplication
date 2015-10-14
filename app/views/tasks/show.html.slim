@@ -13,12 +13,12 @@ center
       li.list-group-item
         strong Plan date
         br
-        = @task.plan_at.to_s(:datetime_format)
+        = l @task.plan_at, format: :short
       li.list-group-item
         strong Actual date
         br
         - if @task.actual_at.present?
-          = @task.actual_at.to_s(:datetime_format)
+          = l @task.actual_at, format: :short
         - else
           = ""
     = link_to 'Edit', edit_task_path(@task)
