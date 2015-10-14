@@ -1,3 +1,4 @@
+= javascript_include_tag 'datetime_picker'
 = form_for @task do |f|
   .container
     .row
@@ -31,3 +32,8 @@
           - else
             .form-group
               = f.submit "Update Task", class:'btn btn-primary btn-block' 
+          .form-group
+            #datetimepicker1.input-group.date
+              input.form-control type="text" /
+              span.input-group-addon
+                span.glyphicon.glyphicon-calendar
