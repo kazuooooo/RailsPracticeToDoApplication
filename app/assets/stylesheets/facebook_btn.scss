@@ -5,15 +5,11 @@
     position: relative;
     text-decoration: none;
     border-radius: 4px;
-}
 
-.FbBtn{
     &:hover{
     background-color: #3b5998;
     }
-}
  
-.FbBtn{
     &:after{
         content: "";
         position: absolute;
