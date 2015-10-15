@@ -14,8 +14,19 @@ root.paintIt = (element, backgroundColor, textColor) ->
 
 #
 root.change_edit_button_text = (element) ->
-  element.innerHTML = if element.innerHTML == "Edit" then "Save" else "Edit"
-  console.log "Call Method"
-  
+  console.log element.value
+  if element.value == "Edit"
+    element.value= "Save"
+    onclick_edit_button()
+  else
+    element.value = "Edit"
+    onclick_save_button()
+
+root.onclick_edit_button = ->
+  console.log "push edit"  
+
+root.onclick_save_button = ->
+  console.log  "push save"
+
 
 
