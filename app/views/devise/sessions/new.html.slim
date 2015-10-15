@@ -13,9 +13,9 @@
             = f.password_field :password, autocomplete: "off", class:'form-control'
           - if devise_mapping.rememberable?
             .form-group
-                = f.check_box :remember_me
-                span &nbsp
-                = f.label :remember_me
+              = f.check_box :remember_me
+              span &nbsp
+              = f.label :remember_me
           .form-group
             = f.submit "Log In", class:'btn btn-primary btn-block'
           .form-group
