@@ -15,4 +15,7 @@ class HomeController < ApplicationController
     redirect_to tasks_url
   end
 
+  def redirect_to_login
+    redirect_to new_user_session_url
+  end
 end

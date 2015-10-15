@@ -1,18 +1,26 @@
-p#notice = notice
-
-p
-  strong Title:
-  = @task.title
-p
-  strong Content:
-  = @task.content
-p
-  strong Plan date:
-  = @task.plan_at
-p
-  strong Actual date:
-  = @task.actual_at
-
-= link_to 'Edit', edit_task_path(@task)
-'|
-= link_to 'Back', tasks_path
+center
+  p#notice = notice
+  .col-md-6.col-md-offset-3
+    ul.list-group
+      li.list-group-item
+        strong Title
+        br
+        = @task.title
+      li.list-group-item
+        strong Content
+        br
+        = @task.content
+      li.list-group-item
+        strong Plan date
+        br
+        = l @task.plan_at, format: :short
+      li.list-group-item
+        strong Actual date
+        br
+        - if @task.actual_at.present?
+          = l @task.actual_at, format: :short
+        - else
+          = ""
+    = link_to 'Edit', edit_task_path(@task)
+    '|
+    = link_to 'Back', tasks_path

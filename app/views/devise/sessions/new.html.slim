@@ -1,0 +1,26 @@
+= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+  .container
+    .row
+      .col-md-6.col-md-offset-3
+        .form-horizontal
+          .form-group
+            = f.label :email
+            br
+            = f.email_field :email, autofocus: true, class:'form-control'
+          .form-group
+            = f.label :password
+            br
+            = f.password_field :password, autocomplete: "off", class:'form-control'
+          - if devise_mapping.rememberable?
+            .form-group
+              = f.check_box :remember_me
+              span &nbsp
+              = f.label :remember_me
+          .form-group
+            = f.submit "Log In", class:'btn btn-primary btn-block'
+          .form-group
+            a.FbBtn href = user_omniauth_authorize_path(:facebook) 
+              .FbBtnLabel Facebookでログイン
+          .form-group
+            = link_to "Sign Up", new_user_registration_path
+

@@ -1,27 +1,26 @@
-h1 Listing tasks
+.col-md-10.col-md-offset-1
+  .panel.panel-info
+    .panel-heading Tasks
+    .panel-body
+      table.table
+        thead
+          tr
+            th width = '200' Title 
+            th width = '300' Content
+            th Plan date
+            th Actual date
+        tbody
+          - @tasks.each do |task|
+            tr
+              td = task.title
+              td = task.content
+              td = l task.plan_at, format: :short
+              - if task.actual_at.present?
+                td = l task.actual_at, format: :short
+              - else
+                td = ""
+              td = link_to 'Show', task
+              td = link_to 'Edit', edit_task_path(task)
+              td = link_to 'Destroy', task, data: {:confirm => 'Are you sure?'}, :method => :delete
+  input.btn.btn-success.btn-block name="commit" type="submit" value=("New Task") onclick="location.href='tasks/new'" /
 
-table
-  thead
-    tr
-      th Title
-      th Content
-      th Plan date
-      th Actual date
-      th
-      th
-      th
-
-  tbody
-    - @tasks.each do |task|
-      tr
-        td = task.title
-        td = task.content
-        td = task.plan_at
-        td = task.actual_at
-        td = link_to 'Show', task
-        td = link_to 'Edit', edit_task_path(task)
-        td = link_to 'Destroy', task, data: {:confirm => 'Are you sure?'}, :method => :delete
-
-br
-
-= link_to 'New Task', new_task_path

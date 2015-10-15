@@ -71,4 +71,8 @@ class TasksController < ApplicationController
     def task_params
       params.require(:task).permit(:title, :content, :plan_at, :actual_at)
     end
+
+    def edit_page?
+      return /\/tasks\/[0-9]*\/edit/ === request.env["PATH_INFO"]
+    end
 end
