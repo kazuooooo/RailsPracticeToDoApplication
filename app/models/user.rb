@@ -4,6 +4,8 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
+  #nested field
+  accepts_nested_attributes_for :tasks, allow_destroy: true
 
   #新規登録か通常ログインなのかを判定
   def self.from_omniauth(auth)

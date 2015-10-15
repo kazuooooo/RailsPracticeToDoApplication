@@ -6,6 +6,7 @@ class TasksController < ApplicationController
   # GET /tasks.json
   def index
     @tasks = current_user.tasks.all
+    @user = current_user
   end
 
   # GET /tasks/1
@@ -20,8 +21,14 @@ class TasksController < ApplicationController
 
   # GET /tasks/1/edit
   def edit
+    @user = current_user
   end
-
+  
+  def task_params
+        params.require(:task).permit(
+          tasks_attributes: [:id, :hotel_id, :name, :capacity, :note, :_destroy]
+        )
+  end
   # POST /tasks
   # POST /tasks.json
   def create
@@ -60,6 +67,14 @@ class TasksController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def hotel_params
+        params.require(:hotel).permit(
+          :name, :address, :foundation, :tel,
+          roomtypes_attributes: [:id, :hotel_id, :name, :capacity, :note, :_destroy]
+        )
+  end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.

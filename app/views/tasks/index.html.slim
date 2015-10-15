@@ -2,7 +2,7 @@
   .panel.panel-info
     .panel-heading Tasks
     .panel-body
-      table.table
+      table.table.table-striped.table-bordered.table-hover
         thead
           tr
             th width = '200' Title 
@@ -22,5 +22,13 @@
               td = link_to 'Show', task
               td = link_to 'Edit', edit_task_path(task)
               td = link_to 'Destroy', task, data: {:confirm => 'Are you sure?'}, :method => :delete
-      input.btn.btn-success.btn-block name="commit" type="submit" value=("New Task") onclick="location.href='tasks/new'" /
+          = form_for(@user,:url => tasks_path, html:{class: 'form-horizontal'}) do |f|
+            = f.nested_fields_for :tasks, wrapper_tag: :tr do |q|
+              td= q.text_field   :title,     class: 'form-control'
+              td= q.text_area :content, class: 'form-control'
+              td= q.datetime_select  :plan_at,     class: 'form-control'
+              td= q.datetime_select  :actual_at,     class: 'form-control'
+              td= q.remove_nested_fields_link 'Delete', class: 'btn btn-danger', role: 'button'
+            = f.add_nested_fields_link :tasks, 'Add new', class: 'btn btn-primary', role: 'button'
+      /input.btn.btn-success.btn-block name="commit" type="submit" value=("New Task") onclick="location.href='tasks/new'" /
 
