@@ -24,8 +24,8 @@
                   td = task.content
                   td = task.plan_at
                   td = task.actual_at
-                  td 
-                    button.btn.btn-success type="button"  Edit
+                  td id="EditButtonTD"
+                    button.btn.btn-success id= "Editbutton" type= "button" onclick= "onclick_edit_button(this)"  Edit 
                   td = link_to 'Delete', task, data: {:confirm => 'Are you sure?'}, :method => :delete, class:'btn btn-danger btn-block'
           = form_for @task do |f|
               tr
