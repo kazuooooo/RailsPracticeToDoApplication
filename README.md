@@ -36,3 +36,6 @@
 * mysql2
 * slim-rails
 
+### UI/UXを追求 
+
+
