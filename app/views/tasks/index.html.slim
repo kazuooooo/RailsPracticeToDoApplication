@@ -17,15 +17,17 @@
                   td = f.text_area :content, class:'form-control'
                   td = f.datetime_select :plan_at, class:'form-control'
                   td = f.datetime_select :actual_at, class:'form-control'
-                  td = f.submit 'Update', class:'btn btn-success btn-block' 
+                  td = f.submit 'Updatepage', class:'btn btn-success btn-block' 
+                  td
+                    button.btn.btn-success type= "button" onclick= "onclick_update_button(#{task.id})"  Update
                   td = link_to 'Delete', task, data: {:confirm => 'Are you sure?'}, :method => :delete, class:'btn btn-danger btn-block'
                 tr id="taskrow_plain_#{task.id}" 
                   td = task.title
                   td = task.content
                   td = task.plan_at
                   td = task.actual_at
-                  td id="EditButtonTD"
-                    button.btn.btn-success id= "Editbutton" type= "button" onclick= "onclick_edit_button(#{task.id})"  Edit 
+                  td
+                    button.btn.btn-success type= "button" onclick= "onclick_edit_button(#{task.id})"  Edit 
                   td = link_to 'Delete', task, data: {:confirm => 'Are you sure?'}, :method => :delete, class:'btn btn-danger btn-block'
           = form_for @task do |f|
               tr
@@ -35,3 +37,4 @@
                 td = f.datetime_select :actual_at, class:'form-control'
                 td = f.submit 'Create', class:'btn btn-success btn-block' 
                 td = link_to 'Delete', @task, data: {:confirm => 'Are you sure?'}, :method => :delete, class:'btn btn-danger btn-block'
+input.btn.btn-success.btn-block name="commit" type="submit" value=("Create Task") onclick="onclick_create_button()" /
