@@ -50,11 +50,11 @@ class TasksController < ApplicationController
   def update
     respond_to do |format|
       if @task.update(task_params)
-        format.html { redirect_to tasks_path, notice: 'Task was successfully updated.' }
-        format.json { render :show, status: :ok, location: @task }
+        #format.html { redirect_to tasks_path, notice: 'Task was successfully updated.' }
+        #format.json { render :show, status: :ok, location: @task }
       else
-        format.html { render tasks_path, notice: 'Task update was failed' }
-        format.json { render json: @task.errors, status: :unprocessable_entity }
+        #format.html { render tasks_path, notice: 'Task update was failed' }
+        #format.json { render json: @task.errors, status: :unprocessable_entity }
       end
     end
   end
