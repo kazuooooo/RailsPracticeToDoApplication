@@ -12,13 +12,20 @@
         tbody
           - @tasks.each do |task|
             = form_for task do |f|
-
-                tr
+                tr id="taskrow_edit_#{task.id}" style = "display:none"
                   td = f.text_field :title, class:'form-control'
                   td = f.text_area :content, class:'form-control'
                   td = f.datetime_select :plan_at, class:'form-control'
                   td = f.datetime_select :actual_at, class:'form-control'
                   td = f.submit 'Update', class:'btn btn-success btn-block' 
+                  td = link_to 'Delete', task, data: {:confirm => 'Are you sure?'}, :method => :delete, class:'btn btn-danger btn-block'
+                tr id="taskrow_plain_#{task.id}" 
+                  td = task.title
+                  td = task.content
+                  td = task.plan_at
+                  td = task.actual_at
+                  td 
+                    button.btn.btn-success type="button"  Edit
                   td = link_to 'Delete', task, data: {:confirm => 'Are you sure?'}, :method => :delete, class:'btn btn-danger btn-block'
           = form_for @task do |f|
               tr
@@ -28,4 +35,4 @@
                 td = f.datetime_select :actual_at, class:'form-control'
                 td = f.submit 'Create', class:'btn btn-success btn-block' 
                 td = link_to 'Delete', @task, data: {:confirm => 'Are you sure?'}, :method => :delete, class:'btn btn-danger btn-block'
-
+<tr id = task.id>
