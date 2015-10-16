@@ -5,19 +5,9 @@
 
 root = exports ? this
 
-root.change_edit_button_text = (element) ->
-  console.log element.value
-  if element.value == "Edit"
-    element.value = "Save"
-  else
-    element.value = "Edit" 
-
 #editbuttonを押したら入力フィールドを活性化
 root.onclick_edit_button = (id) ->
-  plain_tr = document.getElementById("taskrow_plain_#{id}")
-  edit_tr = document.getElementById("taskrow_edit_#{id}")
-  plain_tr.style.display = 'none'
-  edit_tr.style.removeProperty 'display'
+  switch_edit_state(id,'active')
 
 #updateボタンが押されたら今入力されている値を取得してajaxでupdateを走らせる
 root.onclick_update_button = (id) ->
@@ -45,6 +35,24 @@ root.onclick_update_button = (id) ->
           id: id
           }
   })
+  console.log 'actual_at'+actual_at_val
+  #フィールドを非活性化
+  switch_edit_state(id,'unactive')
+  set_input_value_to_unactive_forms(id,title_val,content_val,plan_at_val,actual_at_val)
+
+#入力値を非活性状態のフォームに突っ込む
+set_input_value_to_unactive_forms = (id,title_val,content_val,plan_at_val,actual_at_val) ->
+  console.log "set"+actual_at_val
+  #element取得
+  solid_title = document.getElementById("solid_title_#{id}")
+  solid_content = document.getElementById("solid_content_#{id}")
+  solid_plan_at = document.getElementById("solid_plan_at_#{id}")
+  solid_actual_at = document.getElementById("solid_actual_at_#{id}")
+  #値を代入
+  solid_title.innerHTML = title_val
+  solid_content.innerHTML = content_val
+  solid_plan_at.innerHTML = plan_at_val
+  solid_actual_at.innerHTML = actual_at_val
 
 #datetimeselectの入力値を取得して返す
 get_datetime_vals = (datetime_element,valname) ->
@@ -60,6 +68,17 @@ get_selecting_val = (datetime_element, id) ->
   selectbox = datetime_element.querySelector(id);
   selecting_val = selectbox.options[selectbox.selectedIndex].text;
   return selecting_val
+
+#フォームの活性比活性を切り替え
+switch_edit_state = (id,state)->
+  plain_tr = document.getElementById("taskrow_plain_#{id}")
+  edit_tr = document.getElementById("taskrow_edit_#{id}")
+  if state == 'active'
+    plain_tr.style.display = 'none'
+    edit_tr.style.removeProperty 'display'
+  else
+    plain_tr.style.removeProperty 'display'
+    edit_tr.style.display = 'none'
 
 
 

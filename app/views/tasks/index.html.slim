@@ -23,10 +23,14 @@
                     button.btn.btn-success type= "button" onclick= "onclick_update_button(#{task.id})"  Update
                   td = link_to 'Delete', task, data: {:confirm => 'Are you sure?'}, :method => :delete, class:'btn btn-danger btn-block'
                 tr id="taskrow_plain_#{task.id}" 
-                  td = task.title
-                  td = task.content
-                  td = task.plan_at
-                  td = task.actual_at
+                  td id= "solid_title_#{task.id}"
+                    = task.title
+                  td id= "solid_content_#{task.id}"
+                    = task.content 
+                  td id= "solid_plan_at_#{task.id}" 
+                    = task.plan_at 
+                  td id= "solid_actual_at_#{task.id}"
+                    = task.actual_at
                   td
                     button.btn.btn-success type= "button" onclick= "onclick_edit_button(#{task.id})"  Edit 
                   td = link_to 'Delete', task, data: {:confirm => 'Are you sure?'}, :method => :delete, class:'btn btn-danger btn-block'
