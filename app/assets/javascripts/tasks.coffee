@@ -19,10 +19,14 @@ root.change_edit_button_text = (element) ->
   else
     element.value = "Edit" 
 
-root.onclick_edit_button = (element) ->
-  console.log element.id
-  parent_tr = element.parentNode.parentNode
-  console.log parent_tr.id
+root.onclick_edit_button = (id) ->
+  console.log id
+  plain_tr = document.getElementById("taskrow_plain_#{id}")
+  edit_tr = document.getElementById("taskrow_edit_#{id}")
+  console.log plain_tr.id
+  console.log edit_tr.id
+  plain_tr.style.display = 'none'
+  edit_tr.style.removeProperty 'display'
   
 
 

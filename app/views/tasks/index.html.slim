@@ -11,7 +11,6 @@
             th Actual date
         tbody
           - @tasks.each do |task|
-<<<<<<< HEAD
             = form_for task do |f|
                 tr id="taskrow_edit_#{task.id}" style = "display:none"
                   td = f.text_field :title, class:'form-control'
@@ -26,7 +25,7 @@
                   td = task.plan_at
                   td = task.actual_at
                   td id="EditButtonTD"
-                    button.btn.btn-success id= "Editbutton" type= "button" onclick= "onclick_edit_button(this)"  Edit 
+                    button.btn.btn-success id= "Editbutton" type= "button" onclick= "onclick_edit_button(#{task.id})"  Edit 
                   td = link_to 'Delete', task, data: {:confirm => 'Are you sure?'}, :method => :delete, class:'btn btn-danger btn-block'
           = form_for @task do |f|
               tr
