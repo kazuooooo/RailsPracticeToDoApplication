@@ -4,7 +4,10 @@
 
 
 root = exports ? this
+##create task
 
+
+##update task
 #editbuttonを押したら入力フィールドを活性化
 root.onclick_edit_button = (id) ->
   switch_edit_state(id,'active')
@@ -44,15 +47,15 @@ root.onclick_update_button = (id) ->
 set_input_value_to_unactive_forms = (id,title_val,content_val,plan_at_val,actual_at_val) ->
   console.log "set"+actual_at_val
   #element取得
-  solid_title = document.getElementById("solid_title_#{id}")
-  solid_content = document.getElementById("solid_content_#{id}")
-  solid_plan_at = document.getElementById("solid_plan_at_#{id}")
-  solid_actual_at = document.getElementById("solid_actual_at_#{id}")
+  plain_title = document.getElementById("plain_title_#{id}")
+  plain_content = document.getElementById("plain_content_#{id}")
+  plain_plan_at = document.getElementById("plain_plan_at_#{id}")
+  plain_actual_at = document.getElementById("plain_actual_at_#{id}")
   #値を代入
-  solid_title.innerHTML = title_val
-  solid_content.innerHTML = content_val
-  solid_plan_at.innerHTML = plan_at_val
-  solid_actual_at.innerHTML = actual_at_val
+  plain_title.innerHTML = title_val
+  plain_content.innerHTML = content_val
+  plain_plan_at.innerHTML = plan_at_val
+  plain_actual_at.innerHTML = actual_at_val
 
 #datetimeselectの入力値を取得して返す
 get_datetime_vals = (datetime_element,valname) ->
@@ -73,13 +76,40 @@ get_selecting_val = (datetime_element, id) ->
 switch_edit_state = (id,state)->
   plain_tr = document.getElementById("taskrow_plain_#{id}")
   edit_tr = document.getElementById("taskrow_edit_#{id}")
+  #delete_button_onedit = document.getElementById("delete_button_onedit_#{id}")
+  #console.log delete_button_onedit.id
   if state == 'active'
     plain_tr.style.display = 'none'
     edit_tr.style.removeProperty 'display'
+    console.log "call disabled"
+    #delete_button_onedit.disabled = 'disabled'
   else
     plain_tr.style.removeProperty 'display'
     edit_tr.style.display = 'none'
+    #delete_button_onedit.disabled = ''
 
+
+##delete task
+root.onclick_delete_button = (id)->
+  task_table = document.getElementById("task_table")
+  #trを削除(solid)
+  plain_tr = document.getElementById("taskrow_plain_#{id}")
+  edit_tr = document.getElementById("taskrow_edit_#{id}")
+  #plain行
+  plain_row_num = plain_tr.rowIndex 
+  task_table.deleteRow(plain_row_num);
+  #
+  edit_row_num = edit_tr.rowIndex
+  task_table.deleteRow(edit_row_num)
+  #actionを実行
+  $.ajax({
+    url: "tasks/#{id}",
+    type: "DELETE",
+    data: {
+          id: id
+          }
+  })
+  
 
 
 

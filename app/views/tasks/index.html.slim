@@ -2,7 +2,7 @@
   .panel.panel-info
     .panel-heading Tasks
     .panel-body
-      table.table.table-striped.table-bordered.table-hover
+      table.table.table-striped.table-bordered.table-hover id="task_table"
         thead
           tr
             th width = '200' Title 
@@ -21,19 +21,21 @@
                      = f.datetime_select :actual_at, class:'form-control', :use_month_numbers => true
                   td
                     button.btn.btn-success type= "button" onclick= "onclick_update_button(#{task.id})"  Update
-                  td = link_to 'Delete', task, data: {:confirm => 'Are you sure?'}, :method => :delete, class:'btn btn-danger btn-block'
+                  td 
+                    button.btn.btn-success type= "button" onclick= "onclick_delete_button(#{task.id})" Delete
                 tr id="taskrow_plain_#{task.id}" 
-                  td id= "solid_title_#{task.id}"
+                  td id= "plain_title_#{task.id}"
                     = task.title
-                  td id= "solid_content_#{task.id}"
+                  td id= "plain_content_#{task.id}"
                     = task.content 
-                  td id= "solid_plan_at_#{task.id}" 
+                  td id= "plain_plan_at_#{task.id}" 
                     = task.plan_at 
-                  td id= "solid_actual_at_#{task.id}"
+                  td id= "plain_actual_at_#{task.id}"
                     = task.actual_at
                   td
                     button.btn.btn-success type= "button" onclick= "onclick_edit_button(#{task.id})"  Edit 
-                  td = link_to 'Delete', task, data: {:confirm => 'Are you sure?'}, :method => :delete, class:'btn btn-danger btn-block'
+                  td
+                    button.btn.btn-success type= "button" onclick= "onclick_delete_button(#{task.id})" Delete
           = form_for @task do |f|
               tr
                 td = f.text_field :title, class:'form-control'
