@@ -6,28 +6,31 @@
 root = exports ? this
 ##create task
 root.onclick_create_button = (id)->
-  console.log ("call create")
-  $('#task_table_body').after('
-    <tr>
-      <td>1</td>
-      <td>2</td>
-      <td>3</td>
-      <td>4</td>
-      <td>5</td>
-      <td>6</td>
-    </tr>')
+  #入力値を取得
+  title_val = document.getElementById("title_#{id}").value
+  content_val = document.getElementById("content_#{id}").value
+  plan_at = document.getElementById("plan_at_#{id}")
+  plan_at_val = get_datetime_vals(plan_at,'plan')
+  actual_at = document.getElementById("actual_at_#{id}")
+  actual_at_val = get_datetime_vals(actual_at,'actual')
 
-# tr id="taskrow_edit_#{task.id}" style = "display:none"
-#                   td = f.text_field :title, class:'form-control', id: "title_#{task.id}"
-#                   td = f.text_area :content, class:'form-control', id: "content_#{task.id}"
-#                   td id= "plan_at_#{task.id}" 
-#                      = f.datetime_select :plan_at, class:'form-control', :use_month_numbers => true
-#                   td id= "actual_at_#{task.id}"
-#                      = f.datetime_select :actual_at, class:'form-control', :use_month_numbers => true
-#                   td
-#                     button.btn.btn-success type= "button" onclick= "onclick_update_button(#{task.id})"  Update
-#                   td 
-#                     button.btn.btn-success type= "button" onclick= "onclick_delete_button(#{task.id})" Delete
+  debugger
+  #createを実行
+  $.ajax({
+    url: "tasks/",
+    type: "POST",
+    data: {
+          utf8: "✓", 
+          task: {
+                title: title_val,
+                content: content_val,
+                plan_at: plan_at_val,
+                actual_at: actual_at_val,
+                },
+          commit: "Create"
+          }
+  })
+
 ##update task
 #editbuttonを押したら入力フィールドを活性化
 root.onclick_edit_button = (id) ->
@@ -59,7 +62,6 @@ root.onclick_update_button = (id) ->
           id: id
           }
   })
-  console.log 'actual_at'+actual_at_val
   #フィールドを非活性化
   switch_edit_state(id,'unactive')
   set_input_value_to_unactive_forms(id,title_val,content_val,plan_at_val,actual_at_val)
@@ -90,6 +92,7 @@ get_datetime_vals = (datetime_element,valname) ->
 #selectboxの選択値を取得
 get_selecting_val = (datetime_element, id) ->
   selectbox = datetime_element.querySelector(id);
+  debugger
   selecting_val = selectbox.options[selectbox.selectedIndex].text;
   return selecting_val
 
