@@ -13,8 +13,6 @@ root.onclick_create_button = (id)->
   plan_at_val = get_datetime_vals(plan_at,'plan')
   actual_at = document.getElementById("actual_at_#{id}")
   actual_at_val = get_datetime_vals(actual_at,'actual')
-
-  debugger
   #createを実行
   $.ajax({
     url: "tasks/",
@@ -92,7 +90,6 @@ get_datetime_vals = (datetime_element,valname) ->
 #selectboxの選択値を取得
 get_selecting_val = (datetime_element, id) ->
   selectbox = datetime_element.querySelector(id);
-  debugger
   selecting_val = selectbox.options[selectbox.selectedIndex].text;
   return selecting_val
 

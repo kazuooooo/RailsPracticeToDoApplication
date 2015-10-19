@@ -36,8 +36,8 @@ class TasksController < ApplicationController
     @task = current_user.tasks.build(task_params)
     respond_to do |format|
       if @task.save
-        format.html { redirect_to tasks_path, notice: 'Task was successfully created.' }
-        format.json { render :show, status: :created, location: @task }
+        format.html { redirect_to action: 'index',status: :ok, notice: 'Task was successfully created.' }
+        format.json { redirect_to action: 'index',status: :ok, location: @task}
       else
         format.html { render tasks_path }
         format.json { render json: @task.errors, status: :unprocessable_entity }
