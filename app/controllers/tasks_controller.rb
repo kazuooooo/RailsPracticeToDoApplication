@@ -50,11 +50,11 @@ class TasksController < ApplicationController
   def update
     respond_to do |format|
       if @task.update(task_params)
-        #format.html { redirect_to tasks_path, notice: 'Task was successfully updated.' }
-        #format.json { render :show, status: :ok, location: @task }
+        format.html { redirect_to action: 'index',status: :ok, notice: 'Task was successfully updated.'}
+        format.json { redirect_to action: 'index',location: @task}
       else
-        #format.html { render tasks_path, notice: 'Task update was failed' }
-        #format.json { render json: @task.errors, status: :unprocessable_entity }
+        format.html { redirect_to action: 'index',status: :unprocessable_entity, notice: 'Task update was failed.' }
+        format.json { render json: @task.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -64,7 +64,7 @@ class TasksController < ApplicationController
   def destroy
     @task.destroy
     respond_to do |format|
-      format.html { redirect_to tasks_url, notice: 'Task was successfully destroyed.' }
+      format.html { redirect_to action: 'index',status: :ok, notice: 'Task was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
