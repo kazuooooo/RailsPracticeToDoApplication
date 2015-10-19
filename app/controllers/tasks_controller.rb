@@ -74,14 +74,6 @@ class TasksController < ApplicationController
     end
   end
 
-  def hotel_params
-        params.require(:hotel).permit(
-          :name, :address, :foundation, :tel,
-          roomtypes_attributes: [:id, :hotel_id, :name, :capacity, :note, :_destroy]
-        )
-  end
-
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_task
