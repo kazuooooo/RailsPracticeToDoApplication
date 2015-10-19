@@ -35,14 +35,6 @@ class TasksController < ApplicationController
     render :partial => 'tasks/tablebody'
   end
 
-
-  def list_tag(collection, prop)
-    content_tag(collection,prop)
-      collection.each do |element|
-        concat content_tag(:li, element.attributes[prop])
-      end
-  end
-
   # POST /tasks
   # POST /tasks.json
   def create

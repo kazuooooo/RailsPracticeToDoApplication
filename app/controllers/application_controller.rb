@@ -12,10 +12,4 @@ class ApplicationController < ActionController::Base
   def after_sign_out_path_fir(resource)
    tasks_path
   end
-
-  def task_params
-        params.require(:user).permit(
-        tasks_attributes: [:id, :title, :content, :plan_at, :actual_at, :_destroy]
-        )
-  end
 end
