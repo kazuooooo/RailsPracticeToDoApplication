@@ -5,8 +5,29 @@
 
 root = exports ? this
 ##create task
+root.onclick_create_button = (id)->
+  console.log ("call create")
+  $('#task_table_body').after('
+    <tr>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+      <td>4</td>
+      <td>5</td>
+      <td>6</td>
+    </tr>')
 
-
+# tr id="taskrow_edit_#{task.id}" style = "display:none"
+#                   td = f.text_field :title, class:'form-control', id: "title_#{task.id}"
+#                   td = f.text_area :content, class:'form-control', id: "content_#{task.id}"
+#                   td id= "plan_at_#{task.id}" 
+#                      = f.datetime_select :plan_at, class:'form-control', :use_month_numbers => true
+#                   td id= "actual_at_#{task.id}"
+#                      = f.datetime_select :actual_at, class:'form-control', :use_month_numbers => true
+#                   td
+#                     button.btn.btn-success type= "button" onclick= "onclick_update_button(#{task.id})"  Update
+#                   td 
+#                     button.btn.btn-success type= "button" onclick= "onclick_delete_button(#{task.id})" Delete
 ##update task
 #editbuttonを押したら入力フィールドを活性化
 root.onclick_edit_button = (id) ->
