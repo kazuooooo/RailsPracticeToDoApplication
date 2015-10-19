@@ -1,7 +1,27 @@
-tr
-  td 1
-  td 2
-  td 3
-  td 4
-  td 5
-  td 6
+ - @tasks.each do |task|
+  = form_for task do |f|    
+    tr id="taskrow_edit_#{task.id}" style = "display:none"
+      td = f.text_field :title, class:'form-control', id: "title_#{task.id}"
+      td = f.text_area :content, class:'form-control', id: "content_#{task.id}"
+      td id= "plan_at_#{task.id}" 
+         = f.datetime_select :plan_at, class:'form-control', :use_month_numbers => true
+      td id= "actual_at_#{task.id}"
+         = f.datetime_select :actual_at, class:'form-control', :use_month_numbers => true
+      td
+        button.btn.btn-success type= "button" onclick= "onclick_update_button(#{task.id})"  Update
+      td 
+        button.btn.btn-success type= "button" onclick= "onclick_delete_button(#{task.id})" Delete
+    tr id="taskrow_plain_#{task.id}" 
+      td id= "plain_title_#{task.id}"
+        = task.title
+      td id= "plain_content_#{task.id}"
+        = task.content 
+      td id= "plain_plan_at_#{task.id}" 
+        = task.plan_at 
+      td id= "plain_actual_at_#{task.id}"
+        = task.actual_at
+      td
+        button.btn.btn-success type= "button" onclick= "onclick_edit_button(#{task.id})"  Edit 
+      td id= "plain_delete_button_td_#{task.id}"
+        button.btn.btn-success type= "button" onclick= "onclick_delete_button(#{task.id})" Delete
+      = tag :input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token, :id =>"authenticate_token_#{task.id}"

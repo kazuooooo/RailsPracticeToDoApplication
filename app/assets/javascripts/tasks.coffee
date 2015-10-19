@@ -28,6 +28,8 @@ root.onclick_create_button = (id)->
           commit: "Create"
           }
   })
+  #tableを再読み込み
+  $('.tablebody').load('/tasks/reload_table')
 
 ##update task
 #editbuttonを押したら入力フィールドを活性化
@@ -97,6 +99,7 @@ get_selecting_val = (datetime_element, id) ->
 switch_edit_state = (id,state)->
   plain_tr = document.getElementById("taskrow_plain_#{id}")
   edit_tr = document.getElementById("taskrow_edit_#{id}")
+  debugger
   #delete_button_onedit = document.getElementById("delete_button_onedit_#{id}")
   #console.log delete_button_onedit.id
   if state == 'active'
@@ -105,17 +108,24 @@ switch_edit_state = (id,state)->
     console.log "call disabled"
     #delete_button_onedit.disabled = 'disabled'
   else
+    debugger
     plain_tr.style.removeProperty 'display'
     edit_tr.style.display = 'none'
+    debugger
     #delete_button_onedit.disabled = ''
 
 
 ##delete task
 root.onclick_delete_button = (id)->
+  authenticate_token = document.getElementById("authenticate_token_#{id}").value
+  console.log(authenticate_token)
   task_table = document.getElementById("task_table")
   #trを削除(solid)
   plain_tr = document.getElementById("taskrow_plain_#{id}")
   edit_tr = document.getElementById("taskrow_edit_#{id}")
+   #authenticate token
+  authenticate_token = plain_tr.nextSibling
+ 
   #plain行
   plain_row_num = plain_tr.rowIndex 
   task_table.deleteRow(plain_row_num);

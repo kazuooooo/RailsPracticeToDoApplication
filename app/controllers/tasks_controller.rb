@@ -30,6 +30,19 @@ class TasksController < ApplicationController
           tasks_attributes: [:id, :hotel_id, :name, :capacity, :note, :_destroy]
         )
   end
+
+  def reload_table
+    render :partial => 'tasks/tablebody'
+  end
+
+
+  def list_tag(collection, prop)
+    content_tag(collection,prop)
+      collection.each do |element|
+        concat content_tag(:li, element.attributes[prop])
+      end
+  end
+
   # POST /tasks
   # POST /tasks.json
   def create

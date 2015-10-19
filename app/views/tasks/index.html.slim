@@ -1,3 +1,4 @@
+/ = render 'tasks/taskrow'
 .col-md-10.col-md-offset-1
   .panel.panel-info
     .panel-heading Tasks
@@ -9,33 +10,8 @@
             th width = '300' Content
             th Plan date
             th Actual date
-        tbody id="task_table_body"
-          - @tasks.each do |task|
-            = form_for task do |f|
-              tr id="taskrow_edit_#{task.id}" style = "display:none"
-                td = f.text_field :title, class:'form-control', id: "title_#{task.id}"
-                td = f.text_area :content, class:'form-control', id: "content_#{task.id}"
-                td id= "plan_at_#{task.id}" 
-                   = f.datetime_select :plan_at, class:'form-control', :use_month_numbers => true
-                td id= "actual_at_#{task.id}"
-                   = f.datetime_select :actual_at, class:'form-control', :use_month_numbers => true
-                td
-                  button.btn.btn-success type= "button" onclick= "onclick_update_button(#{task.id})"  Update
-                td 
-                  button.btn.btn-success type= "button" onclick= "onclick_delete_button(#{task.id})" Delete
-              tr id="taskrow_plain_#{task.id}" 
-                td id= "plain_title_#{task.id}"
-                  = task.title
-                td id= "plain_content_#{task.id}"
-                  = task.content 
-                td id= "plain_plan_at_#{task.id}" 
-                  = task.plan_at 
-                td id= "plain_actual_at_#{task.id}"
-                  = task.actual_at
-                td
-                  button.btn.btn-success type= "button" onclick= "onclick_edit_button(#{task.id})"  Edit 
-                td
-                  button.btn.btn-success type= "button" onclick= "onclick_delete_button(#{task.id})" Delete
+        tbody id="task_table_body" class="tablebody"
+          = render partial: 'tasks/taskrow', locals: {contents:@tasks}
           - new_id = Task.last.id
           = form_for @task do |f|
             tr id="taskrow_edit_#{new_id}"
@@ -45,6 +21,7 @@
                  = f.datetime_select :plan_at, class:'form-control', :use_month_numbers => true
               td id= "actual_at_#{new_id}"
                  = f.datetime_select :actual_at, class:'form-control', :use_month_numbers => true
+              /td = f.submit "create"
               td
                 button.btn.btn-success type= "button" onclick= "onclick_create_button(#{new_id})"  Create
               td 
