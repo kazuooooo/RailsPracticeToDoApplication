@@ -36,7 +36,7 @@
                   button.btn.btn-success type= "button" onclick= "onclick_edit_button(#{task.id})"  Edit 
                 td
                   button.btn.btn-success type= "button" onclick= "onclick_delete_button(#{task.id})" Delete
-          - new_id = @tasks.last.id+1
+          - new_id = Task.last.id
           = form_for @task do |f|
             tr id="taskrow_edit_#{new_id}"
               td = f.text_field :title, class:'form-control', id: "title_#{new_id}"
