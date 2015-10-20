@@ -141,7 +141,16 @@ root.onclick_delete_button = (id)->
           id: id
           }
   })
-  
+
+##status checkbox
+root.on_status_changed = (status,id) ->
+  console.log (status.checked)
+  if status.checked
+    console.log "checked"
+  else
+    console.log "unchecked"
+
+##switch row color
 
 
 
