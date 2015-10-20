@@ -6,6 +6,8 @@
 root = exports ? this
 ##create task
 root.onclick_create_button = (id)->
+  #authenticate token
+  authenticate_token = document.getElementById("authenticate_token_#{id}").value
   #入力値を取得
   title_val = document.getElementById("title_#{id}").value
   content_val = document.getElementById("content_#{id}").value
@@ -13,12 +15,14 @@ root.onclick_create_button = (id)->
   plan_at_val = get_datetime_vals(plan_at,'plan')
   actual_at = document.getElementById("actual_at_#{id}")
   actual_at_val = get_datetime_vals(actual_at,'actual')
+  debugger
   #createを実行
   $.ajax({
     url: "tasks/",
     type: "POST",
     data: {
-          utf8: "✓", 
+          utf8: "✓",
+          authenticity_token: authenticate_token, 
           task: {
                 title: title_val,
                 content: content_val,
@@ -29,7 +33,7 @@ root.onclick_create_button = (id)->
           }
   })
   #tableを再読み込み
-  $('.tablebody').load('/tasks/reload_table')
+  #$('.tablebody').load('/tasks/reload_table')
 
 ##update task
 #editbuttonを押したら入力フィールドを活性化
@@ -38,6 +42,8 @@ root.onclick_edit_button = (id) ->
 
 #updateボタンが押されたら今入力されている値を取得してajaxでupdateを走らせる
 root.onclick_update_button = (id) ->
+  #authenticate token
+  authenticate_token = document.getElementById("authenticate_token_#{id}").value
   #入力値を取得
   title_val = document.getElementById("title_#{id}").value
   content_val = document.getElementById("content_#{id}").value
@@ -51,7 +57,8 @@ root.onclick_update_button = (id) ->
     url: "tasks/#{id}",
     type: "PUT",
     data: {
-          utf8: "✓", 
+          utf8: "✓",
+          authenticity_token: authenticate_token,  
           task: {
                 title: title_val,
                 content: content_val,
@@ -87,7 +94,7 @@ get_datetime_vals = (datetime_element,valname) ->
   day = get_selecting_val(datetime_element, "#task_#{valname}_at_3i")
   hour = get_selecting_val(datetime_element, "#task_#{valname}_at_4i")
   minutes = get_selecting_val(datetime_element, "#task_#{valname}_at_5i")
-  return year+"-"+month+"-"+day+" "+hour+":"+minutes+":"+"00"
+  return year+"-"+month+"-"+day+" "+hour+":"+minutes
 
 #selectboxの選択値を取得
 get_selecting_val = (datetime_element, id) ->
@@ -99,7 +106,6 @@ get_selecting_val = (datetime_element, id) ->
 switch_edit_state = (id,state)->
   plain_tr = document.getElementById("taskrow_plain_#{id}")
   edit_tr = document.getElementById("taskrow_edit_#{id}")
-  debugger
   #delete_button_onedit = document.getElementById("delete_button_onedit_#{id}")
   #console.log delete_button_onedit.id
   if state == 'active'
@@ -108,28 +114,23 @@ switch_edit_state = (id,state)->
     console.log "call disabled"
     #delete_button_onedit.disabled = 'disabled'
   else
-    debugger
     plain_tr.style.removeProperty 'display'
     edit_tr.style.display = 'none'
-    debugger
     #delete_button_onedit.disabled = ''
 
 
 ##delete task
 root.onclick_delete_button = (id)->
+  #authenticate token
   authenticate_token = document.getElementById("authenticate_token_#{id}").value
-  console.log(authenticate_token)
+  #table取得
   task_table = document.getElementById("task_table")
-  #trを削除(solid)
+  #plain行を削除
   plain_tr = document.getElementById("taskrow_plain_#{id}")
-  edit_tr = document.getElementById("taskrow_edit_#{id}")
-   #authenticate token
-  authenticate_token = plain_tr.nextSibling
- 
-  #plain行
   plain_row_num = plain_tr.rowIndex 
   task_table.deleteRow(plain_row_num);
-  #
+  #edit行を削除
+  edit_tr = document.getElementById("taskrow_edit_#{id}")
   edit_row_num = edit_tr.rowIndex
   task_table.deleteRow(edit_row_num)
   #actionを実行
@@ -137,6 +138,7 @@ root.onclick_delete_button = (id)->
     url: "tasks/#{id}",
     type: "DELETE",
     data: {
+          authenticity_token: authenticate_token, 
           id: id
           }
   })

@@ -12,7 +12,7 @@
             th Actual date
         tbody id="task_table_body" class="tablebody"
           = render partial: 'tasks/taskrow', locals: {contents:@tasks}
-          - new_id = Task.last.id
+          - new_id = Task.last.id+1
           = form_for @task do |f|
             tr id="taskrow_edit_#{new_id}"
               td = f.text_field :title, class:'form-control', id: "title_#{new_id}"
@@ -26,4 +26,5 @@
                 button.btn.btn-success type= "button" onclick= "onclick_create_button(#{new_id})"  Create
               td 
                 button.btn.btn-success type= "button" onclick= "onclick_delete_button(#{new_id})" Delete
+              = tag :input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token, :id =>"authenticate_token_#{new_id}"
 input.btn.btn-success.btn-block name="commit" type="submit" value=("Create Task") onclick="onclick_create_button()" /
