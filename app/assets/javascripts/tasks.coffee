@@ -138,8 +138,20 @@ switch_edit_state = (id,state)->
 root.onclick_delete_button = (id)->
   #authenticate token
   authenticate_token = document.getElementById("authenticate_token_#{id}").value
-  #table取得
-  task_table = document.getElementById("task_table")
+  #actionを実行
+  jqXHR = $.ajax({
+    url: "tasks/#{id}",
+    type: "DELETE",
+    data: {
+          authenticity_token: authenticate_token, 
+          id: id
+          }
+    success: delete_task_row(id)
+  })
+
+#列を削除
+delete_task_row = (id) ->
+  ask_table = document.getElementById("task_table")
   #plain行を削除
   plain_tr = document.getElementById("taskrow_plain_#{id}")
   plain_row_num = plain_tr.rowIndex 
@@ -148,15 +160,7 @@ root.onclick_delete_button = (id)->
   edit_tr = document.getElementById("taskrow_edit_#{id}")
   edit_row_num = edit_tr.rowIndex
   task_table.deleteRow(edit_row_num)
-  #actionを実行
-  $.ajax({
-    url: "tasks/#{id}",
-    type: "DELETE",
-    data: {
-          authenticity_token: authenticate_token, 
-          id: id
-          }
-  })
+
 
 ##status checkbox
 root.on_status_changed = (status,id) ->
