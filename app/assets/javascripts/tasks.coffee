@@ -75,11 +75,7 @@ root.onclick_update_button = (id) ->
 
   #success
   jqXHR.done (data, stat, xhr) ->
-<<<<<<< HEAD
     #サーバーから受け取った結果(JSON)をdecode
-=======
-    #受け取った結果(JSONをparse)
->>>>>>> feature/taskcheckbox
     decode_data = JSON.parse(data)
     #結果を列に反映
     id_result = decode_data["id"]
@@ -89,8 +85,6 @@ root.onclick_update_button = (id) ->
     actual_at_result = decode_data["actual_at"]
     switch_edit_state(id,'unactive')
     set_result_value_to_row(id_result,title_result,content_result,plan_at_result,actual_at_result)
-    debugger
-  #フィールドを非活性化
 
 ajax_success_test = () ->
   alert "success"

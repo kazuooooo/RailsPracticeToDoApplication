@@ -50,7 +50,7 @@ class TasksController < ApplicationController
     respond_to do |format|
       if @task.update(task_params)
         format.html { render :json => @task,status: :ok, notice: 'Task was successfully updated.'}
-        format.json { render :json => @tasks,location: @task}
+        format.json { render :json => @task,location: @task}
       else
         format.html { redirect_to action: 'index',status: :unprocessable_entity, notice: 'Task update was failed.' }
         format.json { render json: @task.errors, status: :unprocessable_entity }
