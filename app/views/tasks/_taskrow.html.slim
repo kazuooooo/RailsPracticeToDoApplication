@@ -13,7 +13,7 @@
         button.btn.btn-success type= "button" onclick= "onclick_update_button(#{task.id})"  Update
       td 
         button.btn.btn-success type= "button" onclick= "onclick_delete_button(#{task.id})" Delete
-    tr id="taskrow_plain_#{task.id}" 
+    tr id="taskrow_plain_#{task.id}" style = "background-color: #FFFFFF"
       td 
         input.form-control name="task[status]" type="checkbox" value="1" id="status#{task.id}" onclick="on_status_changed(this,#{task.id})" /
       td id= "plain_title_#{task.id}"

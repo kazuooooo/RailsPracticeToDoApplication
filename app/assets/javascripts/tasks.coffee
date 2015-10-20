@@ -144,11 +144,18 @@ root.onclick_delete_button = (id)->
 
 ##status checkbox
 root.on_status_changed = (status,id) ->
+  #行のtrを取得
+  plain_tr = document.getElementById("taskrow_plain_#{id}")
+  edit_tr = document.getElementById("taskrow_edit_#{id}")
   console.log (status.checked)
   if status.checked
     console.log "checked"
+    plain_tr.style.backgroundColor = "#6E6E6E"
+    edit_tr.style.backgroundColor = "#6E6E6E"
   else
     console.log "unchecked"
+    plain_tr.style.backgroundColor = "#FFFFFF"
+    edit_tr.style.backgroundColor = "#FFFFFF"
 
 ##switch row color
 
