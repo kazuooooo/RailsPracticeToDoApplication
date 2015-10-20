@@ -17,9 +17,9 @@
       td id= "plain_content_#{task.id}"
         = task.content 
       td id= "plain_plan_at_#{task.id}" 
-        = task.plan_at 
+        = l task.plan_at, format: :short
       td id= "plain_actual_at_#{task.id}"
-        = task.actual_at
+        = l task.actual_at, format: :short
       td
         button.btn.btn-success type= "button" onclick= "onclick_edit_button(#{task.id})"  Edit 
       td id= "plain_delete_button_td_#{task.id}"
