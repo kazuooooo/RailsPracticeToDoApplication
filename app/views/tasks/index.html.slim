@@ -1,4 +1,4 @@
-/ = render 'tasks/taskrow'
+.currenttime.test = render partial: 'tasks/currenttime'
 .col-md-10.col-md-offset-1
   .panel.panel-info
     .panel-heading Tasks
@@ -11,7 +11,7 @@
             th width = '300' Content
             th Plan date
             th Actual date
-        tbody id="task_table_body" class="tablebody"
+        tbody id="task_table_body"
           = render partial: 'tasks/taskrow', locals: {contents:@tasks}
           - new_id = Task.last.id+1
           = form_for @task do |f|
@@ -29,4 +29,4 @@
               td 
                 button.btn.btn-success type= "button" onclick= "onclick_delete_button(#{new_id})" Delete
               = tag :input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token, :id =>"authenticate_token_#{new_id}"
-input.btn.btn-success.btn-block name="commit" type="submit" value=("Create Task") onclick="onclick_create_button()" /
+input.btn.btn-success.btn-block name="commit" type="submit" value=("Create Task") onclick="reload_time()" /

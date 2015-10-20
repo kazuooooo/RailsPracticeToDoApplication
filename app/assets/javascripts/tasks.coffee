@@ -31,10 +31,9 @@ root.onclick_create_button = (id)->
                 },
           commit: "Create"
           }
+    ajaxComplete: reload_home()
   })
-  #tableを再読み込み
-  #$('.tablebody').load('/tasks/reload_table')
-
+ 
 ##update task
 #editbuttonを押したら入力フィールドを活性化
 root.onclick_edit_button = (id) ->
@@ -55,23 +54,23 @@ root.onclick_update_button = (id) ->
 
   #actionを実行
   jqXHR = $.ajax({
-    url: "tasks/#{id}",
-    type: "PUT",
-    dataType: "text"
-    data: {
-          utf8: "✓",
-          authenticity_token: authenticate_token,  
-          task: {
-                status: status_val,
-                title: title_val,
-                content: content_val,
-                plan_at: plan_at_val,
-                actual_at: actual_at_val,
-                },
-          commit: "Update",
-          id: id
-          }
-  })
+            url: "tasks/#{id}",
+            type: "PUT",
+            dataType: "text"
+            data: {
+                  utf8: "✓",
+                  authenticity_token: authenticate_token,  
+                  task: {
+                        status: status_val,
+                        title: title_val,
+                        content: content_val,
+                        plan_at: plan_at_val,
+                        actual_at: actual_at_val,
+                        },
+                  commit: "Update",
+                  id: id
+                  }
+          })
 
   #success
   jqXHR.done (data, stat, xhr) ->
@@ -139,7 +138,7 @@ root.onclick_delete_button = (id)->
   #authenticate token
   authenticate_token = document.getElementById("authenticate_token_#{id}").value
   #actionを実行
-  jqXHR = $.ajax({
+  $.ajax({
     url: "tasks/#{id}",
     type: "DELETE",
     data: {
@@ -177,7 +176,12 @@ root.on_status_changed = (status,id) ->
     plain_tr.style.backgroundColor = "#FFFFFF"
     edit_tr.style.backgroundColor = "#FFFFFF"
 
-##switch row color
+##reload index page
+reload_home = () ->
+  $(".table.table-striped.table-bordered.table-hover").load(location.href + " .table.table-striped.table-bordered.table-hover");
+
+root.reload_time = () ->
+  $(".currenttime.test").load(location.href + " .currenttime.test");
 
 
 
