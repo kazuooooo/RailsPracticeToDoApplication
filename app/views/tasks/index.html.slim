@@ -6,6 +6,7 @@
       table.table.table-striped.table-bordered.table-hover id="task_table"
         thead
           tr
+            th Status
             th width = '200' Title 
             th width = '300' Content
             th Plan date
@@ -15,6 +16,7 @@
           - new_id = Task.last.id+1
           = form_for @task do |f|
             tr id="taskrow_edit_#{new_id}"
+              td
               td = f.text_field :title, class:'form-control', id: "title_#{new_id}"
               td = f.text_area :content, class:'form-control', id: "content_#{new_id}"
               td id= "plan_at_#{new_id}" 
