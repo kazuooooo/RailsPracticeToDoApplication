@@ -24,12 +24,6 @@ class TasksController < ApplicationController
   def edit
     @user = current_user
   end
-  
-  def task_params
-        params.require(:task).permit(
-          tasks_attributes: [:id, :hotel_id, :name, :capacity, :note, :_destroy]
-        )
-  end
 
   def reload_table
     render :partial => 'tasks/tablebody'
@@ -82,7 +76,7 @@ class TasksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def task_params
-      params.require(:task).permit(:title, :content, :plan_at, :actual_at)
+      params.require(:task).permit(:status,:title, :content, :plan_at, :actual_at)
     end
 
     def edit_page?

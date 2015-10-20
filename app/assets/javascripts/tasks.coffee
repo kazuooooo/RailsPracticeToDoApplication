@@ -23,6 +23,7 @@ root.onclick_create_button = (id)->
           utf8: "✓",
           authenticity_token: authenticate_token, 
           task: {
+                status: false,
                 title: title_val,
                 content: content_val,
                 plan_at: plan_at_val,
@@ -44,6 +45,7 @@ root.onclick_update_button = (id) ->
   #authenticate token
   authenticate_token = document.getElementById("authenticate_token_#{id}").value
   #入力値を取得
+  status_val = document.getElementById("status_#{id}").checked
   title_val = document.getElementById("title_#{id}").value
   content_val = document.getElementById("content_#{id}").value
   plan_at = document.getElementById("plan_at_#{id}")
@@ -59,6 +61,7 @@ root.onclick_update_button = (id) ->
           utf8: "✓",
           authenticity_token: authenticate_token,  
           task: {
+                status: status_val,
                 title: title_val,
                 content: content_val,
                 plan_at: plan_at_val,
