@@ -15,7 +15,6 @@ root.onclick_create_button = (id)->
   plan_at_val = get_datetime_vals(plan_at,'plan')
   actual_at = document.getElementById("actual_at_#{id}")
   actual_at_val = get_datetime_vals(actual_at,'actual')
-  debugger
   #createを実行
   $.ajax({
     url: "tasks/",
