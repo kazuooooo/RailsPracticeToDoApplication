@@ -49,8 +49,8 @@ class TasksController < ApplicationController
   def update
     respond_to do |format|
       if @task.update(task_params)
-        format.html { redirect_to action: 'index',status: :ok, notice: 'Task was successfully updated.'}
-        format.json { redirect_to action: 'index',location: @task}
+        format.html { render :json => @task,status: :ok, notice: 'Task was successfully updated.'}
+        format.json { render :json => @tasks,location: @task}
       else
         format.html { redirect_to action: 'index',status: :unprocessable_entity, notice: 'Task update was failed.' }
         format.json { render json: @task.errors, status: :unprocessable_entity }
@@ -68,6 +68,7 @@ class TasksController < ApplicationController
     end
   end
 
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_task

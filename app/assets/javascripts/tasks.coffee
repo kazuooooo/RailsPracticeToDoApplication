@@ -54,9 +54,10 @@ root.onclick_update_button = (id) ->
   actual_at_val = get_datetime_vals(actual_at,'actual')
 
   #actionを実行
-  $.ajax({
+  jqXHR = $.ajax({
     url: "tasks/#{id}",
     type: "PUT",
+    dataType: "text"
     data: {
           utf8: "✓",
           authenticity_token: authenticate_token,  
@@ -67,16 +68,30 @@ root.onclick_update_button = (id) ->
                 plan_at: plan_at_val,
                 actual_at: actual_at_val,
                 },
-          commit: "Update"
+          commit: "Update",
           id: id
           }
   })
-  #フィールドを非活性化
-  switch_edit_state(id,'unactive')
-  set_input_value_to_unactive_forms(id,title_val,content_val,plan_at_val,actual_at_val)
 
+  #success
+  jqXHR.done (data, stat, xhr) ->
+    #受け取った結果(JSONをparse)
+    decode_data = JSON.parse(data)
+    #結果を列に反映
+    id_result = decode_data["id"]
+    title_result = decode_data["title"]
+    content_result = decode_data["content"]
+    plan_at_result = decode_data["plan_at"]
+    actual_at_result = decode_data["actual_at"]
+    switch_edit_state(id,'unactive')
+    set_result_value_to_row(id_result,title_result,content_result,plan_at_result,actual_at_result)
+    debugger
+  #フィールドを非活性化
+
+ajax_success_test = () ->
+  alert "success"
 #入力値を非活性状態のフォームに突っ込む
-set_input_value_to_unactive_forms = (id,title_val,content_val,plan_at_val,actual_at_val) ->
+set_result_value_to_row = (id,title_val,content_val,plan_at_val,actual_at_val) ->
   console.log "set"+actual_at_val
   #element取得
   plain_title = document.getElementById("plain_title_#{id}")
