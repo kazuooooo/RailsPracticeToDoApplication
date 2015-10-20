@@ -45,7 +45,7 @@ root.onclick_update_button = (id) ->
   #authenticate token
   authenticate_token = document.getElementById("authenticate_token_#{id}").value
   #入力値を取得
-  #status_val = document.getElementById("status_#{id}").checked
+  status_val = document.getElementById("status_#{id}").checked
   title_val = document.getElementById("title_#{id}").value
   content_val = document.getElementById("content_#{id}").value
   plan_at = document.getElementById("plan_at_#{id}")
@@ -75,7 +75,11 @@ root.onclick_update_button = (id) ->
 
   #success
   jqXHR.done (data, stat, xhr) ->
+<<<<<<< HEAD
     #サーバーから受け取った結果(JSON)をdecode
+=======
+    #受け取った結果(JSONをparse)
+>>>>>>> feature/taskcheckbox
     decode_data = JSON.parse(data)
     #結果を列に反映
     id_result = decode_data["id"]
