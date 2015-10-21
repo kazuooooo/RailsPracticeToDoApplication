@@ -35,6 +35,8 @@ root.onclick_create_button = (id)->
   }).done =>
       #成功したらテーブルをリロード
       $(".table.table-striped.table-bordered.table-hover").load(location.href + " .table.table-striped.table-bordered.table-hover");
+    .fail =>
+      alert("task create failed")
 
 
 ##update task
@@ -100,6 +102,9 @@ update_task = (plain_update, id) ->
     actual_at_result = decode_data["actual_at"]
     switch_edit_state(id,'unactive')
     set_result_value_to_row(id_result,status_result,title_result,content_result,plan_at_result,actual_at_result)
+
+  jqXHR.fail() ->
+    alert("task update failed")
 
 #入力値を対象の列に代入
 set_result_value_to_row = (id,status_val,title_val,content_val,plan_at_val,actual_at_val) ->
@@ -175,6 +180,8 @@ root.onclick_delete_button = (id)->
           }
   }).done =>
       delete_task_row(id)
+    .fail =>
+      alert("task delete failed")
 
 #列を削除
 delete_task_row = (id) ->
