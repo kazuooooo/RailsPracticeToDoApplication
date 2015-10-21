@@ -2,9 +2,10 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-
 root = exports ? this
 ##create task
+
+#createbuttonが押されたらtaskを作ってテーブルだけリロード
 root.onclick_create_button = (id)->
   #authenticate token
   authenticate_token = document.getElementById("authenticate_token_#{id}").value
@@ -32,14 +33,17 @@ root.onclick_create_button = (id)->
           commit: "Create"
           }
   }).done =>
+      #成功したらテーブルをリロード
       $(".table.table-striped.table-bordered.table-hover").load(location.href + " .table.table-striped.table-bordered.table-hover");
 
+
 ##update task
+
 #editbuttonを押したら入力フィールドを活性化
 root.onclick_edit_button = (id) ->
   switch_edit_state(id,'active')
 
-#updateボタンが押されたら今入力されている値を取得してajaxでupdateを走らせる
+#updateボタンが押されたら今入力されている値を取得してajaxでupdate
 root.onclick_update_button = (id) ->
   #authenticate token
   authenticate_token = document.getElementById("authenticate_token_#{id}").value
@@ -72,11 +76,11 @@ root.onclick_update_button = (id) ->
                   }
           })
 
-  #success
+  #updateが成功したときの処理
   jqXHR.done (data, stat, xhr) ->
     #サーバーから受け取った結果(JSON)をdecode
     decode_data = JSON.parse(data)
-    #結果を列に反映
+    #結果を画面に反映
     id_result = decode_data["id"]
     title_result = decode_data["title"]
     content_result = decode_data["content"]
@@ -85,8 +89,6 @@ root.onclick_update_button = (id) ->
     switch_edit_state(id,'unactive')
     set_result_value_to_row(id_result,title_result,content_result,plan_at_result,actual_at_result)
 
-ajax_success_test = () ->
-  alert "success"
 #入力値を非活性状態のフォームに突っ込む
 set_result_value_to_row = (id,title_val,content_val,plan_at_val,actual_at_val) ->
   console.log "set"+actual_at_val
@@ -145,8 +147,8 @@ root.onclick_delete_button = (id)->
           authenticity_token: authenticate_token, 
           id: id
           }
-    success: delete_task_row(id)
-  })
+  }).done =>
+      delete_task_row(id)
 
 #列を削除
 delete_task_row = (id) ->
@@ -175,27 +177,3 @@ root.on_status_changed = (status,id) ->
     console.log "unchecked"
     plain_tr.style.backgroundColor = "#FFFFFF"
     edit_tr.style.backgroundColor = "#FFFFFF"
-
-
-
-root.reload_time = () ->
-  $(".currenttime.test").load(location.href + " .currenttime.test");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
