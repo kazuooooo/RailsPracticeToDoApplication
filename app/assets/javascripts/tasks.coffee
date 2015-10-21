@@ -35,8 +35,8 @@ root.onclick_create_button = (id)->
   }).done =>
       #成功したらテーブルをリロード
       $(".table.table-striped.table-bordered.table-hover").load(location.href + " .table.table-striped.table-bordered.table-hover");
-    .on fail =>
-      alert("task create failed")
+    .fail (jqXHR, statusText, errorThrown) =>
+      show_error(jqXHR.responseText)
 
 
 ##update task
@@ -100,8 +100,14 @@ update_task = (plain_update, id) ->
     switch_edit_state(id,'unactive')
     set_result_value_to_row(id_result,status_result,title_result,content_result,plan_at_result,actual_at_result)
 
-  jqXHR.fail ->
-    alert("task update failed")
+  jqXHR.fail (jqXHR, statusText, errorThrown) ->
+    show_error(jqXHR.responseText)
+    debugger
+
+#エラー内容を受け取って表示する
+show_error = (error_txt) ->
+  error_obj = JSON.parse(error_txt)
+  #TODO:受け取った値をflashで表示
 
 #入力値を対象の列に代入
 set_result_value_to_row = (id,status_val,title_val,content_val,plan_at_val,actual_at_val) ->

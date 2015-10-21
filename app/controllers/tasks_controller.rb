@@ -35,9 +35,9 @@ class TasksController < ApplicationController
     @task = current_user.tasks.build(task_params)
     respond_to do |format|
       if @task.save
-        format.html { render nothing: true, status: :created}
+        format.html { render nothing: true, status: :created }
       else
-        format.html { render nothing: true, status: :unprocessable_entity}
+        format.html { render json: @task.errors, status: :unprocessable_entity }
       end
     end
   end
