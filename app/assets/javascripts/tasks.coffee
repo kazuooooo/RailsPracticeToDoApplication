@@ -73,7 +73,6 @@ update_task = (plain_update, id) ->
   jqXHR = $.ajax({
             url: "tasks/#{id}",
             type: "PUT",
-            dataType: "text"
             data: {
                   utf8: "✓",
                   authenticity_token: authenticate_token,  
@@ -91,15 +90,13 @@ update_task = (plain_update, id) ->
 
   #updateが成功したときの処理
   jqXHR.done (data, stat, xhr) ->
-    #サーバーから受け取った結果(JSON)をdecode
-    decode_data = JSON.parse(data)
     #結果を画面に反映
-    id_result = decode_data["id"]
-    status_result = decode_data["status"]
-    title_result = decode_data["title"]
-    content_result = decode_data["content"]
-    plan_at_result = decode_data["plan_at"]
-    actual_at_result = decode_data["actual_at"]
+    id_result = data["id"]
+    status_result = data["status"]
+    title_result = data["title"]
+    content_result = data["content"]
+    plan_at_result = data["plan_at"]
+    actual_at_result = data["actual_at"]
     switch_edit_state(id,'unactive')
     set_result_value_to_row(id_result,status_result,title_result,content_result,plan_at_result,actual_at_result)
 
@@ -185,7 +182,7 @@ root.onclick_delete_button = (id)->
 
 #列を削除
 delete_task_row = (id) ->
-  ask_table = document.getElementById("task_table")
+  task_table = document.getElementById("task_table")
   #plain行を削除
   plain_tr = document.getElementById("taskrow_plain_#{id}")
   plain_row_num = plain_tr.rowIndex 

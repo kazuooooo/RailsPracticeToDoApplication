@@ -35,11 +35,9 @@ class TasksController < ApplicationController
     @task = current_user.tasks.build(task_params)
     respond_to do |format|
       if @task.save
-        format.html { render :json => @task, status: :ok}
-        format.json { render :json => @task, status: :ok, location: @task}
+        format.html { render nothing: true, status: :created}
       else
-        format.html { render tasks_path }
-        format.json { render json: @task.errors, status: :unprocessable_entity }
+        format.html { render nothing: true, status: :unprocessable_entity}
       end
     end
   end
@@ -49,11 +47,9 @@ class TasksController < ApplicationController
   def update
     respond_to do |format|
       if @task.update(task_params)
-        format.html { render :json => @task,status: :ok, notice: 'Task was successfully updated.'}
         format.json { render :json => @task,location: @task}
       else
-        format.html { redirect_to action: 'index',status: :unprocessable_entity, notice: 'Task update was failed.' }
-        format.json { render json: @task.errors, status: :unprocessable_entity }
+        format.json { render json: @task.errors, status: :unprocessable_entity}
       end
     end
   end
@@ -63,8 +59,7 @@ class TasksController < ApplicationController
   def destroy
     @task.destroy
     respond_to do |format|
-      format.html { render :json => @task,status: :ok, notice: 'Task was successfully destroyed.' }
-      format.json { head :no_content }
+      format.html { render nothing: true, status: :ok}
     end
   end
 
