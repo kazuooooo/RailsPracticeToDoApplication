@@ -31,9 +31,9 @@ root.onclick_create_button = (id)->
                 },
           commit: "Create"
           }
-    ajaxComplete: reload_home()
-  })
- 
+  }).done =>
+      $(".table.table-striped.table-bordered.table-hover").load(location.href + " .table.table-striped.table-bordered.table-hover");
+
 ##update task
 #editbuttonを押したら入力フィールドを活性化
 root.onclick_edit_button = (id) ->
@@ -176,9 +176,7 @@ root.on_status_changed = (status,id) ->
     plain_tr.style.backgroundColor = "#FFFFFF"
     edit_tr.style.backgroundColor = "#FFFFFF"
 
-##reload index page
-reload_home = () ->
-  $(".table.table-striped.table-bordered.table-hover").load(location.href + " .table.table-striped.table-bordered.table-hover");
+
 
 root.reload_time = () ->
   $(".currenttime.test").load(location.href + " .currenttime.test");
