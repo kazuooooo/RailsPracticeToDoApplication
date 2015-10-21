@@ -35,7 +35,7 @@ root.onclick_create_button = (id)->
   }).done =>
       #成功したらテーブルをリロード
       $(".table.table-striped.table-bordered.table-hover").load(location.href + " .table.table-striped.table-bordered.table-hover");
-    .fail =>
+    .on fail =>
       alert("task create failed")
 
 
@@ -103,7 +103,7 @@ update_task = (plain_update, id) ->
     switch_edit_state(id,'unactive')
     set_result_value_to_row(id_result,status_result,title_result,content_result,plan_at_result,actual_at_result)
 
-  jqXHR.fail() ->
+  jqXHR.fail ->
     alert("task update failed")
 
 #入力値を対象の列に代入
