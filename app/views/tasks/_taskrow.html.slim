@@ -3,7 +3,7 @@
     = form_for task do |f|    
       tr id="taskrow_edit_#{task.id}" style = "display:none"
         td
-          input.form-control name="task[status]" type="checkbox" value="1" id="status_#{task.id}" onclick="on_status_changed(this,#{task.id})" /
+          input.form-control name="task[status]" type="checkbox" value="1" id="status_#{task.id}" onclick="on_status_changed(#{task.id})" /
         td = f.text_field :title, class:'form-control', id: "title_#{task.id}"
         td = f.text_area :content, class:'form-control', id: "content_#{task.id}"
         td id= "plan_at_#{task.id}" 
@@ -15,8 +15,8 @@
         td 
           button.btn.btn-success type= "button" onclick= "onclick_delete_button(#{task.id})" Delete
       tr id="taskrow_plain_#{task.id}" style = "background-color: #FFFFFF"
-        td id= "plain_status_{task.id}"
-          input.form-control name="task[status]" type="checkbox" checked="checked" value="1" id="status#{task.id}" onclick="on_status_changed(this,#{task.id})" /
+        td
+          input.form-control name="task[status]" type="checkbox" value="1" id="plain_status_#{task.id}" onclick="on_status_changed(#{task.id})" /
         td id= "plain_title_#{task.id}"
           = task.title
         td id= "plain_content_#{task.id}"

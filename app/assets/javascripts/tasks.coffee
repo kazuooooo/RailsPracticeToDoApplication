@@ -45,17 +45,28 @@ root.onclick_edit_button = (id) ->
 
 #updateボタンが押されたら今入力されている値を取得してajaxでupdate
 root.onclick_update_button = (id) ->
+  update_task(false,id)
+
+#statusチェックボックス変更時
+root.on_status_changed = (id) ->
+  update_task(true,id)
+
+#task update
+update_task = (plain_update, id) ->
   #authenticate token
   authenticate_token = document.getElementById("authenticate_token_#{id}").value
   #入力値を取得
-  status_val = document.getElementById("status_#{id}").checked
+  if plain_update
+    status_val = document.getElementById("plain_status_#{id}").checked
+  else
+    status_val = document.getElementById("status_#{id}").checked
+
   title_val = document.getElementById("title_#{id}").value
   content_val = document.getElementById("content_#{id}").value
   plan_at = document.getElementById("plan_at_#{id}")
   plan_at_val = get_datetime_vals(plan_at,'plan')
   actual_at = document.getElementById("actual_at_#{id}")
   actual_at_val = get_datetime_vals(actual_at,'actual')
-
   #actionを実行
   jqXHR = $.ajax({
             url: "tasks/#{id}",
@@ -82,17 +93,19 @@ root.onclick_update_button = (id) ->
     decode_data = JSON.parse(data)
     #結果を画面に反映
     id_result = decode_data["id"]
+    status_result = decode_data["status"]
     title_result = decode_data["title"]
     content_result = decode_data["content"]
     plan_at_result = decode_data["plan_at"]
     actual_at_result = decode_data["actual_at"]
     switch_edit_state(id,'unactive')
-    set_result_value_to_row(id_result,title_result,content_result,plan_at_result,actual_at_result)
+    set_result_value_to_row(id_result,status_result,title_result,content_result,plan_at_result,actual_at_result)
 
-#入力値を非活性状態のフォームに突っ込む
-set_result_value_to_row = (id,title_val,content_val,plan_at_val,actual_at_val) ->
-  console.log "set"+actual_at_val
+#入力値を対象の列に代入
+set_result_value_to_row = (id,status_val,title_val,content_val,plan_at_val,actual_at_val) ->
   #element取得
+  plain_tr = document.getElementById("taskrow_plain_#{id}")
+  edit_tr = document.getElementById("taskrow_edit_#{id}")
   plain_title = document.getElementById("plain_title_#{id}")
   plain_content = document.getElementById("plain_content_#{id}")
   plain_plan_at = document.getElementById("plain_plan_at_#{id}")
@@ -102,6 +115,18 @@ set_result_value_to_row = (id,title_val,content_val,plan_at_val,actual_at_val) -
   plain_content.innerHTML = content_val
   plain_plan_at.innerHTML = plan_at_val
   plain_actual_at.innerHTML = actual_at_val
+  #checkboxで行の色を切り替え
+  switch_task_state(plain_tr,edit_tr,status_val)
+
+switch_task_state = (plain_tr,edit_tr,task_status) ->
+  if task_status
+    console.log "checked"
+    plain_tr.style.backgroundColor = "#6E6E6E"
+    edit_tr.style.backgroundColor = "#6E6E6E"
+  else
+    console.log "unchecked"
+    plain_tr.style.backgroundColor = "#FFFFFF"
+    edit_tr.style.backgroundColor = "#FFFFFF"
 
 #datetimeselectの入力値を取得して返す
 get_datetime_vals = (datetime_element,valname) ->
@@ -136,6 +161,7 @@ switch_edit_state = (id,state)->
 
 
 ##delete task
+#deleteボタンが押されたらajaxでdeleteを実行して行を削除
 root.onclick_delete_button = (id)->
   #authenticate token
   authenticate_token = document.getElementById("authenticate_token_#{id}").value
@@ -156,24 +182,8 @@ delete_task_row = (id) ->
   #plain行を削除
   plain_tr = document.getElementById("taskrow_plain_#{id}")
   plain_row_num = plain_tr.rowIndex 
-  task_table.deleteRow(plain_row_num);
+  task_table.deleteRow(plain_row_num)
   #edit行を削除
   edit_tr = document.getElementById("taskrow_edit_#{id}")
   edit_row_num = edit_tr.rowIndex
   task_table.deleteRow(edit_row_num)
-
-
-##status checkbox
-root.on_status_changed = (status,id) ->
-  #行のtrを取得
-  plain_tr = document.getElementById("taskrow_plain_#{id}")
-  edit_tr = document.getElementById("taskrow_edit_#{id}")
-  console.log (status.checked)
-  if status.checked
-    console.log "checked"
-    plain_tr.style.backgroundColor = "#6E6E6E"
-    edit_tr.style.backgroundColor = "#6E6E6E"
-  else
-    console.log "unchecked"
-    plain_tr.style.backgroundColor = "#FFFFFF"
-    edit_tr.style.backgroundColor = "#FFFFFF"
