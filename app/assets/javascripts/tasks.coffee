@@ -107,6 +107,10 @@ update_task = (plain_update, id) ->
 #エラー内容を受け取って表示する
 show_error = (error_txt) ->
   error_obj = JSON.parse(error_txt)
+
+  #エラーそれぞれに対してeach処理
+  for key, value of error_obj
+    alert "#{key} and #{value}"
   #TODO:受け取った値をflashで表示
 
 #入力値を対象の列に代入
