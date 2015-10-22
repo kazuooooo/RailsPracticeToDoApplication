@@ -11,7 +11,7 @@
             th Plan date
             th Actual date
         tbody id="task_table_body"
-          = render partial: 'tasks/taskrow', locals: {contents:@tasks}
+          = render partial: 'tasks/taskrows', locals: {contents:@tasks}
           - new_id = Task.last.id+1
           = form_for @task do |f|
             tr id="taskrow_edit_#{new_id}"
