@@ -21,11 +21,5 @@ html
                   / li= link_to "SignUp", new_user_registration_path
                   / li= link_to "LogIn", new_user_session_path
                   / li= link_to "Facebook LogIn",user_omniauth_authorize_path(:facebook)
-    .container
-      - if flash[:notice]
-        .alert.alert-success
-          = flash[:notice]
-      - if flash[:alert]
-       .alert.alert-danger
-          = flash[:alert]
+    .container  id= "alert-container"
     = yield

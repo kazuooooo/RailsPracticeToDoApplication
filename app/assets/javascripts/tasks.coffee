@@ -35,8 +35,10 @@ root.onclick_create_button = (id)->
   }).done =>
       #成功したらテーブルをリロード
       $(".table.table-striped.table-bordered.table-hover").load(location.href + " .table.table-striped.table-bordered.table-hover");
+      #error表示がされていたら削除
+      remove_error_list()
     .fail (jqXHR, statusText, errorThrown) ->
-      show_error(jqXHR.responseText)
+      show_error_list(jqXHR.responseText)
 
 
 ##update task
@@ -99,19 +101,31 @@ update_task = (plain_update, id) ->
     actual_at_result = data["actual_at"]
     switch_edit_state(id,'unactive')
     set_result_value_to_row(id_result,status_result,title_result,content_result,plan_at_result,actual_at_result)
+    remove_error_list()
+
 
   jqXHR.fail (jqXHR, statusText, errorThrown) ->
-    show_error(jqXHR.responseText)
+    show_error_list(jqXHR.responseText)
     debugger
 
-#エラー内容を受け取って表示する
-show_error = (error_txt) ->
+# エラー内容を受け取って表示する
+show_error_list = (error_txt) ->
+  # 元々エラーが出ていればそれを一旦削除
+  remove_error_list()
+  # errorをJSON形式にparse
   error_obj = JSON.parse(error_txt)
-
-  #エラーそれぞれに対してeach処理
+  #エラーそれぞれを箇条書きにして表示
+  #alert-dangerの枠を作成
+  $('#alert-container').append("<div class=\"alert alert-danger\"></div>")
+  #ul要素を作成
+  $('.alert.alert-danger').append("<ul id=\"alert_list\"></ul>")
+  #ul要素内にli要素を作ってそこに各エラーを表示
   for key, value of error_obj
-    alert "#{key} and #{value}"
-  #TODO:受け取った値をflashで表示
+    $('#alert_list').append("<li> #{key} #{value} </li>")
+
+remove_error_list = ->
+  $('.alert.alert-danger').remove()
+
 
 #入力値を対象の列に代入
 set_result_value_to_row = (id,status_val,title_val,content_val,plan_at_val,actual_at_val) ->
