@@ -35,7 +35,7 @@ root.onclick_create_button = (id)->
   }).done =>
       #成功したらテーブルをリロード
       $(".table.table-striped.table-bordered.table-hover").load(location.href + " .table.table-striped.table-bordered.table-hover");
-    .fail (jqXHR, statusText, errorThrown) =>
+    .fail (jqXHR, statusText, errorThrown) ->
       show_error(jqXHR.responseText)
 
 
@@ -181,9 +181,9 @@ root.onclick_delete_button = (id)->
           authenticity_token: authenticate_token, 
           id: id
           }
-  }).done =>
+  }).done ->
       delete_task_row(id)
-    .fail =>
+    .fail ->
       alert("task delete failed")
 
 #列を削除
