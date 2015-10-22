@@ -25,10 +25,6 @@ class TasksController < ApplicationController
     @user = current_user
   end
 
-  def reload_table
-    render :partial => 'tasks/tablebody'
-  end
-
   # POST /tasks
   # POST /tasks.json
   def create
