@@ -1,5 +1,5 @@
 .tablebody
-  - @tasks.each do |task|
+  - tasks.each do |task|
     = form_for task do |f|    
       tr id="taskrow_edit_#{task.id}" style = "display:none"
         td
