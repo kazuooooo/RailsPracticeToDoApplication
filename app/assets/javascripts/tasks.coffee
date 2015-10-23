@@ -4,17 +4,16 @@
 
 root = exports ? this
 ##create task
-
 #createbuttonが押されたらtaskを作ってテーブルだけリロード
-root.onclick_create_button = (id)->
+root.onclick_create_button = ->
   #authenticate token
-  authenticate_token = document.getElementById("authenticate_token_#{id}").value
+  authenticate_token = document.getElementById("authenticate_token_new").value
   #入力値を取得
-  title_val = document.getElementById("title_#{id}").value
-  content_val = document.getElementById("content_#{id}").value
-  plan_at = document.getElementById("plan_at_#{id}")
+  title_val = document.getElementById("title_new").value
+  content_val = document.getElementById("content_new").value
+  plan_at = document.getElementById("plan_at_new")
   plan_at_val = get_datetime_vals(plan_at,'plan')
-  actual_at = document.getElementById("actual_at_#{id}")
+  actual_at = document.getElementById("actual_at_new")
   actual_at_val = get_datetime_vals(actual_at,'actual')
   #createを実行
   $.ajax({
@@ -32,7 +31,7 @@ root.onclick_create_button = (id)->
                 },
           commit: "Create"
           }
-  }).done =>
+  }).done ->
       #成功したらテーブルをリロード
       $(".table.table-striped.table-bordered.table-hover").load(location.href + " .table.table-striped.table-bordered.table-hover");
       #error表示がされていたら削除

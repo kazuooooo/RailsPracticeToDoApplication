@@ -12,20 +12,16 @@
             th Actual date
         tbody id="task_table_body"
           = render partial: 'tasks/taskrows', locals: {tasks: @tasks}
-          - new_id = Task.last.id+1
           = form_for @task do |f|
-            tr id="taskrow_edit_#{new_id}"
+            tr id="taskrow_edit_new"
               td
-              td = f.text_field :title, class:'form-control', id: "title_#{new_id}"
-              td = f.text_area :content, class:'form-control', id: "content_#{new_id}"
-              td id= "plan_at_#{new_id}" 
+              td = f.text_field :title, class:'form-control', id: "title_new"
+              td = f.text_area :content, class:'form-control', id: "content_new"
+              td id= "plan_at_new" 
                  = f.datetime_select :plan_at, class:'form-control', :use_month_numbers => true
-              td id= "actual_at_#{new_id}"
+              td id= "actual_at_new"
                  = f.datetime_select :actual_at, class:'form-control', :use_month_numbers => true
-              /td = f.submit "create"
               td
-                button.btn.btn-success type= "button" onclick= "onclick_create_button(#{new_id})"  Create
-              td 
-                button.btn.btn-success type= "button" onclick= "onclick_delete_button(#{new_id})" Delete
-              = tag :input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token, :id =>"authenticate_token_#{new_id}"
+                button.btn.btn-success type= "button" onclick= "onclick_create_button()"  Create
+              = tag :input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token, :id =>"authenticate_token_new"
 /input.btn.btn-success.btn-block name="commit" type="submit" value=("Create Task") onclick="reload_time()" /
