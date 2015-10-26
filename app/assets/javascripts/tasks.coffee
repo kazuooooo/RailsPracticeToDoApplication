@@ -33,7 +33,7 @@ root.onclick_create_button = ->
           }
   }).done ->
       #成功したらテーブルをリロード
-      $(".table.table-striped.table-bordered.table-hover").load(location.href + " .table.table-striped.table-bordered.table-hover");
+      $("#panel_body").load(location.href + " .table.table-striped.table-bordered.table-hover");
       #error表示がされていたら削除
       remove_error_list()
     .fail (jqXHR, statusText, errorThrown) ->
@@ -105,7 +105,6 @@ update_task = (plain_update, id) ->
 
   jqXHR.fail (jqXHR, statusText, errorThrown) ->
     show_error_list(jqXHR.responseText)
-    debugger
 
 # エラー内容を受け取って表示する
 show_error_list = (error_txt) ->
@@ -206,9 +205,10 @@ root.onclick_delete_button = (id)->
 #列を削除
 delete_task_row = (id) ->
   task_table = document.getElementById("task_table")
+  console.log task_table.rows.length
   #plain行を削除
   plain_tr = document.getElementById("taskrow_plain_#{id}")
-  plain_row_num = plain_tr.rowIndex 
+  plain_row_num = plain_tr.rowIndex
   task_table.deleteRow(plain_row_num)
   #edit行を削除
   edit_tr = document.getElementById("taskrow_edit_#{id}")
