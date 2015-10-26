@@ -57,22 +57,26 @@ root.on_status_changed = (id) ->
   update_task(true,id)
 
 #task update
-update_task = (plain_update, id) ->
+update_task = (on_task_checked, id) ->
   #authenticate token
   authenticate_token = document.getElementById("authenticate_token_#{id}").value
   #入力値を取得
-  if plain_update
+
+  if on_task_checked
+    #タスク完了によるupdate
     status_val = document.getElementById("plain_status_#{id}").checked
+    actual_date_val = get_today()
+    plan_date = document.getElementById("plain_plan_date_#{id}")
+    plan_date_val = '2015/01/01'
   else
-    status_val = document.getElementById("status_#{id}").checked
+    #Editによるupdate
+    #status_val = document.getElementById("status_#{id}").checked
+    actual_date_val = null
+    plan_date = document.getElementById("plan_date_#{id}")
+    plan_date_val = $(plan_date).val()
 
   title_val = document.getElementById("title_#{id}").value
   content_val = document.getElementById("content_#{id}").value
-  
-  plan_date = document.getElementById("plan_date_#{id}")
-  plan_date_val = $(plan_date).val()
-  actual_date = document.getElementById("actual_date_#{id}")
-  actual_date_val = $(actual_date).val()
 
   #actionを実行
   jqXHR = $.ajax({
@@ -141,11 +145,12 @@ set_result_value_to_row = (id,status_val,title_val,content_val,plan_date_val,act
   #値を代入
   plain_title.innerHTML = title_val
   plain_content.innerHTML = content_val
-  plain_plan_date.innerHTML = format_date(plan_date_val)
   plain_actual_date.innerHTML = format_date(actual_date_val)
+  #plain_actual_date.innerHTML = "testtest"
   #checkboxで行の色を切り替え
   switch_task_state(plain_tr,edit_tr,status_val)
 
+#dateを日本語にフォーマット
 format_date = (text_date) ->
   date = new Date(text_date)
   y = date.getFullYear()
@@ -161,6 +166,19 @@ format_date = (text_date) ->
     d = '0'+ d
   formatted_date = m + '/' + d + ' ('+ wNames[w] + ')'
   return formatted_date
+
+#今日の日付を取得
+get_today = ->
+  today_obj = new Date()
+  d = today_obj.getDate()
+  m = today_obj.getMonth() + 1
+  y = today_obj.getFullYear()
+  if (d<10)
+    d = '0'+ d
+  if (m<10)
+    m = '0' + m
+  today = y + '/' + m + '/' + d
+  return today
 
 switch_task_state = (plain_tr,edit_tr,task_status) ->
   if task_status
@@ -235,10 +253,4 @@ delete_task_row = (id) ->
   edit_tr = document.getElementById("taskrow_edit_#{id}")
   edit_row_num = edit_tr.rowIndex
   task_table.deleteRow(edit_row_num)
-
-load_datepicker_settings = ->
-  $('.datepicker').datepicker({
-    format: 'yyyy/mm/dd'
-    language: 'ja'
-    })
 
