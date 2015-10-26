@@ -7,7 +7,7 @@
         td = f.text_field :title, class:'form-control', id: "title_#{task.id}"
         td = f.text_area :content, class:'form-control', id: "content_#{task.id}"
         td 
-          input type="text" data-provide='datepicker' id= "plan_date_#{task.id}"  data-date-format="yyyy/mm/dd"
+          input.form-control.datepicker type="text" id= "plan_date_#{task.id}"
            / = f.date_select :plan_date, class:'form-control', :use_month_numbers => true
         td
           input type="text" data-provide='datepicker' class= 'datepicker' id= "actual_date_#{task.id}"  data-date-format="yyyy/mm/dd"
