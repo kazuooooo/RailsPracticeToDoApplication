@@ -11,9 +11,9 @@
         td id= "actual_date_#{task.id}"
            = f.date_select :actual_date, class:'form-control', :use_month_numbers => true
         td
-          button.btn.btn-success type= "button" onclick= "onclick_update_button(#{task.id})"  Update
+          button.btn.btn-success type= "button" onclick= "onclick_update_button(#{task.id})"  更新
         td 
-          button.btn.btn-success type= "button" onclick= "onclick_delete_button(#{task.id})" Delete
+          button.btn.btn-success type= "button" onclick= "onclick_delete_button(#{task.id})" 削除
       tr id="taskrow_plain_#{task.id}" style = "background-color: #FFFFFF"
         td
           input.form-control name="task[status]" type="checkbox" value="1" id="plain_status_#{task.id}" onclick="on_status_changed(#{task.id})" /
@@ -26,7 +26,7 @@
         td id= "plain_actual_date_#{task.id}"
           = l task.actual_date, format: :short
         td
-          button.btn.btn-success type= "button" onclick= "onclick_edit_button(#{task.id})"  Edit 
+          button.btn.btn-success type= "button" onclick= "onclick_edit_button(#{task.id})"  編集 
         td id= "plain_delete_button_td_#{task.id}"
-          button.btn.btn-success type= "button" onclick= "onclick_delete_button(#{task.id})" Delete
+          button.btn.btn-success type= "button" onclick= "onclick_delete_button(#{task.id})" 削除
         = tag :input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token, :id =>"authenticate_token_#{task.id}"

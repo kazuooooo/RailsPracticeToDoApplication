@@ -17,10 +17,10 @@
               span &nbsp
               = f.label :remember_me
           .form-group
-            = f.submit "Log In", class:'btn btn-primary btn-block'
+            = f.submit "ログイン", class:'btn btn-primary btn-block'
           .form-group
             a.FbBtn href = user_omniauth_authorize_path(:facebook) 
               .FbBtnLabel Facebookでログイン
           .form-group
-            = link_to "Sign Up", new_user_registration_path
+            = link_to "新規登録画面へ", new_user_registration_path
 
