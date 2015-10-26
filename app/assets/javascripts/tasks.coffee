@@ -12,9 +12,9 @@ root.onclick_create_button = ->
   title_val = document.getElementById("title_new").value
   content_val = document.getElementById("content_new").value
   plan_date = document.getElementById("plan_date_new")
-  plan_date_val = get_datetime_vals(plan_date,'plan')
+  plan_date_val = $(plan_date).val()
   actual_date = document.getElementById("actual_date_new")
-  actual_date_val = get_datetime_vals(actual_date,'actual')
+  actual_date_val = $(actual_date).val()
   #createを実行
   $.ajax({
     url: "tasks/",
@@ -159,7 +159,7 @@ format_date = (text_date) ->
     d = '0'+ d
   formatted_date = y + '年' + m + '月' + d + '日('+ wNames[w] + ')'
   return formatted_date
-  
+
 switch_task_state = (plain_tr,edit_tr,task_status) ->
   if task_status
     console.log "checked"
