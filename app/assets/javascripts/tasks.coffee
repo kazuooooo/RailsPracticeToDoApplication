@@ -66,10 +66,14 @@ update_task = (plain_update, id) ->
 
   title_val = document.getElementById("title_#{id}").value
   content_val = document.getElementById("content_#{id}").value
+  
   plan_date = document.getElementById("plan_date_#{id}")
-  plan_date_val = get_datetime_vals(plan_date,'plan')
-  actual_date = document.getElementById("actual_date_#{id}")
-  actual_date_val = get_datetime_vals(actual_date,'actual')
+  plan_date_val = $(plan_date).val()
+  debugger
+  # plan_date_val = get_datetime_vals(plan_date,'plan')
+  # actual_date = document.getElementById("actual_date_#{id}")
+  actual_date_val = '01/01/2015'
+
   #actionを実行
   jqXHR = $.ajax({
             url: "tasks/#{id}",
@@ -152,20 +156,23 @@ switch_task_state = (plain_tr,edit_tr,task_status) ->
     plain_tr.style.backgroundColor = "#FFFFFF"
     edit_tr.style.backgroundColor = "#FFFFFF"
 
+#指定列のplan_dateの値を整形して返す
+get_plan_date = (id) ->
+
 #datetimeselectの入力値を取得して返す
-get_datetime_vals = (datetime_element,valname) ->
-  year = get_selecting_val(datetime_element, "#task_#{valname}_date_1i")
-  month = get_selecting_val(datetime_element, "#task_#{valname}_date_2i")
-  day = get_selecting_val(datetime_element, "#task_#{valname}_date_3i")
-  #hour = get_selecting_val(datetime_element, "#task_#{valname}_date_4i")
-  #minutes = get_selecting_val(datetime_element, "#task_#{valname}_date_5i")
-  return year+"-"+month+"-"+day
+# get_datetime_vals = (datetime_element,valname) ->
+#   year = get_selecting_val(datetime_element, "#task_#{valname}_date_1i")
+#   month = get_selecting_val(datetime_element, "#task_#{valname}_date_2i")
+#   day = get_selecting_val(datetime_element, "#task_#{valname}_date_3i")
+#   #hour = get_selecting_val(datetime_element, "#task_#{valname}_date_4i")
+#   #minutes = get_selecting_val(datetime_element, "#task_#{valname}_date_5i")
+#   return year+"-"+month+"-"+day
 
 #selectboxの選択値を取得
-get_selecting_val = (datetime_element, id) ->
-  selectbox = datetime_element.querySelector(id);
-  selecting_val = selectbox.options[selectbox.selectedIndex].text;
-  return selecting_val
+# get_selecting_val = (datetime_element, id) ->
+#   selectbox = datetime_element.querySelector(id);
+#   selecting_val = selectbox.options[selectbox.selectedIndex].text;
+#   return selecting_val
 
 #フォームの活性比活性を切り替え
 switch_edit_state = (id,state)->
