@@ -6,12 +6,6 @@ root = exports ? this
 ##create task
 #createbuttonが押されたらtaskを作ってテーブルだけリロード
 
-
-ready = ->
-  load_datepicker_settings()
-
-
-
 root.onclick_create_button = ->
   #authenticate token
   authenticate_token = document.getElementById("authenticate_token_new").value
@@ -247,6 +241,4 @@ load_datepicker_settings = ->
     format: 'yyyy/mm/dd'
     language: 'ja'
     })
-$(document).ready(ready)
-$(document).on('page:load', ready)
 
