@@ -5,6 +5,13 @@
 root = exports ? this
 ##create task
 #createbuttonが押されたらtaskを作ってテーブルだけリロード
+
+
+ready = ->
+  load_datepicker_settings()
+
+
+
 root.onclick_create_button = ->
   #authenticate token
   authenticate_token = document.getElementById("authenticate_token_new").value
@@ -33,6 +40,7 @@ root.onclick_create_button = ->
           }
   }).done ->
       #成功したらテーブルをリロード
+      #.load(url,data,callback)
       $("#panel_body").load(location.href + " .table.table-striped.table-bordered.table-hover");
       #error表示がされていたら削除
       remove_error_list()
@@ -170,8 +178,6 @@ switch_task_state = (plain_tr,edit_tr,task_status) ->
     plain_tr.style.backgroundColor = "#FFFFFF"
     edit_tr.style.backgroundColor = "#FFFFFF"
 
-#指定列のplan_dateの値を整形して返す
-get_plan_date = (id) ->
 
 #datetimeselectの入力値を取得して返す
 # get_datetime_vals = (datetime_element,valname) ->
@@ -235,3 +241,12 @@ delete_task_row = (id) ->
   edit_tr = document.getElementById("taskrow_edit_#{id}")
   edit_row_num = edit_tr.rowIndex
   task_table.deleteRow(edit_row_num)
+
+load_datepicker_settings = ->
+  $('.datepicker').datepicker({
+    format: 'yyyy/mm/dd'
+    language: 'ja'
+    })
+$(document).ready(ready)
+$(document).on('page:load', ready)
+

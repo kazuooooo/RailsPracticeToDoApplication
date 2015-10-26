@@ -8,8 +8,8 @@
             th width = '50'
             th width = '200' タイトル 
             th width = '300' 内容
-            th width = '30' 予定日
-            th width = '30' 実績
+            th width = '100' 予定日
+            th width = '100' 実績
         tbody id="task_table_body"
           = render partial: 'tasks/taskrows', locals: {tasks: @tasks}
           = form_for @task do |f|
@@ -18,7 +18,7 @@
               td = f.text_field :title, class:'form-control', id: "title_new"
               td = f.text_area :content, class:'form-control', id: "content_new"
               td
-                input type="text" data-provide='datepicker' id= "plan_date_new" data-date-format="yyyy/mm/dd"
+                input.form-control.datepicker type="text" id= "plan_date_new"
               td
                 input type="text" data-provide='datepicker' id= "actual_date_new"
                  /= f.date_select :actual_date, class:'form-control', :use_month_numbers => true
