@@ -69,10 +69,8 @@ update_task = (plain_update, id) ->
   
   plan_date = document.getElementById("plan_date_#{id}")
   plan_date_val = $(plan_date).val()
-  debugger
-  # plan_date_val = get_datetime_vals(plan_date,'plan')
-  # actual_date = document.getElementById("actual_date_#{id}")
-  actual_date_val = '01/01/2015'
+  actual_date = document.getElementById("actual_date_#{id}")
+  actual_date_val = $(actual_date).val()
 
   #actionを実行
   jqXHR = $.ajax({
@@ -141,11 +139,27 @@ set_result_value_to_row = (id,status_val,title_val,content_val,plan_date_val,act
   #値を代入
   plain_title.innerHTML = title_val
   plain_content.innerHTML = content_val
-  plain_plan_date.innerHTML = plan_date_val
+  plain_plan_date.innerHTML = format_date(plan_date_val)
   plain_actual_date.innerHTML = actual_date_val
   #checkboxで行の色を切り替え
   switch_task_state(plain_tr,edit_tr,status_val)
 
+format_date = (text_date) ->
+  date = new Date(text_date)
+  y = date.getFullYear()
+  m = date.getMonth()+1
+  d = date.getDate()
+  w = date.getDay()
+  #曜日を配列で登録しておく
+  wNames = ['日','月','火','水','木','金','土']
+  #月日の頭に0
+  if(m < 10)
+    m = '0' + m
+  if(d < 10)
+    d = '0'+ d
+  formatted_date = y + '年' + m + '月' + d + '日('+ wNames[w] + ')'
+  return formatted_date
+  
 switch_task_state = (plain_tr,edit_tr,task_status) ->
   if task_status
     console.log "checked"

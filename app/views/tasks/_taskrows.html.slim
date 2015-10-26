@@ -7,10 +7,10 @@
         td = f.text_field :title, class:'form-control', id: "title_#{task.id}"
         td = f.text_area :content, class:'form-control', id: "content_#{task.id}"
         td 
-          input type="text" data-provide='datepicker' id= "plan_date_#{task.id}"
+          input type="text" data-provide='datepicker' id= "plan_date_#{task.id}"  data-date-format="yyyy/mm/dd"
            / = f.date_select :plan_date, class:'form-control', :use_month_numbers => true
         td
-          input type="text" data-provide='datepicker' id= "actual_date_#{task.id}"
+          input type="text" data-provide='datepicker' class= 'datepicker' id= "actual_date_#{task.id}"  data-date-format="yyyy/mm/dd"
            / = f.date_select :actual_date, class:'form-control', :use_month_numbers => true
         td
           button.btn.btn-success type= "button" onclick= "onclick_update_button(#{task.id})"  更新
@@ -24,9 +24,12 @@
         td id= "plain_content_#{task.id}"
           = task.content 
         td id= "plain_plan_date_#{task.id}" 
-          = l task.plan_date, format: :short
-        td id= "plain_actual_date_#{task.id}"
-          = l task.actual_date, format: :short
+          = l task.plan_date, format: :long
+        -if task.actual_date?
+          td id= "plain_actual_date_#{task.id}"
+            = l task.actual_date, format: :long
+        -else
+          td id= "plain_actual_date_#{task.id}"
         td
           button.btn.btn-success type= "button" onclick= "onclick_edit_button(#{task.id})"  編集 
         td id= "plain_delete_button_td_#{task.id}"
