@@ -18,9 +18,9 @@
               td = f.text_field :title, class:'form-control', id: "title_new"
               td = f.text_area :content, class:'form-control', id: "content_new"
               td id= "plan_date_new" 
-                 = f.datetime_select :plan_date, class:'form-control', :use_month_numbers => true
+                 = f.date_select :plan_date, class:'form-control', :use_month_numbers => true
               td id= "actual_date_new"
-                 = f.datetime_select :actual_date, class:'form-control', :use_month_numbers => true
+                 = f.date_select :actual_date, class:'form-control', :use_month_numbers => true
               td
                 button.btn.btn-success type= "button" onclick= "onclick_create_button()"  Create
               = tag :input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token, :id =>"authenticate_token_new"

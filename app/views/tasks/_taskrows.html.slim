@@ -7,9 +7,9 @@
         td = f.text_field :title, class:'form-control', id: "title_#{task.id}"
         td = f.text_area :content, class:'form-control', id: "content_#{task.id}"
         td id= "plan_date_#{task.id}" 
-           = f.datetime_select :plan_date, class:'form-control', :use_month_numbers => true
+           = f.date_select :plan_date, class:'form-control', :use_month_numbers => true
         td id= "actual_date_#{task.id}"
-           = f.datetime_select :actual_date, class:'form-control', :use_month_numbers => true
+           = f.date_select :actual_date, class:'form-control', :use_month_numbers => true
         td
           button.btn.btn-success type= "button" onclick= "onclick_update_button(#{task.id})"  Update
         td 
