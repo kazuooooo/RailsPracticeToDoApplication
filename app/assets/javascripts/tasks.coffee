@@ -11,10 +11,10 @@ root.onclick_create_button = ->
   #入力値を取得
   title_val = document.getElementById("title_new").value
   content_val = document.getElementById("content_new").value
-  plan_at = document.getElementById("plan_at_new")
-  plan_at_val = get_datetime_vals(plan_at,'plan')
-  actual_at = document.getElementById("actual_at_new")
-  actual_at_val = get_datetime_vals(actual_at,'actual')
+  plan_date = document.getElementById("plan_date_new")
+  plan_date_val = get_datetime_vals(plan_date,'plan')
+  actual_date = document.getElementById("actual_date_new")
+  actual_date_val = get_datetime_vals(actual_date,'actual')
   #createを実行
   $.ajax({
     url: "tasks/",
@@ -26,8 +26,8 @@ root.onclick_create_button = ->
                 status: false,
                 title: title_val,
                 content: content_val,
-                plan_at: plan_at_val,
-                actual_at: actual_at_val,
+                plan_date: plan_date_val,
+                actual_date: actual_date_val,
                 },
           commit: "Create"
           }
@@ -66,10 +66,10 @@ update_task = (plain_update, id) ->
 
   title_val = document.getElementById("title_#{id}").value
   content_val = document.getElementById("content_#{id}").value
-  plan_at = document.getElementById("plan_at_#{id}")
-  plan_at_val = get_datetime_vals(plan_at,'plan')
-  actual_at = document.getElementById("actual_at_#{id}")
-  actual_at_val = get_datetime_vals(actual_at,'actual')
+  plan_date = document.getElementById("plan_date_#{id}")
+  plan_date_val = get_datetime_vals(plan_date,'plan')
+  actual_date = document.getElementById("actual_date_#{id}")
+  actual_date_val = get_datetime_vals(actual_date,'actual')
   #actionを実行
   jqXHR = $.ajax({
             url: "tasks/#{id}",
@@ -81,8 +81,8 @@ update_task = (plain_update, id) ->
                         status: status_val,
                         title: title_val,
                         content: content_val,
-                        plan_at: plan_at_val,
-                        actual_at: actual_at_val,
+                        plan_date: plan_date_val,
+                        actual_date: actual_date_val,
                         },
                   commit: "Update",
                   id: id
@@ -96,10 +96,10 @@ update_task = (plain_update, id) ->
     status_result = data["status"]
     title_result = data["title"]
     content_result = data["content"]
-    plan_at_result = data["plan_at"]
-    actual_at_result = data["actual_at"]
+    plan_date_result = data["plan_date"]
+    actual_date_result = data["actual_date"]
     switch_edit_state(id,'unactive')
-    set_result_value_to_row(id_result,status_result,title_result,content_result,plan_at_result,actual_at_result)
+    set_result_value_to_row(id_result,status_result,title_result,content_result,plan_date_result,actual_date_result)
     remove_error_list()
 
 
@@ -127,19 +127,19 @@ remove_error_list = ->
 
 
 #入力値を対象の列に代入
-set_result_value_to_row = (id,status_val,title_val,content_val,plan_at_val,actual_at_val) ->
+set_result_value_to_row = (id,status_val,title_val,content_val,plan_date_val,actual_date_val) ->
   #element取得
   plain_tr = document.getElementById("taskrow_plain_#{id}")
   edit_tr = document.getElementById("taskrow_edit_#{id}")
   plain_title = document.getElementById("plain_title_#{id}")
   plain_content = document.getElementById("plain_content_#{id}")
-  plain_plan_at = document.getElementById("plain_plan_at_#{id}")
-  plain_actual_at = document.getElementById("plain_actual_at_#{id}")
+  plain_plan_date = document.getElementById("plain_plan_date_#{id}")
+  plain_actual_date = document.getElementById("plain_actual_date_#{id}")
   #値を代入
   plain_title.innerHTML = title_val
   plain_content.innerHTML = content_val
-  plain_plan_at.innerHTML = plan_at_val
-  plain_actual_at.innerHTML = actual_at_val
+  plain_plan_date.innerHTML = plan_date_val
+  plain_actual_date.innerHTML = actual_date_val
   #checkboxで行の色を切り替え
   switch_task_state(plain_tr,edit_tr,status_val)
 
@@ -155,12 +155,12 @@ switch_task_state = (plain_tr,edit_tr,task_status) ->
 
 #datetimeselectの入力値を取得して返す
 get_datetime_vals = (datetime_element,valname) ->
-  year = get_selecting_val(datetime_element, "#task_#{valname}_at_1i")
-  month = get_selecting_val(datetime_element, "#task_#{valname}_at_2i")
-  day = get_selecting_val(datetime_element, "#task_#{valname}_at_3i")
-  hour = get_selecting_val(datetime_element, "#task_#{valname}_at_4i")
-  minutes = get_selecting_val(datetime_element, "#task_#{valname}_at_5i")
-  return year+"-"+month+"-"+day+" "+hour+":"+minutes
+  year = get_selecting_val(datetime_element, "#task_#{valname}_date_1i")
+  month = get_selecting_val(datetime_element, "#task_#{valname}_date_2i")
+  day = get_selecting_val(datetime_element, "#task_#{valname}_date_3i")
+  #hour = get_selecting_val(datetime_element, "#task_#{valname}_date_4i")
+  #minutes = get_selecting_val(datetime_element, "#task_#{valname}_date_5i")
+  return year+"-"+month+"-"+day
 
 #selectboxの選択値を取得
 get_selecting_val = (datetime_element, id) ->
