@@ -1,15 +1,15 @@
 .col-md-10.col-md-offset-1
   .panel.panel-info
-    .panel-heading Tasks
+    .panel-heading タスク一覧
     .panel-body id="panel_body"
       table.table.table-striped.table-bordered.table-hover id="task_table"
         thead
           tr
-            th Status
-            th width = '200' Title 
-            th width = '300' Content
-            th Plan date
-            th Actual date
+            th width = '50'
+            th width = '200' タイトル 
+            th width = '300' 内容
+            th 予定日
+            th 実績
         tbody id="task_table_body"
           = render partial: 'tasks/taskrows', locals: {tasks: @tasks}
           = form_for @task do |f|
