@@ -24,10 +24,10 @@
         td id= "plain_content_#{task.id}"
           = task.content 
         td id= "plain_plan_date_#{task.id}" 
-          = l task.plan_date, format: :long
+          = l task.plan_date, format: :short
         -if task.actual_date?
           td id= "plain_actual_date_#{task.id}"
-            = l task.actual_date, format: :long
+            = l task.actual_date, format: :short
         -else
           td id= "plain_actual_date_#{task.id}"
         td

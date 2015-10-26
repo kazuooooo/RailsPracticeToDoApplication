@@ -140,7 +140,7 @@ set_result_value_to_row = (id,status_val,title_val,content_val,plan_date_val,act
   plain_title.innerHTML = title_val
   plain_content.innerHTML = content_val
   plain_plan_date.innerHTML = format_date(plan_date_val)
-  plain_actual_date.innerHTML = actual_date_val
+  plain_actual_date.innerHTML = format_date(actual_date_val)
   #checkboxで行の色を切り替え
   switch_task_state(plain_tr,edit_tr,status_val)
 
@@ -157,7 +157,7 @@ format_date = (text_date) ->
     m = '0' + m
   if(d < 10)
     d = '0'+ d
-  formatted_date = y + '年' + m + '月' + d + '日('+ wNames[w] + ')'
+  formatted_date = m + '/' + d + ' ('+ wNames[w] + ')'
   return formatted_date
 
 switch_task_state = (plain_tr,edit_tr,task_status) ->
