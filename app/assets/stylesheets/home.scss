@@ -1,3 +1,21 @@
 // Place all the styles related to the Home controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+html, body {height: 100%;}  /*高さ100%に指定*/
+body {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  min-width: 600px;  /*中央配置するボックスの横幅*/
+  min-height: 200px;  /*中央配置するボックス縦幅*/
+  background-color: #fff;
+}
+.centerMiddle {
+  margin: -200px 0 0 -300px;  /*縦横の半分をネガティブマージンでずらす*/
+  position: absolute;  /*body要素に対して絶対配置*/
+  top: 50%;  /*上端を中央に*/
+  left: 50%;  /*左端を中央に*/
+  width: 600px;  /*横幅*/
+  height: 200px;  /*縦幅*/
+  background-color: #fff;
+}

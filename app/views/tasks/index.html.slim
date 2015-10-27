@@ -2,25 +2,26 @@
   .panel.panel-info
     .panel-heading Tasks
     .panel-body
-      table.table
+      table.table.table-striped.table-bordered.table-hover id="task_table"
         thead
           tr
+            th Status
             th width = '200' Title 
             th width = '300' Content
             th Plan date
             th Actual date
-        tbody
-          - @tasks.each do |task|
-            tr
-              td = task.title
-              td = task.content
-              td = l task.plan_at, format: :short
-              - if task.actual_at.present?
-                td = l task.actual_at, format: :short
-              - else
-                td = ""
-              td = link_to 'Show', task
-              td = link_to 'Edit', edit_task_path(task)
-              td = link_to 'Destroy', task, data: {:confirm => 'Are you sure?'}, :method => :delete
-  input.btn.btn-success.btn-block name="commit" type="submit" value=("New Task") onclick="location.href='tasks/new'" /
-
+        tbody id="task_table_body"
+          = render partial: 'tasks/taskrows', locals: {tasks: @tasks}
+          = form_for @task do |f|
+            tr id="taskrow_edit_new"
+              td
+              td = f.text_field :title, class:'form-control', id: "title_new"
+              td = f.text_area :content, class:'form-control', id: "content_new"
+              td id= "plan_at_new" 
+                 = f.datetime_select :plan_at, class:'form-control', :use_month_numbers => true
+              td id= "actual_at_new"
+                 = f.datetime_select :actual_at, class:'form-control', :use_month_numbers => true
+              td
+                button.btn.btn-success type= "button" onclick= "onclick_create_button()"  Create
+              = tag :input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token, :id =>"authenticate_token_new"
+/input.btn.btn-success.btn-block name="commit" type="submit" value=("Create Task") onclick="reload_time()" /
