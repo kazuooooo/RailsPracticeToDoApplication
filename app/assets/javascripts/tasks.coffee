@@ -46,7 +46,7 @@ root.onclick_create_button = ->
 
 #editbuttonを押したら入力フィールドを活性化
 root.onclick_edit_button = (id,plan_date) ->
-  switch_edit_state(id,'active')
+  switch_edit_state(id,true)
   console.log("plandate"+plan_date)
 
 #statusチェックボックス変更時
@@ -112,9 +112,11 @@ root.onclick_update_button = (id) ->
   #入力値を取得
   #Editによるupdate
   #status_val = document.getElementById("status_#{id}").checked
-  actual_date_val = null
   plan_date = document.getElementById("plan_date_#{id}")
   plan_date_val = $(plan_date).val()
+
+  actual_date = document.getElementById("actual_date_#{id}")
+  actual_date_val = $(actual_date).val()
 
   title_val = document.getElementById("title_#{id}").value
   content_val = document.getElementById("content_#{id}").value
@@ -127,7 +129,6 @@ root.onclick_update_button = (id) ->
                   utf8: "✓",
                   authenticity_token: authenticate_token,  
                   task: {
-                        status: status_val,
                         title: title_val,
                         content: content_val,
                         plan_date: plan_date_val,
@@ -142,18 +143,33 @@ root.onclick_update_button = (id) ->
   jqXHR.done (data, stat, xhr) ->
     #結果を画面に反映
     id_result = data["id"]
-    status_result = data["status"]
     title_result = data["title"]
     content_result = data["content"]
     plan_date_result = data["plan_date"]
     actual_date_result = data["actual_date"]
-    switch_edit_state(id,'unactive')
-    set_result_value_to_row(id_result,status_result,title_result,content_result,plan_date_result,actual_date_result)
+    set_result_value_to_row(id_result,title_result,content_result,plan_date_result,actual_date_result)
+    switch_edit_state(id,false)
     remove_error_list()
-
 
   jqXHR.fail (jqXHR, statusText, errorThrown) ->
     show_error_list(jqXHR.responseText)
+
+#フォームの活性比活性を切り替え
+switch_edit_state = (id,is_active)->
+  plain_tr = document.getElementById("taskrow_plain_#{id}")
+  edit_tr = document.getElementById("taskrow_edit_#{id}")
+  #delete_button_onedit = document.getElementById("delete_button_onedit_#{id}")
+  #console.log delete_button_onedit.id
+  if is_active
+    plain_tr.style.display = 'none'
+    edit_tr.style.removeProperty 'display'
+    console.log "call disabled"
+    #delete_button_onedit.disabled = 'disabled'
+  else
+    plain_tr.style.removeProperty 'display'
+    edit_tr.style.display = 'none'
+    #delete_button_onedit.disabled = ''
+
 
 # エラー内容を受け取って表示する
 show_error_list = (error_txt) ->
@@ -175,18 +191,18 @@ remove_error_list = ->
 
 
 #入力値を対象の列に代入
-set_result_value_to_row = (id,status_val,title_val,content_val,plan_date_val,actual_date_val) ->
+set_result_value_to_row = (id,title_val,content_val,plan_date_val,actual_date_val) ->
   #element取得
-  plain_tr = document.getElementById("taskrow_plain_#{id}")
-  edit_tr = document.getElementById("taskrow_edit_#{id}")
   plain_title = document.getElementById("plain_title_#{id}")
   plain_content = document.getElementById("plain_content_#{id}")
   plain_plan_date = document.getElementById("plain_plan_date_#{id}")
-  plain_actual_date = document.getElementById("plain_actual_date_#{id}")
+  plain_actual_date = document.getElementById("plain_actual_date_#{id}_done")
   #値を代入
   plain_title.innerHTML = title_val
   plain_content.innerHTML = content_val
   plain_actual_date.innerHTML = format_datetime_to_display(actual_date_val)
+  plain_plan_date.innerHTML = format_datetime_to_display(plan_date_val)
+  debugger
 
 #datetimeを実際の表示形式に変換
 format_datetime_to_display = (datetime_format) ->
@@ -220,21 +236,7 @@ get_today = ->
 
 
 
-#フォームの活性比活性を切り替え
-switch_edit_state = (id,state)->
-  plain_tr = document.getElementById("taskrow_plain_#{id}")
-  edit_tr = document.getElementById("taskrow_edit_#{id}")
-  #delete_button_onedit = document.getElementById("delete_button_onedit_#{id}")
-  #console.log delete_button_onedit.id
-  if state == 'active'
-    plain_tr.style.display = 'none'
-    edit_tr.style.removeProperty 'display'
-    console.log "call disabled"
-    #delete_button_onedit.disabled = 'disabled'
-  else
-    plain_tr.style.removeProperty 'display'
-    edit_tr.style.display = 'none'
-    #delete_button_onedit.disabled = ''
+
 
 
 ##delete task
