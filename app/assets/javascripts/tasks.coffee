@@ -273,10 +273,17 @@ root.onclick_delete_button = (id)->
     .fail ->
       alert("task delete failed")
 
+#testmethod 予定日で降順にソート
 root.sorttest = ->
   $("table#task_table").tablesorter({
+    headers:{
+      0: {sorter: false}
+      1: {sorter: false}
+      2: {sorter: false}
+      4: {sorter: false}
+    }
     sortList: [[3,0]]
-    })
+  })
 
 #列を削除
 delete_task_row = (id) ->
