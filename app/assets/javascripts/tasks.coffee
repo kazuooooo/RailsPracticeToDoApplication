@@ -46,13 +46,26 @@ root.onclick_create_button = ->
 ##update task
 
 #editbuttonを押したら入力フィールドを活性化
-root.onclick_edit_button = (id,task_status) ->
-  switch_edit_state(id,true)
-  original_plan_date = $("#plan_date_hidden_#{id}").val().replace(/-/g,"/")
-  $("#plan_date_#{id}").datepicker("setDate", original_plan_date)
+root.onclick_edit_button = (id) ->
+  #checkの状態を取得
+  task_status = document.getElementById("plain_status_#{id}").checked
+  #actual_dateのdatepickerの使用可否
   if task_status
+    #完了済みの場合は編集可能にする
+    $("#actual_date_#{id}").removeAttr("style")
+    #actual_dateの元の値を初期値に設定
     original_actual_date = $("#actual_date_hidden_#{id}").val().replace(/-/g,"/")
     $("#actual_date_#{id}").datepicker("setDate", original_actual_date)
+  else
+    #未完了のタスクについては空白
+    $("#actual_date_#{id}").attr("style", "display:none")
+
+  #列を編集状態にする
+  switch_edit_state(id,true)
+  
+  #plan_dateの元の値を初期値に設定
+  original_plan_date = $("#plan_date_hidden_#{id}").val().replace(/-/g,"/")
+  $("#plan_date_#{id}").datepicker("setDate", original_plan_date)
 
 #statusチェックボックス変更時
 root.on_status_changed = (id) ->
