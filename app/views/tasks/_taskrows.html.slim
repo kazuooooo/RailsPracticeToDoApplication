@@ -31,10 +31,10 @@
         td id= "plain_plan_date_#{task.id}" 
           = l task.plan_date, format: :short
         -if task.actual_date?
-          td
+          td class= "plain_actual_date_#{task.id}"
             = l task.actual_date, format: :short
         -else
-          td id= "plain_actual_date_#{task.id}"
+          td class= "plain_actual_date_#{task.id}"
         td
           button.btn.btn-success type= "button" onclick= "onclick_edit_button(#{task.id},#{task.plan_date})"  編集 
         td id= "plain_delete_button_td_#{task.id}"

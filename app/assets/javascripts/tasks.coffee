@@ -49,32 +49,72 @@ root.onclick_edit_button = (id,plan_date) ->
   switch_edit_state(id,'active')
   console.log("plandate"+plan_date)
 
-#updateボタンが押されたら今入力されている値を取得してajaxでupdate
-root.onclick_update_button = (id) ->
-  update_task(false,id)
-
 #statusチェックボックス変更時
 root.on_status_changed = (id) ->
-  update_task(true,id)
-
-#task update
-update_task = (on_task_checked, id) ->
   #authenticate token
   authenticate_token = document.getElementById("authenticate_token_#{id}").value
   #入力値を取得
+  status_val = document.getElementById("plain_status_#{id}").checked
+  actual_date_val = if status_val then get_today() else null
+  #actionを実行
+  jqXHR = $.ajax({
+            url: "tasks/#{id}",
+            type: "PUT",
+            data: {
+                  utf8: "✓",
+                  authenticity_token: authenticate_token,  
+                  task: {
+                        status: status_val,
+                        actual_date: actual_date_val,
+                        },
+                  commit: "Update",
+                  id: id
+                  }
+          })
 
-  if on_task_checked
-    #タスク完了によるupdate
-    status_val = document.getElementById("plain_status_#{id}").checked
-    actual_date_val = get_today()
-    plan_date = document.getElementById("plain_plan_date_#{id}")
-    plan_date_val = '2015/01/01'
+  #updateが成功したときの処理
+  jqXHR.done (data, stat, xhr) ->
+    #結果を画面に反映
+    id_result = data["id"]
+    status_result = data["status"]
+    actual_date_result = data["actual_date"]
+    set_result_on_status_checked(id_result,status_result,actual_date_result)
+
+  jqXHR.fail (jqXHR, statusText, errorThrown) ->
+    show_error_list(jqXHR.responseText)
+
+set_result_on_status_checked = (id, status_val, actual_date_val) ->
+  #element取得
+  plain_tr = document.getElementById("taskrow_plain_#{id}")
+  edit_tr = document.getElementById("taskrow_edit_#{id}")
+  #plain_actual_date = document.getElementById("plain_actual_date_#{id}")
+
+  if actual_date_val
+    $(".plain_actual_date_#{id}").html(format_datetime_to_display(actual_date_val))
   else
-    #Editによるupdate
-    #status_val = document.getElementById("status_#{id}").checked
-    actual_date_val = null
-    plan_date = document.getElementById("plan_date_#{id}")
-    plan_date_val = $(plan_date).val()
+    $(".plain_actual_date_#{id}").html("")
+  switch_task_state(plain_tr,edit_tr,status_val)
+
+switch_task_state = (plain_tr,edit_tr,task_status) ->
+  if task_status
+    console.log "checked"
+    plain_tr.style.backgroundColor = "#6E6E6E"
+    edit_tr.style.backgroundColor = "#6E6E6E"
+  else
+    console.log "unchecked"
+    plain_tr.style.backgroundColor = "#FFFFFF"
+    edit_tr.style.backgroundColor = "#FFFFFF"
+
+#task update
+root.onclick_update_button = (id) ->
+  #authenticate token
+  authenticate_token = document.getElementById("authenticate_token_#{id}").value
+  #入力値を取得
+  #Editによるupdate
+  #status_val = document.getElementById("status_#{id}").checked
+  actual_date_val = null
+  plan_date = document.getElementById("plan_date_#{id}")
+  plan_date_val = $(plan_date).val()
 
   title_val = document.getElementById("title_#{id}").value
   content_val = document.getElementById("content_#{id}").value
@@ -147,9 +187,6 @@ set_result_value_to_row = (id,status_val,title_val,content_val,plan_date_val,act
   plain_title.innerHTML = title_val
   plain_content.innerHTML = content_val
   plain_actual_date.innerHTML = format_datetime_to_display(actual_date_val)
-  #plain_actual_date.innerHTML = "testtest"
-  #checkboxで行の色を切り替え
-  switch_task_state(plain_tr,edit_tr,status_val)
 
 #datetimeを実際の表示形式に変換
 format_datetime_to_display = (datetime_format) ->
@@ -168,11 +205,6 @@ format_datetime_to_display = (datetime_format) ->
   formatted_date = m + '/' + d + ' ('+ wNames[w] + ')'
   return formatted_date
 
-#実際の表示形式をdatetime型に変換
-format_display_to_datetime = (display_format) ->
-
-
-
 #今日の日付を取得
 get_today = ->
   today_obj = new Date()
@@ -186,31 +218,7 @@ get_today = ->
   today = y + '/' + m + '/' + d
   return today
 
-switch_task_state = (plain_tr,edit_tr,task_status) ->
-  if task_status
-    console.log "checked"
-    plain_tr.style.backgroundColor = "#6E6E6E"
-    edit_tr.style.backgroundColor = "#6E6E6E"
-  else
-    console.log "unchecked"
-    plain_tr.style.backgroundColor = "#FFFFFF"
-    edit_tr.style.backgroundColor = "#FFFFFF"
 
-
-#datetimeselectの入力値を取得して返す
-# get_datetime_vals = (datetime_element,valname) ->
-#   year = get_selecting_val(datetime_element, "#task_#{valname}_date_1i")
-#   month = get_selecting_val(datetime_element, "#task_#{valname}_date_2i")
-#   day = get_selecting_val(datetime_element, "#task_#{valname}_date_3i")
-#   #hour = get_selecting_val(datetime_element, "#task_#{valname}_date_4i")
-#   #minutes = get_selecting_val(datetime_element, "#task_#{valname}_date_5i")
-#   return year+"-"+month+"-"+day
-
-#selectboxの選択値を取得
-# get_selecting_val = (datetime_element, id) ->
-#   selectbox = datetime_element.querySelector(id);
-#   selecting_val = selectbox.options[selectbox.selectedIndex].text;
-#   return selecting_val
 
 #フォームの活性比活性を切り替え
 switch_edit_state = (id,state)->
