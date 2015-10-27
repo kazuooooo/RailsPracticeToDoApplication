@@ -108,6 +108,7 @@ set_result_on_status_checked = (id, status_val, actual_date_val) ->
   
   if actual_date_val
     $(".plain_actual_date_#{id}").html(format_datetime_to_display(actual_date_val))
+    $("#actual_date_hidden_#{id}").val(actual_date_val)
   else
     $(".plain_actual_date_#{id}").html("")
   switch_task_state(plain_tr,edit_tr,status_val)
@@ -218,8 +219,11 @@ set_result_value_to_row = (id,title_val,content_val,plan_date_val,actual_date_va
   plain_title.innerHTML = title_val
   plain_content.innerHTML = content_val
   plain_plan_date.innerHTML = format_datetime_to_display(plan_date_val)
+  #隠し項目で使っているものにも代入
+  $("#plan_date_hidden_#{id}").val(plan_date_val)
+  $("#actual_date_hidden_#{id}").val(actual_date_val)
   if actual_date_val
-    plain_actual_date.innerHTML = format_datetime_to_display(actual_date_val)
+    $(".plain_actual_date").html(actual_date_val)
 
 #datetimeを実際の表示形式に変換
 format_datetime_to_display = (datetime_format) ->
@@ -250,11 +254,6 @@ get_today = ->
     m = '0' + m
   today = y + '/' + m + '/' + d
   return today
-
-
-
-
-
 
 ##delete task
 #deleteボタンが押されたらajaxでdeleteを実行して行を削除
