@@ -273,6 +273,11 @@ root.onclick_delete_button = (id)->
     .fail ->
       alert("task delete failed")
 
+root.sorttest = ->
+  $("table#task_table").tablesorter({
+    sortList: [[3,0]]
+    })
+
 #列を削除
 delete_task_row = (id) ->
   task_table = document.getElementById("task_table")
