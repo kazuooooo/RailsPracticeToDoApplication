@@ -5,16 +5,17 @@
 root = exports ? this
 ##create task
 #createbuttonが押されたらtaskを作ってテーブルだけリロード
+
 root.onclick_create_button = ->
   #authenticate token
   authenticate_token = document.getElementById("authenticate_token_new").value
   #入力値を取得
   title_val = document.getElementById("title_new").value
   content_val = document.getElementById("content_new").value
-  plan_at = document.getElementById("plan_at_new")
-  plan_at_val = get_datetime_vals(plan_at,'plan')
-  actual_at = document.getElementById("actual_at_new")
-  actual_at_val = get_datetime_vals(actual_at,'actual')
+  plan_date = document.getElementById("plan_date_new")
+  plan_date_val = $(plan_date).val()
+  actual_date = document.getElementById("actual_date_new")
+  actual_date_val = $(actual_date).val()
   #createを実行
   $.ajax({
     url: "tasks/",
@@ -26,14 +27,15 @@ root.onclick_create_button = ->
                 status: false,
                 title: title_val,
                 content: content_val,
-                plan_at: plan_at_val,
-                actual_at: actual_at_val,
+                plan_date: plan_date_val,
+                actual_date: actual_date_val,
                 },
           commit: "Create"
           }
   }).done ->
       #成功したらテーブルをリロード
-      $(".table.table-striped.table-bordered.table-hover").load(location.href + " .table.table-striped.table-bordered.table-hover");
+      #.load(url,data,callback)
+      $("#panel_body").load(location.href + " .table.table-striped.table-bordered.table-hover");
       #error表示がされていたら削除
       remove_error_list()
     .fail (jqXHR, statusText, errorThrown) ->
@@ -43,8 +45,9 @@ root.onclick_create_button = ->
 ##update task
 
 #editbuttonを押したら入力フィールドを活性化
-root.onclick_edit_button = (id) ->
+root.onclick_edit_button = (id,plan_date) ->
   switch_edit_state(id,'active')
+  console.log("plandate"+plan_date)
 
 #updateボタンが押されたら今入力されている値を取得してajaxでupdate
 root.onclick_update_button = (id) ->
@@ -55,21 +58,27 @@ root.on_status_changed = (id) ->
   update_task(true,id)
 
 #task update
-update_task = (plain_update, id) ->
+update_task = (on_task_checked, id) ->
   #authenticate token
   authenticate_token = document.getElementById("authenticate_token_#{id}").value
   #入力値を取得
-  if plain_update
+
+  if on_task_checked
+    #タスク完了によるupdate
     status_val = document.getElementById("plain_status_#{id}").checked
+    actual_date_val = get_today()
+    plan_date = document.getElementById("plain_plan_date_#{id}")
+    plan_date_val = '2015/01/01'
   else
-    status_val = document.getElementById("status_#{id}").checked
+    #Editによるupdate
+    #status_val = document.getElementById("status_#{id}").checked
+    actual_date_val = null
+    plan_date = document.getElementById("plan_date_#{id}")
+    plan_date_val = $(plan_date).val()
 
   title_val = document.getElementById("title_#{id}").value
   content_val = document.getElementById("content_#{id}").value
-  plan_at = document.getElementById("plan_at_#{id}")
-  plan_at_val = get_datetime_vals(plan_at,'plan')
-  actual_at = document.getElementById("actual_at_#{id}")
-  actual_at_val = get_datetime_vals(actual_at,'actual')
+
   #actionを実行
   jqXHR = $.ajax({
             url: "tasks/#{id}",
@@ -81,8 +90,8 @@ update_task = (plain_update, id) ->
                         status: status_val,
                         title: title_val,
                         content: content_val,
-                        plan_at: plan_at_val,
-                        actual_at: actual_at_val,
+                        plan_date: plan_date_val,
+                        actual_date: actual_date_val,
                         },
                   commit: "Update",
                   id: id
@@ -96,16 +105,15 @@ update_task = (plain_update, id) ->
     status_result = data["status"]
     title_result = data["title"]
     content_result = data["content"]
-    plan_at_result = data["plan_at"]
-    actual_at_result = data["actual_at"]
+    plan_date_result = data["plan_date"]
+    actual_date_result = data["actual_date"]
     switch_edit_state(id,'unactive')
-    set_result_value_to_row(id_result,status_result,title_result,content_result,plan_at_result,actual_at_result)
+    set_result_value_to_row(id_result,status_result,title_result,content_result,plan_date_result,actual_date_result)
     remove_error_list()
 
 
   jqXHR.fail (jqXHR, statusText, errorThrown) ->
     show_error_list(jqXHR.responseText)
-    debugger
 
 # エラー内容を受け取って表示する
 show_error_list = (error_txt) ->
@@ -127,21 +135,56 @@ remove_error_list = ->
 
 
 #入力値を対象の列に代入
-set_result_value_to_row = (id,status_val,title_val,content_val,plan_at_val,actual_at_val) ->
+set_result_value_to_row = (id,status_val,title_val,content_val,plan_date_val,actual_date_val) ->
   #element取得
   plain_tr = document.getElementById("taskrow_plain_#{id}")
   edit_tr = document.getElementById("taskrow_edit_#{id}")
   plain_title = document.getElementById("plain_title_#{id}")
   plain_content = document.getElementById("plain_content_#{id}")
-  plain_plan_at = document.getElementById("plain_plan_at_#{id}")
-  plain_actual_at = document.getElementById("plain_actual_at_#{id}")
+  plain_plan_date = document.getElementById("plain_plan_date_#{id}")
+  plain_actual_date = document.getElementById("plain_actual_date_#{id}")
   #値を代入
   plain_title.innerHTML = title_val
   plain_content.innerHTML = content_val
-  plain_plan_at.innerHTML = plan_at_val
-  plain_actual_at.innerHTML = actual_at_val
+  plain_actual_date.innerHTML = format_datetime_to_display(actual_date_val)
+  #plain_actual_date.innerHTML = "testtest"
   #checkboxで行の色を切り替え
   switch_task_state(plain_tr,edit_tr,status_val)
+
+#datetimeを実際の表示形式に変換
+format_datetime_to_display = (datetime_format) ->
+  date = new Date(datetime_format)
+  y = date.getFullYear()
+  m = date.getMonth()+1
+  d = date.getDate()
+  w = date.getDay()
+  #曜日を配列で登録しておく
+  wNames = ['日','月','火','水','木','金','土']
+  #月日の頭に0
+  if(m < 10)
+    m = '0' + m
+  if(d < 10)
+    d = '0'+ d
+  formatted_date = m + '/' + d + ' ('+ wNames[w] + ')'
+  return formatted_date
+
+#実際の表示形式をdatetime型に変換
+format_display_to_datetime = (display_format) ->
+
+
+
+#今日の日付を取得
+get_today = ->
+  today_obj = new Date()
+  d = today_obj.getDate()
+  m = today_obj.getMonth() + 1
+  y = today_obj.getFullYear()
+  if (d<10)
+    d = '0'+ d
+  if (m<10)
+    m = '0' + m
+  today = y + '/' + m + '/' + d
+  return today
 
 switch_task_state = (plain_tr,edit_tr,task_status) ->
   if task_status
@@ -153,20 +196,21 @@ switch_task_state = (plain_tr,edit_tr,task_status) ->
     plain_tr.style.backgroundColor = "#FFFFFF"
     edit_tr.style.backgroundColor = "#FFFFFF"
 
+
 #datetimeselectの入力値を取得して返す
-get_datetime_vals = (datetime_element,valname) ->
-  year = get_selecting_val(datetime_element, "#task_#{valname}_at_1i")
-  month = get_selecting_val(datetime_element, "#task_#{valname}_at_2i")
-  day = get_selecting_val(datetime_element, "#task_#{valname}_at_3i")
-  hour = get_selecting_val(datetime_element, "#task_#{valname}_at_4i")
-  minutes = get_selecting_val(datetime_element, "#task_#{valname}_at_5i")
-  return year+"-"+month+"-"+day+" "+hour+":"+minutes
+# get_datetime_vals = (datetime_element,valname) ->
+#   year = get_selecting_val(datetime_element, "#task_#{valname}_date_1i")
+#   month = get_selecting_val(datetime_element, "#task_#{valname}_date_2i")
+#   day = get_selecting_val(datetime_element, "#task_#{valname}_date_3i")
+#   #hour = get_selecting_val(datetime_element, "#task_#{valname}_date_4i")
+#   #minutes = get_selecting_val(datetime_element, "#task_#{valname}_date_5i")
+#   return year+"-"+month+"-"+day
 
 #selectboxの選択値を取得
-get_selecting_val = (datetime_element, id) ->
-  selectbox = datetime_element.querySelector(id);
-  selecting_val = selectbox.options[selectbox.selectedIndex].text;
-  return selecting_val
+# get_selecting_val = (datetime_element, id) ->
+#   selectbox = datetime_element.querySelector(id);
+#   selecting_val = selectbox.options[selectbox.selectedIndex].text;
+#   return selecting_val
 
 #フォームの活性比活性を切り替え
 switch_edit_state = (id,state)->
@@ -206,11 +250,13 @@ root.onclick_delete_button = (id)->
 #列を削除
 delete_task_row = (id) ->
   task_table = document.getElementById("task_table")
+  console.log task_table.rows.length
   #plain行を削除
   plain_tr = document.getElementById("taskrow_plain_#{id}")
-  plain_row_num = plain_tr.rowIndex 
+  plain_row_num = plain_tr.rowIndex
   task_table.deleteRow(plain_row_num)
   #edit行を削除
   edit_tr = document.getElementById("taskrow_edit_#{id}")
   edit_row_num = edit_tr.rowIndex
   task_table.deleteRow(edit_row_num)
+

@@ -4,8 +4,6 @@ html
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
-  title
-  | ToDoApplication
   body
     header
       .navbar.navbar-default role="navigation" 
@@ -15,11 +13,18 @@ html
             .nav-collapse
               ul.nav.nav-pills.pull-right
                 - if user_signed_in?
-                  li= link_to "Change Profile", edit_user_registration_path
-                  li= link_to "LogOut", destroy_user_session_path, method: :delete
+                  li= link_to "プロフィール変更", edit_user_registration_path
+                  li= link_to "ログアウト", destroy_user_session_path, method: :delete
                 - else
                   / li= link_to "SignUp", new_user_registration_path
                   / li= link_to "LogIn", new_user_session_path
                   / li= link_to "Facebook LogIn",user_omniauth_authorize_path(:facebook)
+    .container
+      - if flash[:notice]
+        .alert.alert-success
+          = flash[:notice]
+      - if flash[:alert]
+       .alert.alert-danger
+          = flash[:alert]
     .container  id= "alert-container"
     = yield

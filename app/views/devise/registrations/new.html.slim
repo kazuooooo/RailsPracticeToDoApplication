@@ -2,7 +2,6 @@
   .container
     .row
       .col-md-6.col-md-offset-3
-        = devise_error_messages!
         .form-horizontal
           .form-group
             = f.label :email
@@ -19,6 +18,9 @@
             = f.label :password_confirmation
             = f.password_field :password_confirmation, autocomplete: "off", class:'form-control'
           .form-group
-            = f.submit "Sign Up", class:'btn btn-success btn-block'
+            = f.submit "新規登録", class:'btn btn-success btn-block'
           .form-group
-            = link_to "Log In", new_user_session_path
+            a.FbBtn href = user_omniauth_authorize_path(:facebook) 
+              .FbBtnLabel Facebookでログイン
+          .form-group
+            = link_to "ログイン画面へ", new_user_session_path

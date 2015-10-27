@@ -2,7 +2,6 @@
   .container
     .row
       .col-md-6.col-md-offset-3
-        = devise_error_messages!
         .form-horizontal
           .form-group
             = f.label :email
@@ -14,20 +13,16 @@
           .form-group
             = f.label :password
             i
-              | (leave blank if you don't want to change it)
+              | (未入力の場合は現在のパスワードが保持されます)
             = f.password_field :password, autocomplete: "off", class:'form-control'
           .form-group
             = f.label :password_confirmation
             = f.password_field :password_confirmation, autocomplete: "off", class:'form-control'
           .form-group
             = f.label :current_password
-            i
-              | (we need your current password to confirm your changes)
             br
             = f.password_field :current_password, autocomplete: "off", class:'form-control'
           .form-group
-            = f.submit "Update", class:'btn btn-primary btn-block'
+            = f.submit "更新", class:'btn btn-primary btn-block'
           .form-group
-            = link_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete
-center
-  = link_to "Back", :back
+            = link_to "退会する", registration_path(resource_name), data: { confirm: "本当によろしいですか？" }, method: :delete

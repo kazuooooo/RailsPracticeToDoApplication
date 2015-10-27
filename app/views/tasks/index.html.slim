@@ -1,15 +1,15 @@
 .col-md-10.col-md-offset-1
   .panel.panel-info
-    .panel-heading Tasks
-    .panel-body
+    .panel-heading タスク一覧
+    .panel-body id="panel_body"
       table.table.table-striped.table-bordered.table-hover id="task_table"
         thead
           tr
-            th Status
-            th width = '200' Title 
-            th width = '300' Content
-            th Plan date
-            th Actual date
+            th width = '50'
+            th width = '200' タイトル 
+            th width = '300' 内容
+            th width = '100' 予定日
+            th width = '100' 実績
         tbody id="task_table_body"
           = render partial: 'tasks/taskrows', locals: {tasks: @tasks}
           = form_for @task do |f|
@@ -17,11 +17,12 @@
               td
               td = f.text_field :title, class:'form-control', id: "title_new"
               td = f.text_area :content, class:'form-control', id: "content_new"
-              td id= "plan_at_new" 
-                 = f.datetime_select :plan_at, class:'form-control', :use_month_numbers => true
-              td id= "actual_at_new"
-                 = f.datetime_select :actual_at, class:'form-control', :use_month_numbers => true
               td
-                button.btn.btn-success type= "button" onclick= "onclick_create_button()"  Create
+                input.form-control.datepicker type="text" id= "plan_date_new"
+              td
+                /input type="text" data-provide='datepicker' id= "actual_date_new"
+                 /= f.date_select :actual_date, class:'form-control', :use_month_numbers => true
+              td
+                button.btn.btn-success type= "button" onclick= "onclick_create_button()"  作成
               = tag :input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token, :id =>"authenticate_token_new"
 /input.btn.btn-success.btn-block name="commit" type="submit" value=("Create Task") onclick="reload_time()" /
