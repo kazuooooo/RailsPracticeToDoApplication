@@ -45,12 +45,13 @@ root.onclick_create_button = ->
 ##update task
 
 #editbuttonを押したら入力フィールドを活性化
-root.onclick_edit_button = (id) ->
+root.onclick_edit_button = (id,task_status) ->
   switch_edit_state(id,true)
   original_plan_date = $("#plan_date_hidden_#{id}").val().replace(/-/g,"/")
-  original_actual_date = $("#actual_date_hidden_#{id}").val().replace(/-/g,"/")
   $("#plan_date_#{id}").datepicker("setDate", original_plan_date)
-  $("#actual_date_#{id}").datepicker("setDate", original_actual_date)
+  if task_status
+    original_actual_date = $("#actual_date_hidden_#{id}").val().replace(/-/g,"/")
+    $("#actual_date_#{id}").datepicker("setDate", original_actual_date)
 
 #statusチェックボックス変更時
 root.on_status_changed = (id) ->
@@ -90,8 +91,7 @@ set_result_on_status_checked = (id, status_val, actual_date_val) ->
   #element取得
   plain_tr = document.getElementById("taskrow_plain_#{id}")
   edit_tr = document.getElementById("taskrow_edit_#{id}")
-  #plain_actual_date = document.getElementById("plain_actual_date_#{id}")
-
+  
   if actual_date_val
     $(".plain_actual_date_#{id}").html(format_datetime_to_display(actual_date_val))
   else
@@ -203,8 +203,9 @@ set_result_value_to_row = (id,title_val,content_val,plan_date_val,actual_date_va
   #値を代入
   plain_title.innerHTML = title_val
   plain_content.innerHTML = content_val
-  plain_actual_date.innerHTML = format_datetime_to_display(actual_date_val)
   plain_plan_date.innerHTML = format_datetime_to_display(plan_date_val)
+  if actual_date_val
+    plain_actual_date.innerHTML = format_datetime_to_display(actual_date_val)
 
 #datetimeを実際の表示形式に変換
 format_datetime_to_display = (datetime_format) ->

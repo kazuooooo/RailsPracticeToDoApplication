@@ -13,14 +13,18 @@
           / input type="text" data-provide='datepicker' class= 'datepicker' id= "actual_date_#{task.id}"  data-date-format="yyyy/mm/dd"
            / = f.date_select :actual_date, class:'form-control', :use_month_numbers => true
         td
-          input.form-control.datepicker type="text" id= "actual_date_#{task.id}"
+          -if task.status
+            input.form-control.datepicker type="text" id= "actual_date_#{task.id}"
         td
           button.btn.btn-success type= "button" onclick= "onclick_update_button(#{task.id})"  更新
         td 
           button.btn.btn-danger type= "button" onclick= "onclick_delete_button(#{task.id})" 削除
       tr id="taskrow_plain_#{task.id}" style = "background-color: #FFFFFF"
         td
-          input.form-control name="task[status]" type="checkbox" value="1" id="plain_status_#{task.id}" onclick="on_status_changed(#{task.id})" /
+          -if task.status
+            input.form-control name="task[status]" checked="checked"type="checkbox" value="1" id="plain_status_#{task.id}" onclick="on_status_changed(#{task.id})" /
+          -else
+            input.form-control name="task[status]" type="checkbox" value="1" id="plain_status_#{task.id}" onclick="on_status_changed(#{task.id})" /
         td id= "plain_title_#{task.id}"
           = task.title
         td id= "plain_content_#{task.id}"
@@ -35,7 +39,7 @@
           td class= "plain_actual_date_#{task.id}" id="plain_actual_date_#{task.id}_yet"
         input type="hidden" id="actual_date_hidden_#{task.id}" value="#{task.actual_date}"
         td
-          button.btn.btn-success type= "button" onclick= "onclick_edit_button(#{task.id})"  編集 
+          button.btn.btn-success type= "button" onclick= "onclick_edit_button(#{task.id},#{task.status})"  編集 
         td id= "plain_delete_button_td_#{task.id}"
           button.btn.btn-danger type= "button" onclick= "onclick_delete_button(#{task.id})" 削除
         = tag :input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token, :id =>"authenticate_token_#{task.id}"
