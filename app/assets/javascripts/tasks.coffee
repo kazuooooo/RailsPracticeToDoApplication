@@ -45,9 +45,12 @@ root.onclick_create_button = ->
 ##update task
 
 #editbuttonを押したら入力フィールドを活性化
-root.onclick_edit_button = (id,plan_date) ->
+root.onclick_edit_button = (id) ->
   switch_edit_state(id,true)
-  console.log("plandate"+plan_date)
+  original_plan_date = $("#plan_date_hidden_#{id}").val().replace(/-/g,"/")
+  original_actual_date = $("#actual_date_hidden_#{id}").val().replace(/-/g,"/")
+  $("#plan_date_#{id}").datepicker("setDate", original_plan_date)
+  $("#actual_date_#{id}").datepicker("setDate", original_actual_date)
 
 #statusチェックボックス変更時
 root.on_status_changed = (id) ->
@@ -202,7 +205,6 @@ set_result_value_to_row = (id,title_val,content_val,plan_date_val,actual_date_va
   plain_content.innerHTML = content_val
   plain_actual_date.innerHTML = format_datetime_to_display(actual_date_val)
   plain_plan_date.innerHTML = format_datetime_to_display(plan_date_val)
-  debugger
 
 #datetimeを実際の表示形式に変換
 format_datetime_to_display = (datetime_format) ->

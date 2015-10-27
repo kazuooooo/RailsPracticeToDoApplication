@@ -25,15 +25,17 @@
           = task.title
         td id= "plain_content_#{task.id}"
           = task.content 
-        td id= "plain_plan_date_#{task.id}" 
+        td id= "plain_plan_date_#{task.id}"
           = l task.plan_date, format: :short
+        input type="hidden" id="plan_date_hidden_#{task.id}" value="#{task.plan_date}"
         -if task.actual_date?
           td class= "plain_actual_date_#{task.id}" id="plain_actual_date_#{task.id}_done"
             = l task.actual_date, format: :short
         -else
           td class= "plain_actual_date_#{task.id}" id="plain_actual_date_#{task.id}_yet"
+        input type="hidden" id="actual_date_hidden_#{task.id}" value="#{task.actual_date}"
         td
-          button.btn.btn-success type= "button" onclick= "onclick_edit_button(#{task.id},#{task.plan_date})"  編集 
+          button.btn.btn-success type= "button" onclick= "onclick_edit_button(#{task.id})"  編集 
         td id= "plain_delete_button_td_#{task.id}"
           button.btn.btn-danger type= "button" onclick= "onclick_delete_button(#{task.id})" 削除
         = tag :input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token, :id =>"authenticate_token_#{task.id}"
