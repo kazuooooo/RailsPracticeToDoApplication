@@ -35,7 +35,8 @@ root.onclick_create_button = ->
   }).done ->
       #成功したらテーブルをリロード
       #.load(url,data,callback)
-      $("#panel_body").load(location.href + " .table.table-striped.table-bordered.table-hover");
+      $("#panel_body").load(location.href + " .table.table-striped.table-bordered.table-hover",->
+        load_date_picker_setting())
       #error表示がされていたら削除
       remove_error_list()
     .fail (jqXHR, statusText, errorThrown) ->
@@ -273,3 +274,9 @@ delete_task_row = (id) ->
   edit_row_num = edit_tr.rowIndex
   task_table.deleteRow(edit_row_num)
 
+load_date_picker_setting = ->
+  alert("call datepicker setting")
+  $('.datepicker').datepicker({
+      format: 'yyyy/mm/dd'
+      language: 'ja'
+      })
