@@ -45,8 +45,9 @@ root.onclick_create_button = ->
 ##update task
 
 #editbuttonを押したら入力フィールドを活性化
-root.onclick_edit_button = (id) ->
+root.onclick_edit_button = (id,plan_date) ->
   switch_edit_state(id,'active')
+  console.log("plandate"+plan_date)
 
 #updateボタンが押されたら今入力されている値を取得してajaxでupdate
 root.onclick_update_button = (id) ->
@@ -145,14 +146,14 @@ set_result_value_to_row = (id,status_val,title_val,content_val,plan_date_val,act
   #値を代入
   plain_title.innerHTML = title_val
   plain_content.innerHTML = content_val
-  plain_actual_date.innerHTML = format_date(actual_date_val)
+  plain_actual_date.innerHTML = format_datetime_to_display(actual_date_val)
   #plain_actual_date.innerHTML = "testtest"
   #checkboxで行の色を切り替え
   switch_task_state(plain_tr,edit_tr,status_val)
 
-#dateを日本語にフォーマット
-format_date = (text_date) ->
-  date = new Date(text_date)
+#datetimeを実際の表示形式に変換
+format_datetime_to_display = (datetime_format) ->
+  date = new Date(datetime_format)
   y = date.getFullYear()
   m = date.getMonth()+1
   d = date.getDate()
@@ -166,6 +167,11 @@ format_date = (text_date) ->
     d = '0'+ d
   formatted_date = m + '/' + d + ' ('+ wNames[w] + ')'
   return formatted_date
+
+#実際の表示形式をdatetime型に変換
+format_display_to_datetime = (display_format) ->
+
+
 
 #今日の日付を取得
 get_today = ->
