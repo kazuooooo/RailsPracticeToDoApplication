@@ -50,6 +50,7 @@ root.onclick_create_button = ->
 
 #editbuttonを押したら入力フィールドを活性化
 root.onclick_edit_button = (id) ->
+  #日付の
   #checkの状態を取得
   task_status = document.getElementById("plain_status_#{id}").checked
   #actual_dateのdatepickerの使用可否
@@ -114,17 +115,9 @@ set_result_on_status_checked = (id, status_val, actual_date_val) ->
     $("#actual_date_hidden_#{id}").val(actual_date_val)
   else
     $(".plain_actual_date_#{id}").html("")
-  switch_task_state(plain_tr,edit_tr,status_val)
 
-switch_task_state = (plain_tr,edit_tr,task_status) ->
-  if task_status
-    console.log "checked"
-    plain_tr.style.backgroundColor = "#6E6E6E"
-    edit_tr.style.backgroundColor = "#6E6E6E"
-  else
-    console.log "unchecked"
-    plain_tr.style.backgroundColor = "#FFFFFF"
-    edit_tr.style.backgroundColor = "#FFFFFF"
+  $("#status_hidden_#{id}").val(status_val)
+  color_task_row()
 
 #task update
 root.onclick_update_button = (id) ->
@@ -171,6 +164,8 @@ root.onclick_update_button = (id) ->
     set_result_value_to_row(id_result,title_result,content_result,plan_date_result,actual_date_result)
     switch_edit_state(id,false)
     remove_error_list()
+    color_task_row()
+    sort_by_plan_date()
 
   jqXHR.fail (jqXHR, statusText, errorThrown) ->
     show_error_list(jqXHR.responseText)
@@ -284,7 +279,7 @@ $ ->
   #日付順にソート
   sort_by_plan_date()
   #予定日に応じて列に色付け
-  color_task_row_by_date()
+  color_task_row()
   #完了済みタスクは列に色付けしてチェック
 
 #testmethod 予定日で降順にソート
@@ -294,13 +289,12 @@ sort_by_plan_date = ->
       0: {sorter: false}
       1: {sorter: false}
       2: {sorter: false}
-      4: {sorter: false}
     }
     sortList: [[3,0]]
   })
 
 #予定日の近いものは列を色付け
-color_task_row_by_date = ->
+color_task_row = ()->
   #今日のDateを取得
   today_obj = new Date(get_today(false))
   console.log today_obj
@@ -313,14 +307,24 @@ color_task_row_by_date = ->
   for plan_date in plan_dates_vals
     date_obj =  new Date(plan_date.value)
     id = get_id_num(plan_date.id)
-    #比較する
-    #今日の場合は赤
-    if today_obj.getTime() == date_obj.getTime()
-      color_row(id,"#F43845")
-    #明日の場合は黄色
-    if tommorow_obj.getTime() == date_obj.getTime()
-      color_row(id,"#FFEA00")
-
+    #完了済みタスクの場合は灰色にして終了
+    status = $("#status_hidden_#{id}").val()
+    if status == "true" 
+      color_row(id,"#A1A1A1")
+      $("#plain_status_#{id}").prop("checked",true)
+    #未完了の場合は日付に応じて色付け
+    else
+      #一旦白に戻す
+      color_row(id,"#FFFFFF")
+      #過ぎてる場合は赤
+      if date_obj.getTime() < today_obj.getTime()
+        color_row(id,"#DD4D50")
+      #今日の場合は黄色
+      if date_obj.getTime() == today_obj.getTime()
+        color_row(id,"#FAF838")
+      #明日の場合は青
+      if date_obj.getTime() == tommorow_obj.getTime()
+        color_row(id,"#99D3DF")
 
 get_id_num = (original_id) ->
   split_id = original_id.split("_")
@@ -349,7 +353,6 @@ delete_task_row = (id) ->
   task_table.deleteRow(edit_row_num)
 
 load_date_picker_setting = ->
-  alert("call datepicker setting")
   $('.datepicker').datepicker({
       format: 'yyyy/mm/dd'
       language: 'ja'

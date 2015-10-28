@@ -6,36 +6,35 @@
           /input.form-control name="task[status]" type="checkbox" value="1" id="status_#{task.id}" onclick="on_status_changed(#{task.id})" /
         td = f.text_field :title, class:'form-control', id: "title_#{task.id}"
         td = f.text_area :content, class:'form-control', id: "content_#{task.id}"
-        td 
+        td
+          p style = "display:none"
+            = l task.plan_date, format: :short
           input.form-control.datepicker type="text" id= "plan_date_#{task.id}"
-           / = f.date_select :plan_date, class:'form-control', :use_month_numbers => true
-        /td
-          / input type="text" data-provide='datepicker' class= 'datepicker' id= "actual_date_#{task.id}"  data-date-format="yyyy/mm/dd"
-           / = f.date_select :actual_date, class:'form-control', :use_month_numbers => true
         td
           input.form-control.datepicker type="text" id= "actual_date_#{task.id}"
         td
           button.btn.btn-success type= "button" onclick= "onclick_update_button(#{task.id})"  更新
         td 
           button.btn.btn-danger type= "button" onclick= "onclick_delete_button(#{task.id})" 削除
-        tr id="taskrow_plain_#{task.id}" style = "background-color: #FFFFFF"
-          td
-            input.form-control name="task[status]" type="checkbox" value="1" id="plain_status_#{task.id}" onclick="on_status_changed(#{task.id})" /
-          td id= "plain_title_#{task.id}"
-            = task.title
-          td id= "plain_content_#{task.id}"
-            = task.content 
-          td id= "plain_plan_date_#{task.id}"
-            = l task.plan_date, format: :short
-          input type="hidden" id="plan_date_hidden_#{task.id}" class="plan_date_value" value="#{task.plan_date}"
-          -if task.actual_date?
-            td class= "plain_actual_date_#{task.id}" id="plain_actual_date_#{task.id}_done"
-              = l task.actual_date, format: :short
-          -else
-            td class= "plain_actual_date_#{task.id}" id="plain_actual_date_#{task.id}_yet"
-          input type="hidden" id="actual_date_hidden_#{task.id}" value="#{task.actual_date}"
-          td
-            button.btn.btn-success type= "button" onclick= "onclick_edit_button(#{task.id})"  編集 
-          td id= "plain_delete_button_td_#{task.id}"
-            button.btn.btn-danger type= "button" onclick= "onclick_delete_button(#{task.id})" 削除
-          = tag :input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token, :id =>"authenticate_token_#{task.id}"
+      tr id="taskrow_plain_#{task.id}" style = "background-color: #FFFFFF"
+        td
+          input.form-control type="checkbox" value= "1" id="plain_status_#{task.id}" onclick="on_status_changed(#{task.id})" /
+          input type="hidden" id="status_hidden_#{task.id}" value="#{task.status}"
+        td id= "plain_title_#{task.id}"
+          = task.title
+        td id= "plain_content_#{task.id}"
+          = task.content 
+        td id= "plain_plan_date_#{task.id}"
+          = l task.plan_date, format: :short
+        input type="hidden" id="plan_date_hidden_#{task.id}" class="plan_date_value" value="#{task.plan_date}"
+        -if task.actual_date?
+          td class= "plain_actual_date_#{task.id}" id="plain_actual_date_#{task.id}_done"
+            = l task.actual_date, format: :short
+        -else
+          td class= "plain_actual_date_#{task.id}" id="plain_actual_date_#{task.id}_yet"
+        input type="hidden" id="actual_date_hidden_#{task.id}" value="#{task.actual_date}"
+        td
+          button.btn.btn-success type= "button" onclick= "onclick_edit_button(#{task.id})"  編集 
+        td id= "plain_delete_button_td_#{task.id}"
+          button.btn.btn-danger type= "button" onclick= "onclick_delete_button(#{task.id})" 削除
+        = tag :input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token, :id =>"authenticate_token_#{task.id}"
