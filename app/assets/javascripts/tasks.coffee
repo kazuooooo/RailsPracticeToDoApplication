@@ -303,6 +303,10 @@ sort_by_plan_date = ->
 color_task_row_by_date = ->
   #今日のDateを取得
   today_obj = new Date(get_today(false))
+  console.log today_obj
+  tommorow_obj = new Date(get_today(false))
+  tommorow_obj.setDate(tommorow_obj.getDate()+1)
+  console.log tommorow_obj
   #plan_dateを配列で取得
   plan_dates_vals = document.getElementsByClassName("plan_date_value")
   #plan_dateそれぞれに対して期日に応じて色付け
@@ -310,9 +314,13 @@ color_task_row_by_date = ->
     date_obj =  new Date(plan_date.value)
     id = get_id_num(plan_date.id)
     #比較する
-    if date_obj.getFullYear() == today_obj.getFullYear() && date_obj.getMonth() == today_obj.getMonth()
-      if date_obj.getDate() == today_obj.getDate()
-        color_row(id,"#F43845")
+    #今日の場合は赤
+    if today_obj.getTime() == date_obj.getTime()
+      color_row(id,"#F43845")
+    #明日の場合は黄色
+    if tommorow_obj.getTime() == date_obj.getTime()
+      color_row(id,"#FFEA00")
+
 
 get_id_num = (original_id) ->
   split_id = original_id.split("_")
