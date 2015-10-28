@@ -3,6 +3,9 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 root = exports ? this
+
+
+
 ##create task
 #createbuttonが押されたらtaskを作ってテーブルだけリロード
 
@@ -22,7 +25,7 @@ root.onclick_create_button = ->
     type: "POST",
     data: {
           utf8: "✓",
-          authenticity_token: authenticate_token, 
+          authenticity_token: authenticate_token,
           task: {
                 status: false,
                 title: title_val,
@@ -62,7 +65,7 @@ root.onclick_edit_button = (id) ->
 
   #列を編集状態にする
   switch_edit_state(id,true)
-  
+
   #plan_dateの元の値を初期値に設定
   original_plan_date = $("#plan_date_hidden_#{id}").val().replace(/-/g,"/")
   $("#plan_date_#{id}").datepicker("setDate", original_plan_date)
@@ -73,14 +76,14 @@ root.on_status_changed = (id) ->
   authenticate_token = document.getElementById("authenticate_token_#{id}").value
   #入力値を取得
   status_val = document.getElementById("plain_status_#{id}").checked
-  actual_date_val = if status_val then get_today() else null
+  actual_date_val = if status_val then get_today(true) else null
   #actionを実行
   jqXHR = $.ajax({
             url: "tasks/#{id}",
             type: "PUT",
             data: {
                   utf8: "✓",
-                  authenticity_token: authenticate_token,  
+                  authenticity_token: authenticate_token,
                   task: {
                         status: status_val,
                         actual_date: actual_date_val,
@@ -105,7 +108,7 @@ set_result_on_status_checked = (id, status_val, actual_date_val) ->
   #element取得
   plain_tr = document.getElementById("taskrow_plain_#{id}")
   edit_tr = document.getElementById("taskrow_edit_#{id}")
-  
+
   if actual_date_val
     $(".plain_actual_date_#{id}").html(format_datetime_to_display(actual_date_val))
     $("#actual_date_hidden_#{id}").val(actual_date_val)
@@ -145,7 +148,7 @@ root.onclick_update_button = (id) ->
             type: "PUT",
             data: {
                   utf8: "✓",
-                  authenticity_token: authenticate_token,  
+                  authenticity_token: authenticate_token,
                   task: {
                         title: title_val,
                         content: content_val,
@@ -243,7 +246,7 @@ format_datetime_to_display = (datetime_format) ->
   return formatted_date
 
 #今日の日付を取得
-get_today = ->
+get_today = (is_slush)->
   today_obj = new Date()
   d = today_obj.getDate()
   m = today_obj.getMonth() + 1
@@ -252,7 +255,10 @@ get_today = ->
     d = '0'+ d
   if (m<10)
     m = '0' + m
-  today = y + '/' + m + '/' + d
+  if is_slush
+    today = y + '/' + m + '/' + d
+  else
+    today = y + "-" + m + "-" + d
   return today
 
 ##delete task
@@ -265,7 +271,7 @@ root.onclick_delete_button = (id)->
     url: "tasks/#{id}",
     type: "DELETE",
     data: {
-          authenticity_token: authenticate_token, 
+          authenticity_token: authenticate_token,
           id: id
           }
   }).done ->
@@ -273,8 +279,16 @@ root.onclick_delete_button = (id)->
     .fail ->
       alert("task delete failed")
 
+#ページ読み込み時に日付でソート
+$ ->
+  #日付順にソート
+  sort_by_plan_date()
+  #予定日に応じて列に色付け
+  color_task_row_by_date()
+  #完了済みタスクは列に色付けしてチェック
+
 #testmethod 予定日で降順にソート
-root.sorttest = ->
+sort_by_plan_date = ->
   $("table#task_table").tablesorter({
     headers:{
       0: {sorter: false}
@@ -284,6 +298,34 @@ root.sorttest = ->
     }
     sortList: [[3,0]]
   })
+
+#予定日の近いものは列を色付け
+color_task_row_by_date = ->
+  #今日のDateを取得
+  today_obj = new Date(get_today(false))
+  #plan_dateを配列で取得
+  plan_dates_vals = document.getElementsByClassName("plan_date_value")
+  #plan_dateそれぞれに対して期日に応じて色付け
+  for plan_date in plan_dates_vals
+    date_obj =  new Date(plan_date.value)
+    id = get_id_num(plan_date.id)
+    #比較する
+    if date_obj.getFullYear() == today_obj.getFullYear() && date_obj.getMonth() == today_obj.getMonth()
+      if date_obj.getDate() == today_obj.getDate()
+        color_row(id,"#F43845")
+
+get_id_num = (original_id) ->
+  split_id = original_id.split("_")
+  id = split_id.pop()
+  return id
+
+color_row = (id,color)->
+  #idで列を取得
+  plain_tr = document.getElementById("taskrow_plain_#{id}")
+  edit_tr = document.getElementById("taskrow_edit_#{id}")
+  #指定した色に着色
+  plain_tr.style.backgroundColor = color
+  edit_tr.style.backgroundColor = color
 
 #列を削除
 delete_task_row = (id) ->
