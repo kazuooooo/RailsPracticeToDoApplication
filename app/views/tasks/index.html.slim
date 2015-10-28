@@ -6,8 +6,8 @@
         thead style="background-color:#FFEEA0"
           tr
             th width = '40px' style="border-top-style:hidden; border-left-style:hidden; background-color: #FFFFFF;" 
-            th width = '20%' タイトル 
-            th width = '40%' 内容
+            th width = '20%' タスク
+            th width = '40%' 詳細
             th width = '120px' 予定日
             th width = '120px' 実績
             th width = '70px' style="border-right-style:hidden; border-top-style:hidden; background-color: #FFFFFF;" 
@@ -27,4 +27,10 @@
               td 
                 button.btn.btn-success type= "button" onclick= "onclick_create_button()"  作成
               = tag :input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token, :id =>"authenticate_token_new"
+center
+  h1 id="timertext" timer 
+  br
+  button onclick="start_timer()" start  
+  button onclick="stop_timer()" stop 
+  button onclick="reset_timer()" reset 
 /input.btn.btn-success.btn-block name="commit" type="submit" value=("Create Task") onclick="reload_time()" /
