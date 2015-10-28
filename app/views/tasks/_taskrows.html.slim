@@ -16,7 +16,7 @@
           button.btn.btn-success type= "button" onclick= "onclick_update_button(#{task.id})"  更新
         td 
           button.btn.btn-danger type= "button" onclick= "onclick_delete_button(#{task.id})" 削除
-      tr id="taskrow_plain_#{task.id}" style = "background-color: #FFFFFF"
+      tr id="taskrow_plain_#{task.id}"
         td
           input.form-control type="checkbox" value= "1" id="plain_status_#{task.id}" onclick="on_status_changed(#{task.id})" /
           input type="hidden" id="status_hidden_#{task.id}" value="#{task.status}"
@@ -33,8 +33,8 @@
         -else
           td class= "plain_actual_date_#{task.id}" id="plain_actual_date_#{task.id}_yet" style="color:#CFCFCF"
         input type="hidden" id="actual_date_hidden_#{task.id}" value="#{task.actual_date}"
-        td style="border-right-style:hidden; background-color: #FFFFFF"
+        td style="border-right-style:hidden;"
           button.btn.btn-success type= "button" onclick= "onclick_edit_button(#{task.id})"  編集 
-        td style= "background-color: #FFFFFF" id= "plain_delete_button_td_#{task.id}"
+        td id= "plain_delete_button_td_#{task.id}"
           button.btn.btn-danger type= "button" onclick= "onclick_delete_button(#{task.id})" 削除
         = tag :input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token, :id =>"authenticate_token_#{task.id}"

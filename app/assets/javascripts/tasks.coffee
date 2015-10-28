@@ -314,8 +314,10 @@ color_task_row = ()->
     if status == "true" 
       $("#plain_status_#{id}").prop("checked",true)
     else
-      if date_obj.getTime() <= today_obj.getTime()
-        alert_task_row(id)
+      if date_obj.getTime() < today_obj.getTime()
+        alert_delay_task_row(id)
+      else if date_obj.getTime() == today_obj.getTime()
+        alert_today_task_row(id)
       else
         reset_task_row(id)
 
@@ -332,10 +334,15 @@ color_row = (id,color)->
   plain_tr.style.backgroundColor = color
   edit_tr.style.backgroundColor = color
 
-alert_task_row = (id) ->
+alert_delay_task_row = (id) ->
   task_values = document.getElementsByClassName("task_values_#{id}")
   for value in task_values
     value.style.fontWeight = "bold"
+    value.style.color = "#e20b0b"
+
+alert_today_task_row = (id) ->
+  task_values = document.getElementsByClassName("task_values_#{id}")
+  for value in task_values
     value.style.color = "#e20b0b"
 
 reset_task_row = (id) ->

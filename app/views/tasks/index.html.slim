@@ -5,14 +5,14 @@
       table.table.table-striped.table-bordered.table-hover id="task_table" style="table-layout:fixed"
         thead style="background-color:#FFEEA0"
           tr
-            th width = '5%'
+            th width = '40px' style="border-top-style:hidden; border-left-style:hidden; background-color: #FFFFFF;" 
             th width = '20%' タイトル 
             th width = '40%' 内容
-            th width = '100' 予定日
-            th width = '100' 実績
-            th width = '50px' style="border-right-style:hidden; border-top-style:hidden;" 
-            th style="border-right-style:hidden; border-top-style:hidden;" width = '50'
-        tbody id="task_table_body"
+            th width = '120px' 予定日
+            th width = '120px' 実績
+            th width = '70px' style="border-right-style:hidden; border-top-style:hidden; background-color: #FFFFFF;" 
+            th width = '70px' style="border-right-style:hidden; border-top-style:hidden; background-color: #FFFFFF;"
+        tbody id="task_table_body" style="background-color:#F4F4F4"
           = render partial: 'tasks/taskrows', locals: {tasks: @tasks}
           = form_for @task do |f|
             tr id="taskrow_edit_new"
