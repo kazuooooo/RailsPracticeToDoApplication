@@ -39,7 +39,9 @@ root.onclick_create_button = ->
       #成功したらテーブルをリロード
       #.load(url,data,callback)
       $("#panel_body").load(location.href + " .table.table-striped.table-bordered.table-hover",->
-        load_date_picker_setting())
+        load_date_picker_setting()
+        color_task_row()
+        sort_by_plan_date())
       #error表示がされていたら削除
       remove_error_list()
     .fail (jqXHR, statusText, errorThrown) ->
