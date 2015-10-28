@@ -20,11 +20,11 @@
         td
           input.form-control type="checkbox" value= "1" id="plain_status_#{task.id}" onclick="on_status_changed(#{task.id})" /
           input type="hidden" id="status_hidden_#{task.id}" value="#{task.status}"
-        td id= "plain_title_#{task.id}"
+        td id= "plain_title_#{task.id}" class="task_values_#{task.id}" style= "color:#e20b0b"
           = task.title
-        td id= "plain_content_#{task.id}"
+        td id= "plain_content_#{task.id}" class="task_values_#{task.id}"
           = task.content 
-        td id= "plain_plan_date_#{task.id}"
+        td id= "plain_plan_date_#{task.id}" class="task_values_#{task.id}"
           = l task.plan_date, format: :short
         input type="hidden" id="plan_date_hidden_#{task.id}" class="plan_date_value" value="#{task.plan_date}"
         -if task.actual_date?

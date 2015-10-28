@@ -299,10 +299,9 @@ sort_by_plan_date = ->
 color_task_row = ()->
   #今日のDateを取得
   today_obj = new Date(get_today(false))
-  console.log today_obj
   tommorow_obj = new Date(get_today(false))
   tommorow_obj.setDate(tommorow_obj.getDate()+1)
-  console.log tommorow_obj
+
   #plan_dateを配列で取得
   plan_dates_vals = document.getElementsByClassName("plan_date_value")
   #plan_dateそれぞれに対して期日に応じて色付け
@@ -310,20 +309,13 @@ color_task_row = ()->
     date_obj =  new Date(plan_date.value)
     id = get_id_num(plan_date.id)
     #完了済みタスクの場合は灰色にして終了
+    finish_task_row(id)
     status = $("#status_hidden_#{id}").val()
     if status == "true" 
-      color_row(id,"#A1A1A1")
       $("#plain_status_#{id}").prop("checked",true)
-    #未完了の場合は日付に応じて色付け
     else
-      #一旦白に戻す
-      color_row(id,"#FFFFFF")
-      #過ぎてる場合は赤
-      if date_obj.getTime() < today_obj.getTime()
-        color_row(id,"#DD4D50")
-      #今日の場合は黄色
-      if date_obj.getTime() == today_obj.getTime()
-        color_row(id,"#FAF838")
+      if date_obj.getTime() <= today_obj.getTime()
+        alert_task_row(id)
 
 get_id_num = (original_id) ->
   split_id = original_id.split("_")
@@ -337,6 +329,25 @@ color_row = (id,color)->
   #指定した色に着色
   plain_tr.style.backgroundColor = color
   edit_tr.style.backgroundColor = color
+
+alert_task_row = (id) ->
+  task_values = document.getElementsByClassName("task_values_#{id}")
+  for value in task_values
+    value.style.fontWeight = "bold"
+    value.style.color = "#e20b0b"
+
+reset_task_row = (id) ->
+  task_values = document.getElementsByClassName("task_values_#{id}")
+  for value in task_values
+    value.style.fontWeight = ""
+    value.style.color = ""
+
+finish_task_row = (id) ->
+  task_values = document.getElementsByClassName("task_values_#{id}")
+  for value in task_values
+    value.style.fontWeight = ""
+    value.style.color = "#CFCFCF"
+
 
 #列を削除
 delete_task_row = (id) ->
