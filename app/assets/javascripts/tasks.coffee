@@ -324,9 +324,6 @@ color_task_row = ()->
       #今日の場合は黄色
       if date_obj.getTime() == today_obj.getTime()
         color_row(id,"#FAF838")
-      #明日の場合は青
-      if date_obj.getTime() == tommorow_obj.getTime()
-        color_row(id,"#99D3DF")
 
 get_id_num = (original_id) ->
   split_id = original_id.split("_")

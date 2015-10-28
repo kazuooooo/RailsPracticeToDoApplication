@@ -1,15 +1,17 @@
 .col-md-10.col-md-offset-1
   .panel.panel-info
     .panel-heading タスク一覧
-    .panel-body id="panel_body"
-      table.table.table-striped.table-bordered.table-hover id="task_table"
-        thead
+    .panel-body style="background-color:#FFFFFF" id="panel_body"
+      table.table.table-striped.table-bordered.table-hover id="task_table" style="table-layout:fixed"
+        thead style="background-color:#FFEEA0"
           tr
-            th width = '50'
-            th width = '200' タイトル 
-            th width = '300' 内容
+            th width = '5%'
+            th width = '20%' タイトル 
+            th width = '40%' 内容
             th width = '100' 予定日
             th width = '100' 実績
+            th width = '50px' style="border-right-style:hidden; border-top-style:hidden;" 
+            th style="border-right-style:hidden; border-top-style:hidden;" width = '50'
         tbody id="task_table_body"
           = render partial: 'tasks/taskrows', locals: {tasks: @tasks}
           = form_for @task do |f|
