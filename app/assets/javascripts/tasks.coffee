@@ -316,6 +316,8 @@ color_task_row = ()->
     else
       if date_obj.getTime() <= today_obj.getTime()
         alert_task_row(id)
+      else
+        reset_task_row(id)
 
 get_id_num = (original_id) ->
   split_id = original_id.split("_")
