@@ -37,7 +37,8 @@
       $("#panel_body").load(location.href + " .table.table-striped.table-bordered.table-hover",->
         load_date_picker_setting()
         color_task_row()
-        sort_by_plan_date())
+        sort_by_plan_date()
+        set_today_on_create_date_picker())
       #error表示がされていたら削除
       remove_error_list()
     .fail (jqXHR, statusText, errorThrown) ->
@@ -279,6 +280,10 @@ $ ->
   #予定日に応じて列に色付け
   color_task_row()
   #完了済みタスクは列に色付けしてチェック
+  set_today_on_create_date_picker()
+  $("#testbutton").on('click', ->
+    alert "test buggon clicked"
+    )
 
 #testmethod 予定日で降順にソート
 sort_by_plan_date = ->
@@ -317,6 +322,12 @@ color_task_row = ()->
       else
         reset_task_row(id)
 
+set_today_on_create_date_picker = () ->
+   $("#plan_date_new").one('focus',->
+    console.log "settoday"
+    $("#plan_date_new").datepicker("setDate", get_today(true))
+    )
+
 get_id_num = (original_id) ->
   split_id = original_id.split("_")
   id = split_id.pop()
@@ -352,6 +363,7 @@ finish_task_row = (id) ->
   for value in task_values
     value.style.fontWeight = ""
     value.style.color = "#CFCFCF"
+
 
 
 #列を削除
