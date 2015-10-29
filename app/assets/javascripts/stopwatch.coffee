@@ -11,7 +11,7 @@ window.count_up = ->
   timer.innerHTML = format_time(time)
 
 window.stop_timer = ->
-  clearInterval(timer_process) 
+  clearInterval(timer_process)
 
 format_time = (time) ->
   hours = Math.floor(time/3600)

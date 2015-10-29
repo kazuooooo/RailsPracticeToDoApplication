@@ -27,10 +27,10 @@
               td 
                 button.btn.btn-success type= "button" onclick= "onclick_create_button()"  作成
               = tag :input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token, :id =>"authenticate_token_new"
-center
-  h1 id="timertext" timer 
-  br
-  button onclick="start_timer()" start  
-  button onclick="stop_timer()" stop 
-  button onclick="reset_timer()" reset 
+/ center
+/   h1 id="timertext" timer 
+/   br
+/   button onclick="start_timer()" start  
+/   button onclick="stop_timer()" stop 
+/   button onclick="reset_timer()" reset 
 /input.btn.btn-success.btn-block name="commit" type="submit" value=("Create Task") onclick="reload_time()" /

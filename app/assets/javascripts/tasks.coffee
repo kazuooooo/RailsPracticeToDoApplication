@@ -3,9 +3,6 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 root = exports ? this
-
-
-
 ##create task
 #createbuttonが押されたらtaskを作ってテーブルだけリロード
 
@@ -139,10 +136,10 @@ root.onclick_update_button = (id) ->
 
   #actionを実行
   jqXHR = $.ajax({
-            url: "tasks/#{id}",
+            url:"tasks/#{id}",
             type: "PUT",
             data: {
-                  utf8: "✓",
+                  utf8:"✓",
                   authenticity_token: authenticate_token,
                   task: {
                         title: title_val,
@@ -209,7 +206,7 @@ remove_error_list = ->
 
 
 #入力値を対象の列に代入
-set_result_value_to_row = (id,title_val,content_val,plan_date_val,actual_date_val) ->
+set_result_value_to_row = (id,title_val,content_val,plan_date_val,actual_date_val)->
   #element取得
   plain_title = document.getElementById("plain_title_#{id}")
   plain_content = document.getElementById("plain_content_#{id}")
@@ -311,7 +308,7 @@ color_task_row = ()->
     #完了済みタスクの場合は灰色にして終了
     finish_task_row(id)
     status = $("#status_hidden_#{id}").val()
-    if status == "true" 
+    if status == "true"
       $("#plain_status_#{id}").prop("checked",true)
     else
       if date_obj.getTime() < today_obj.getTime()
@@ -373,6 +370,6 @@ delete_task_row = (id) ->
 
 load_date_picker_setting = ->
   $('.datepicker').datepicker({
-      format: 'yyyy/mm/dd'
-      language: 'ja'
+      format:'yyyy/mm/dd'
+      language:'ja'
       })
