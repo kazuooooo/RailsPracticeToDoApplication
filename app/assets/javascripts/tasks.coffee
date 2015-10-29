@@ -2,11 +2,10 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-root = exports ? this
 ##create task
 #createbuttonが押されたらtaskを作ってテーブルだけリロード
 
-root.onclick_create_button = ->
+@onclick_create_button = ->
   #authenticate token
   authenticate_token = document.getElementById("authenticate_token_new").value
   #入力値を取得
@@ -48,7 +47,7 @@ root.onclick_create_button = ->
 ##update task
 
 #editbuttonを押したら入力フィールドを活性化
-root.onclick_edit_button = (id) ->
+@onclick_edit_button = (id) ->
   #日付の
   #checkの状態を取得
   task_status = document.getElementById("plain_status_#{id}").checked
@@ -71,7 +70,7 @@ root.onclick_edit_button = (id) ->
   $("#plan_date_#{id}").datepicker("setDate", original_plan_date)
 
 #statusチェックボックス変更時
-root.on_status_changed = (id) ->
+@on_status_changed = (id) ->
   #authenticate token
   authenticate_token = document.getElementById("authenticate_token_#{id}").value
   #入力値を取得
@@ -119,7 +118,7 @@ set_result_on_status_checked = (id, status_val, actual_date_val) ->
   color_task_row()
 
 #task update
-root.onclick_update_button = (id) ->
+@onclick_update_button = (id) ->
   #authenticate token
   authenticate_token = document.getElementById("authenticate_token_#{id}").value
   #入力値を取得
@@ -257,7 +256,7 @@ get_today = (is_slush)->
 
 ##delete task
 #deleteボタンが押されたらajaxでdeleteを実行して行を削除
-root.onclick_delete_button = (id)->
+@onclick_delete_button = (id)->
   #authenticate token
   authenticate_token = document.getElementById("authenticate_token_#{id}").value
   #actionを実行
