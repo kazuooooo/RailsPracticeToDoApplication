@@ -18,6 +18,10 @@ on_load_table = ->
   $(".update_button").on('click', ->
     update_task(this.value)
     )
+  #タスクの削除
+  $(".delete_button").on('click', ->
+    delete_task(this.value)
+    )
   #タスクの更新
   #日付順にソート
   sort_by_plan_date()
@@ -285,7 +289,7 @@ get_today = (is_slush)->
 
 ##delete task
 #deleteボタンが押されたらajaxでdeleteを実行して行を削除
-@onclick_delete_button = (id)->
+delete_task = (id)->
   #authenticate token
   authenticate_token = document.getElementById("authenticate_token_#{id}").value
   #actionを実行
