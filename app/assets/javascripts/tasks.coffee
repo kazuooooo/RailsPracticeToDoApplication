@@ -22,12 +22,16 @@ on_load_table = ->
   $(".delete_button").on('click', ->
     delete_task(this.value)
     )
-  #タスクの更新
+  #ステータスの変更
+  $(".task_status").on('click', ->
+    on_status_changed(this.value)
+    )
+
   #日付順にソート
   sort_by_plan_date()
   #予定日に応じて列に色付け
   color_task_row_text()
-  #完了済みタスクは列に色付けしてチェック
+#完了済みタスクは列に色付けしてチェック
   set_today_on_create_date_picker()
   $("#testbutton").on('click', ->
     alert "test buggon clicked"
@@ -103,7 +107,7 @@ edit_task = (id) ->
   $("#plan_date_#{id}").datepicker("setDate", original_plan_date)
 
 #statusチェックボックス変更時
-@on_status_changed = (id) ->
+on_status_changed = (id) ->
   #authenticate token
   authenticate_token = document.getElementById("authenticate_token_#{id}").value
   #入力値を取得

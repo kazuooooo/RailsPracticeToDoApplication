@@ -18,7 +18,7 @@
           button.btn.btn-danger type= "button" class="delete_button" value="#{task.id}" 削除
       tr id="taskrow_plain_#{task.id}"
         td
-          input.form-control type="checkbox" value= "1" id="plain_status_#{task.id}" onclick="on_status_changed(#{task.id})" /
+          input.form-control type="checkbox" value= "#{task.id}" id="plain_status_#{task.id}" class="task_status"  /
           input type="hidden" id="status_hidden_#{task.id}" value="#{task.status}"
         td id= "plain_title_#{task.id}" class="task_values_#{task.id}" style= "color:#e20b0b"
           = task.title
