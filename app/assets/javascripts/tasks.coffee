@@ -256,7 +256,7 @@ set_result_value_to_row = (id,title_val,content_val,plan_date_val,actual_date_va
   $("#plan_date_hidden_#{id}").val(plan_date_val)
   $("#actual_date_hidden_#{id}").val(actual_date_val)
   if actual_date_val
-    $(".plain_actual_date").html(actual_date_val)
+      $(".plain_actual_date_#{id}").html(format_datetime_to_display(actual_date_val))
 
 #datetimeを実際の表示形式に変換
 format_datetime_to_display = (datetime_format) ->
