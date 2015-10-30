@@ -1,7 +1,24 @@
 # Place all the behaviors and hooks related to the matching controller here.
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
+#ページ読み込み時に日付でソート
+$ ->
+  on_load_table()
 
+on_load_table = ->
+  #タスクの作成
+  $("#create_button").on('click', ->
+    create_task()
+    )
+  #日付順にソート
+  sort_by_plan_date()
+  #予定日に応じて列に色付け
+  color_task_row_text()
+  #完了済みタスクは列に色付けしてチェック
+  set_today_on_create_date_picker()
+  $("#testbutton").on('click', ->
+    alert "test buggon clicked"
+    )
 ##create task
 #createbuttonが押されたらtaskを作ってテーブルだけリロード
 create_task = ->
@@ -35,15 +52,15 @@ create_task = ->
         #.load(url,data,callback)
         $("#panel_body").load(location.href + " .table.table-striped.table-bordered.table-hover",->
           load_date_picker_setting()
-          color_task_row()
+          color_task_row_text()
           sort_by_plan_date()
           set_today_on_create_date_picker()
-          init_buttons())
+          on_load_table())
         #error表示がされていたら削除
         remove_error_list()
       .fail (jqXHR, statusText, errorThrown) ->
         show_error_list(jqXHR.responseText)
-        init_buttons
+        on_load_table
 
 
 
@@ -118,7 +135,7 @@ set_result_on_status_checked = (id, status_val, actual_date_val) ->
     $(".plain_actual_date_#{id}").html("")
 
   $("#status_hidden_#{id}").val(status_val)
-  color_task_row()
+  color_task_row_text()
 
 #task update
 @onclick_update_button = (id) ->
@@ -165,7 +182,7 @@ set_result_on_status_checked = (id, status_val, actual_date_val) ->
     set_result_value_to_row(id_result,title_result,content_result,plan_date_result,actual_date_result)
     switch_edit_state(id,false)
     remove_error_list()
-    color_task_row()
+    color_task_row_text()
     sort_by_plan_date()
 
   jqXHR.fail (jqXHR, statusText, errorThrown) ->
@@ -275,24 +292,7 @@ get_today = (is_slush)->
     .fail ->
       alert("task delete failed")
 
-#ページ読み込み時に日付でソート
-$ ->
-  #日付順にソート
-  sort_by_plan_date()
-  #予定日に応じて列に色付け
-  color_task_row()
-  #完了済みタスクは列に色付けしてチェック
-  set_today_on_create_date_picker()
-  $("#testbutton").on('click', ->
-    alert "test buggon clicked"
-    )
-  init_buttons()
 
-init_buttons = ->
-  #タスクの作成
-  $("#create_button").on('click', ->
-    create_task()
-    )
 #testmethod 予定日で降順にソート
 sort_by_plan_date = ->
   $("table#task_table").tablesorter({
@@ -305,7 +305,7 @@ sort_by_plan_date = ->
   })
 
 #予定日の近いものは列を色付け
-color_task_row = ()->
+color_task_row_text = ()->
   #今日のDateを取得
   today_obj = new Date(get_today(false))
   tommorow_obj = new Date(get_today(false))
