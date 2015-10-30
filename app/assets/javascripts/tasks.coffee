@@ -10,6 +10,15 @@ on_load_table = ->
   $("#create_button").on('click', ->
     create_task()
     )
+  #タスクの編集
+  $(".edit_button").on('click', ->
+    edit_task(this.value)
+    )
+  #タスクの更新
+  $(".update_button").on('click', ->
+    update_task(this.value)
+    )
+  #タスクの更新
   #日付順にソート
   sort_by_plan_date()
   #予定日に応じて列に色付け
@@ -67,7 +76,7 @@ create_task = ->
 ##update task
 
 #editbuttonを押したら入力フィールドを活性化
-@onclick_edit_button = (id) ->
+edit_task = (id) ->
   #日付の
   #checkの状態を取得
   task_status = document.getElementById("plain_status_#{id}").checked
@@ -138,7 +147,7 @@ set_result_on_status_checked = (id, status_val, actual_date_val) ->
   color_task_row_text()
 
 #task update
-@onclick_update_button = (id) ->
+update_task = (id) ->
   #authenticate token
   authenticate_token = document.getElementById("authenticate_token_#{id}").value
   #入力値を取得

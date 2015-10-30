@@ -13,7 +13,7 @@
         td
           input.form-control.datepicker type="text" id= "actual_date_#{task.id}"
         td
-          button.btn.btn-success type= "button" onclick= "onclick_update_button(#{task.id})"  更新
+          button.btn.btn-success type= "button" class="update_button" value="#{task.id}"  更新
         td 
           button.btn.btn-danger type= "button" onclick= "onclick_delete_button(#{task.id})" 削除
       tr id="taskrow_plain_#{task.id}"
@@ -34,7 +34,7 @@
           td class= "plain_actual_date_#{task.id}" id="plain_actual_date_#{task.id}_yet" style="color:#CFCFCF"
         input type="hidden" id="actual_date_hidden_#{task.id}" value="#{task.actual_date}"
         td style="border-right-style:hidden;"
-          button.btn.btn-success type= "button" onclick= "onclick_edit_button(#{task.id})"  編集 
+          button.btn.btn-success type= "button" class="edit_button" value="#{task.id}"  編集 
         td id= "plain_delete_button_td_#{task.id}"
           button.btn.btn-danger type= "button" onclick= "onclick_delete_button(#{task.id})" 削除
         = tag :input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token, :id =>"authenticate_token_#{task.id}"
