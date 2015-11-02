@@ -69,10 +69,10 @@ createTask = ->
 ##update task
 
 #editbuttonを押したら入力フィールドを活性化
-editTask = (elem) ->
+editTask = (event) ->
   #日付の
   #checkの状態を取得
-  id = $(elem.toElement).val()
+  id = $(this).val()
   taskStatus = $("#plain_status_#{id}").is(":checked")
   #actual_dateのdatepickerの使用可否
   if taskStatus
@@ -93,9 +93,9 @@ editTask = (elem) ->
   $("#plan_date_#{id}").datepicker("setDate", originalPlanDate)
 
 #statusチェックボックス変更時
-onStatusChanged = (elem) ->
+onStatusChanged = (event) ->
   #idを取得
-  id = $(elem.toElement).val()
+  id = $(this).val()
   #authenticate token
   authenticateToken= $("#authenticate_token_#{id}").val()
   #入力値を取得
@@ -139,8 +139,8 @@ setResultOnStatusChecked = (id, statusVal, actualDateVal) ->
   colorTaskRowText()
 
 #task update
-updateTask = (elem) ->
-  id = $(elem.toElement).val()
+updateTask = (event) ->
+  id = $(this).val()
   #authenticate token
   authenticateToken= $("#authenticate_token_#{id}").value
   #入力値を取得
@@ -266,8 +266,8 @@ getToday = (isSlush) ->
 
 ##delete task
 #deleteボタンが押されたらajaxでdeleteを実行して行を削除
-deleteTask = (elem) ->
-  id = $(elem.toElement).val()
+deleteTask = (event) ->
+  id = $(this).val()
   #authenticate token
   authenticateToken= $("#authenticate_token_#{id}").value
   #actionを実行
