@@ -7,35 +7,22 @@ $ ->
 
 on_load_table = ->
   #タスクの作成
-  $("#create_button").on('click', ->
-    create_task()
-    )
+  $("#create_button").on('click', create_task)
   #タスクの編集
-  $(".edit_button").on('click', ->
-    edit_task(this.value)
-    )
+  $(".edit_button").on('click', edit_task)
   #タスクの更新
-  $(".update_button").on('click', ->
-    update_task(this.value)
-    )
+  $(".update_button").on('click', update_task)
   #タスクの削除
-  $(".delete_button").on('click', ->
-    delete_task(this.value)
-    )
+  $(".delete_button").on('click', delete_task)
   #ステータスの変更
-  $(".task_status").on('click', ->
-    on_status_changed(this.value)
-    )
-
+  $(".task_status").on('click', on_status_changed)
   #日付順にソート
   sort_by_plan_date()
   #予定日に応じて列に色付け
   color_task_row_text()
 #完了済みタスクは列に色付けしてチェック
   set_today_on_create_date_picker()
-  $("#testbutton").on('click', ->
-    alert "test buggon clicked"
-    )
+
 ##create task
 #createbuttonが押されたらtaskを作ってテーブルだけリロード
 create_task = ->
@@ -84,9 +71,10 @@ create_task = ->
 ##update task
 
 #editbuttonを押したら入力フィールドを活性化
-edit_task = (id) ->
+edit_task = (elem) ->
   #日付の
   #checkの状態を取得
+  id = elem.toElement.value
   task_status = document.getElementById("plain_status_#{id}").checked
   #actual_dateのdatepickerの使用可否
   if task_status
@@ -107,7 +95,9 @@ edit_task = (id) ->
   $("#plan_date_#{id}").datepicker("setDate", original_plan_date)
 
 #statusチェックボックス変更時
-on_status_changed = (id) ->
+on_status_changed = (elem) ->
+  #idを取得
+  id = elem.toElement.value
   #authenticate token
   authenticate_token = document.getElementById("authenticate_token_#{id}").value
   #入力値を取得
@@ -155,7 +145,8 @@ set_result_on_status_checked = (id, status_val, actual_date_val) ->
   color_task_row_text()
 
 #task update
-update_task = (id) ->
+update_task = (elem) ->
+  id = elem.toElement.value
   #authenticate token
   authenticate_token = document.getElementById("authenticate_token_#{id}").value
   #入力値を取得
@@ -293,7 +284,8 @@ get_today = (is_slush)->
 
 ##delete task
 #deleteボタンが押されたらajaxでdeleteを実行して行を削除
-delete_task = (id)->
+delete_task = (elem)->
+  id = elem.toElement.value
   #authenticate token
   authenticate_token = document.getElementById("authenticate_token_#{id}").value
   #actionを実行
