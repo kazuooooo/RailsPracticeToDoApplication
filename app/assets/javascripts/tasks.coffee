@@ -27,44 +27,44 @@ on_load_table = ->
 #createbuttonが押されたらtaskを作ってテーブルだけリロード
 create_task = ->
   #authenticate token
-    authenticate_token = document.getElementById("authenticate_token_new").value
-    #入力値を取得
-    title_val = document.getElementById("title_new").value
-    content_val = document.getElementById("content_new").value
-    plan_date = document.getElementById("plan_date_new")
-    plan_date_val = $(plan_date).val()
-    actual_date = document.getElementById("actual_date_new")
-    actual_date_val = $(actual_date).val()
-    #createを実行
-    $.ajax({
-      url: "tasks/",
-      type: "POST",
-      data: {
-            utf8: "✓",
-            authenticity_token: authenticate_token,
-            task: {
-                  status: false,
-                  title: title_val,
-                  content: content_val,
-                  plan_date: plan_date_val,
-                  actual_date: actual_date_val,
-                  },
-            commit: "Create"
-            }
-    }).done ->
-        #成功したらテーブルをリロード
-        #.load(url,data,callback)
-        $("#panel_body").load(location.href + " .table.table-striped.table-bordered.table-hover",->
-          load_date_picker_setting()
-          color_task_row_text()
-          sort_by_plan_date()
-          set_today_on_create_date_picker()
-          on_load_table())
-        #error表示がされていたら削除
-        remove_error_list()
-      .fail (jqXHR, statusText, errorThrown) ->
-        show_error_list(jqXHR.responseText)
-        on_load_table
+  authenticate_token = document.getElementById("authenticate_token_new").value
+  #入力値を取得
+  title_val = document.getElementById("title_new").value
+  content_val = document.getElementById("content_new").value
+  plan_date = document.getElementById("plan_date_new")
+  plan_date_val = $(plan_date).val()
+  actual_date = document.getElementById("actual_date_new")
+  actual_date_val = $(actual_date).val()
+  #createを実行
+  $.ajax({
+    url: "tasks/",
+    type: "POST",
+    data: {
+          utf8: "✓",
+          authenticity_token: authenticate_token,
+          task: {
+                status: false,
+                title: title_val,
+                content: content_val,
+                plan_date: plan_date_val,
+                actual_date: actual_date_val,
+                },
+          commit: "Create"
+          }
+  }).done ->
+      #成功したらテーブルをリロード
+      #.load(url,data,callback)
+      $("#panel_body").load(location.href + " .table.table-striped.table-bordered.table-hover",->
+        load_date_picker_setting()
+        color_task_row_text()
+        sort_by_plan_date()
+        set_today_on_create_date_picker()
+        on_load_table())
+      #error表示がされていたら削除
+      remove_error_list()
+    .fail (jqXHR, statusText, errorThrown) ->
+      show_error_list(jqXHR.responseText)
+      on_load_table
 
 
 
