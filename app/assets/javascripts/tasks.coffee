@@ -27,13 +27,13 @@ on_load_table = ->
 #createbuttonが押されたらtaskを作ってテーブルだけリロード
 create_task = ->
   #authenticate token
-  authenticate_token = document.getElementById("authenticate_token_new").value
+  authenticate_token = $("#authenticate_token_new").val()
   #入力値を取得
-  title_val = document.getElementById("title_new").value
-  content_val = document.getElementById("content_new").value
-  plan_date = document.getElementById("plan_date_new")
+  title_val = $("#title_new").val()
+  content_val = $("#content_new").val()
+  plan_date = $("#plan_date_new")
   plan_date_val = $(plan_date).val()
-  actual_date = document.getElementById("actual_date_new")
+  actual_date = $("#actual_date_new")
   actual_date_val = $(actual_date).val()
   #createを実行
   $.ajax({
@@ -74,8 +74,8 @@ create_task = ->
 edit_task = (elem) ->
   #日付の
   #checkの状態を取得
-  id = elem.toElement.value
-  task_status = document.getElementById("plain_status_#{id}").checked
+  id = $(elem.toElement).val()
+  task_status = $("#plain_status_#{id}").is(":checked")
   #actual_dateのdatepickerの使用可否
   if task_status
     #完了済みの場合は編集可能にする
@@ -97,11 +97,11 @@ edit_task = (elem) ->
 #statusチェックボックス変更時
 on_status_changed = (elem) ->
   #idを取得
-  id = elem.toElement.value
+  id = $(elem.toElement).val()
   #authenticate token
-  authenticate_token = document.getElementById("authenticate_token_#{id}").value
+  authenticate_token = $("#authenticate_token_#{id}").val()
   #入力値を取得
-  status_val = document.getElementById("plain_status_#{id}").checked
+  status_val = $("#plain_status_#{id}").is(":checked")
   actual_date_val = if status_val then get_today(true) else null
   #actionを実行
   jqXHR = $.ajax({
@@ -132,8 +132,8 @@ on_status_changed = (elem) ->
 
 set_result_on_status_checked = (id, status_val, actual_date_val) ->
   #element取得
-  plain_tr = document.getElementById("taskrow_plain_#{id}")
-  edit_tr = document.getElementById("taskrow_edit_#{id}")
+  plain_tr = $("#taskrow_plain_#{id}")
+  edit_tr = $("#taskrow_edit_#{id}")
 
   if actual_date_val
     $(".plain_actual_date_#{id}").html(format_datetime_to_display(actual_date_val))
@@ -146,20 +146,20 @@ set_result_on_status_checked = (id, status_val, actual_date_val) ->
 
 #task update
 update_task = (elem) ->
-  id = elem.toElement.value
+  id = $(elem.toElement).val()
   #authenticate token
-  authenticate_token = document.getElementById("authenticate_token_#{id}").value
+  authenticate_token = $("#authenticate_token_#{id}").value
   #入力値を取得
   #Editによるupdate
-  #status_val = document.getElementById("status_#{id}").checked
-  plan_date = document.getElementById("plan_date_#{id}")
+  #status_val = $("status_#{id}").checked
+  plan_date = $("#plan_date_#{id}")
   plan_date_val = $(plan_date).val()
 
-  actual_date = document.getElementById("actual_date_#{id}")
+  actual_date = $("#actual_date_#{id}")
   actual_date_val = $(actual_date).val()
 
-  title_val = document.getElementById("title_#{id}").value
-  content_val = document.getElementById("content_#{id}").value
+  title_val = $("#title_#{id}").val()
+  content_val = $("#content_#{id}").val()
 
   #actionを実行
   jqXHR = $.ajax({
@@ -198,20 +198,15 @@ update_task = (elem) ->
 
 #フォームの活性比活性を切り替え
 switch_edit_state = (id,is_active)->
-  plain_tr = document.getElementById("taskrow_plain_#{id}")
-  edit_tr = document.getElementById("taskrow_edit_#{id}")
-  #delete_button_onedit = document.getElementById("delete_button_onedit_#{id}")
-  #console.log delete_button_onedit.id
-  if is_active
-    plain_tr.style.display = 'none'
-    edit_tr.style.removeProperty 'display'
-    console.log "call disabled"
-    #delete_button_onedit.disabled = 'disabled'
-  else
-    plain_tr.style.removeProperty 'display'
-    edit_tr.style.display = 'none'
-    #delete_button_onedit.disabled = ''
+  plain_tr = $("#taskrow_plain_#{id}")
+  edit_tr = $("#taskrow_edit_#{id}")
 
+  if is_active
+    plain_tr.hide()
+    edit_tr.show()
+  else
+    plain_tr.show()
+    edit_tr.hide()
 
 # エラー内容を受け取って表示する
 show_error_list = (error_txt) ->
@@ -234,20 +229,16 @@ remove_error_list = ->
 
 #入力値を対象の列に代入
 set_result_value_to_row = (id,title_val,content_val,plan_date_val,actual_date_val)->
-  #element取得
-  plain_title = document.getElementById("plain_title_#{id}")
-  plain_content = document.getElementById("plain_content_#{id}")
-  plain_plan_date = document.getElementById("plain_plan_date_#{id}")
-  plain_actual_date = document.getElementById("plain_actual_date_#{id}_done")
-  #値を代入
-  plain_title.innerHTML = title_val
-  plain_content.innerHTML = content_val
-  plain_plan_date.innerHTML = format_datetime_to_display(plan_date_val)
+  #各値を代入
+  $("#plain_title_#{id}").html(title_val)
+  $("#plain_content_#{id}").html(content_val)
+  $("#plain_plan_date_#{id}").html(format_datetime_to_display(plan_date_val))
+  if actual_date_val
+    $(".plain_actual_date_#{id}").html(format_datetime_to_display(actual_date_val))
   #隠し項目で使っているものにも代入
   $("#plan_date_hidden_#{id}").val(plan_date_val)
   $("#actual_date_hidden_#{id}").val(actual_date_val)
-  if actual_date_val
-      $(".plain_actual_date_#{id}").html(format_datetime_to_display(actual_date_val))
+  
 
 #datetimeを実際の表示形式に変換
 format_datetime_to_display = (datetime_format) ->
@@ -285,9 +276,9 @@ get_today = (is_slush)->
 ##delete task
 #deleteボタンが押されたらajaxでdeleteを実行して行を削除
 delete_task = (elem)->
-  id = elem.toElement.value
+  id = $(elem.toElement).val()
   #authenticate token
-  authenticate_token = document.getElementById("authenticate_token_#{id}").value
+  authenticate_token = $("#authenticate_token_#{id}").value
   #actionを実行
   $.ajax({
     url: "tasks/#{id}",
@@ -321,7 +312,7 @@ color_task_row_text = ()->
   tommorow_obj.setDate(tommorow_obj.getDate()+1)
 
   #plan_dateを配列で取得
-  plan_dates_vals = document.getElementsByClassName("plan_date_value")
+  plan_dates_vals = $(".plan_date_value")
   #plan_dateそれぞれに対して期日に応じて色付け
   for plan_date in plan_dates_vals
     date_obj =  new Date(plan_date.value)
@@ -341,7 +332,6 @@ color_task_row_text = ()->
 
 set_today_on_create_date_picker = () ->
    $("#plan_date_new").one('focus',->
-    console.log "settoday"
     $("#plan_date_new").datepicker("setDate", get_today(true))
     )
 
@@ -350,51 +340,28 @@ get_id_num = (original_id) ->
   id = split_id.pop()
   return id
 
-color_row = (id,color)->
-  #idで列を取得
-  plain_tr = document.getElementById("taskrow_plain_#{id}")
-  edit_tr = document.getElementById("taskrow_edit_#{id}")
-  #指定した色に着色
-  plain_tr.style.backgroundColor = color
-  edit_tr.style.backgroundColor = color
-
 alert_delay_task_row = (id) ->
-  task_values = document.getElementsByClassName("task_values_#{id}")
-  for value in task_values
-    value.style.fontWeight = "bold"
-    value.style.color = "#e20b0b"
+  RefrectTaskRowStatus(id,'#e20b0b',true)
 
 alert_today_task_row = (id) ->
-  task_values = document.getElementsByClassName("task_values_#{id}")
-  for value in task_values
-    value.style.color = "#e20b0b"
+  RefrectTaskRowStatus(id,"#e20b0b",false)
 
 reset_task_row = (id) ->
-  task_values = document.getElementsByClassName("task_values_#{id}")
-  for value in task_values
-    value.style.fontWeight = ""
-    value.style.color = ""
+  RefrectTaskRowStatus(id,"",false)
 
 finish_task_row = (id) ->
-  task_values = document.getElementsByClassName("task_values_#{id}")
-  for value in task_values
-    value.style.fontWeight = ""
-    value.style.color = "#CFCFCF"
+  RefrectTaskRowStatus(id,"#CFCFCF",false)
 
+RefrectTaskRowStatus = (id,color,isBold) ->
+  fontWeight = if isBold then "bold" else ""
+  $(".task_values_#{id}").each ->
+    $(this).css('font-weight',fontWeight).css('color',color)
 
 
 #列を削除
 delete_task_row = (id) ->
-  task_table = document.getElementById("task_table")
-  console.log task_table.rows.length
-  #plain行を削除
-  plain_tr = document.getElementById("taskrow_plain_#{id}")
-  plain_row_num = plain_tr.rowIndex
-  task_table.deleteRow(plain_row_num)
-  #edit行を削除
-  edit_tr = document.getElementById("taskrow_edit_#{id}")
-  edit_row_num = edit_tr.rowIndex
-  task_table.deleteRow(edit_row_num)
+  $("#taskrow_plain_#{id}").remove()
+  $("#taskrow_edit_#{id}").remove()
 
 load_date_picker_setting = ->
   $('.datepicker').datepicker({
