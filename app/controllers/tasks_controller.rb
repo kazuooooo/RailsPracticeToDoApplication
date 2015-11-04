@@ -64,6 +64,8 @@ class TasksController < ApplicationController
   def set_task
     if current_user == Task.find(params[:id]).user
       @task = Task.find(params[:id])
+    else
+      redirect_to action: 'index', alert: 'You can not edit other user\'s task'
     end
   end
 
